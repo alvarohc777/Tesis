@@ -15,6 +15,10 @@ import imageio
 import os
 
 
+def xf_calc(N, dt) -> int:
+    return rfftfreq(N, dt)[: N // 2]
+
+
 def synthetic_signal(t, harmonics=[60], fundamental=60):
     """
     Function for the creation of a synthetic signal

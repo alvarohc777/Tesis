@@ -42,7 +42,7 @@ def main():
     window_len_t = 1 / 60
     window_len = int((window_len_t) // dt)
     N = window_len
-    step = 8
+    step = 4
 
     window_name = "boxcar"
     window_function = wndw(window_name, window_len, fftbins=True)
