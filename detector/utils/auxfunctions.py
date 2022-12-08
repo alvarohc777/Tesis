@@ -19,9 +19,6 @@ def xf_calc(N, dt) -> int:
     return rfftfreq(N, dt)[: N // 2]
 
 
-
-
-
 def superimposed(signal, fs):
     """
     Superimposed components of a signal
@@ -105,7 +102,7 @@ def moving_window(data, N, step):
     return ventanas_punto_a_punto[0::step]
 
 
-def iterador(windows, window_function, N, dt, signal_name):
+def iterador_max_val(windows, window_function, N, dt, signal_name):
     xf = rfftfreq(N, dt)[: N // 2]
     window_max = np.empty(len(xf))
 
