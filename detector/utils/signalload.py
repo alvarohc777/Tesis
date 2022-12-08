@@ -1,7 +1,7 @@
 from tkinter import filedialog
+import tkinter as tk
 import numpy as np
 import pandas as pd
-import tkinter as tk
 import csv
 
 
@@ -15,11 +15,22 @@ class CSV:
         root.withdraw()
         root.attributes("-topmost", True)
         root.lift()
-        (self.path, *self._) = filedialog.askopenfilenames(
+        # try:
+        #     self.path, *self._ = filedialog.askopenfilename(
+        #         multiple=False,
+        #         title="cargue CSV",
+        #         filetypes=(("archivos CSV", "*.csv"),),
+        #     )
+        # except ValueError:
+        #     raise SystemExit
+
+        self.path = filedialog.askopenfilename(
             multiple=False,
             title="cargue CSV",
             filetypes=(("archivos CSV", "*.csv"),),
         )
+        print(self.path)
+
         self.nombre = self.path[self.path.rfind("/") + 1 :]
         self.nombre = self.nombre.replace(".csv", "")
         print(f"Se seleccionó {self.nombre}")
@@ -34,71 +45,6 @@ class CSV:
             delimiter = sniffer.sniff(header).delimiter
 
         df = pd.read_csv(self.path, delimiter=delimiter)
-        xy = df.to_numpy()[2:, :].astype(float)
-        if len(xy) % 2 == 0:
-            N = len(xy)
-        else:
-            N = len(xy) - 1
-        xy = xy[:N:8]
-        self.t = xy[:, 0]
-        self.tf = max(self.t)
-        self.ti = self.t[0]
-        self.fs = int((len(self.t) - 1) / (self.tf - 0))
-        self.dt = 1 / self.fs
-
-        try:
-            self.R01Ia = xy[:, 22]
-            self.R01Va = xy[:, 1]
-            self.R01Vb = xy[:, 2]
-            self.R01Vc = xy[:, 3]
-            self.R10Va = xy[:, 1]
-            self.R10Vb = xy[:, 2]
-            self.R10Vc = xy[:, 3]
-            self.R15Va = xy[:, 1]
-            self.R15Vb = xy[:, 2]
-            self.R15Vc = xy[:, 3]
-            self.R01Ib = xy[:, 23]
-            self.R01Ic = xy[:, 24]
-            self.R10Ia = xy[:, 25]
-            self.R10Ib = xy[:, 26]
-            self.R10Ic = xy[:, 27]
-            self.R15Ia = xy[:, 28]
-            self.R15Ib = xy[:, 29]
-            self.R15Ic = xy[:, 30]
-        except:
-            self.Va = xy[:, 1]
-            self.Vb = xy[:, 2]
-            self.Vc = xy[:, 3]
-            self.Ia = xy[:, 4]
-            self.Ib = xy[:, 5]
-            self.Ic = xy[:, 6]
-
-
-class CSV_comma:
-    def __init__(self):
-        self.csv_load()
-
-    def csv_load(self):
-        """Creación de la ventana para selección de archivo CSV"""
-        root = tk.Tk()
-        root.withdraw()
-        root.attributes("-topmost", True)
-        root.lift()
-        (self.path, *self._) = filedialog.askopenfilenames(
-            multiple=False,
-            title="cargue CSV",
-            filetypes=(("archivos CSV", "*.csv"),),
-        )
-        self.nombre = self.path[self.path.rfind("/") + 1 :]
-        self.nombre = self.nombre.replace(".csv", "")
-        print(f"Se seleccionó {self.nombre}")
-        root.destroy()
-        self.extraer_csv()
-
-    def extraer_csv(self):
-        """Extracción de características del CSV, esto se realiza automáticamente"""
-
-        df = pd.read_csv(self.path, delimiter=",")
         xy = df.to_numpy()[2:, :].astype(float)
         if len(xy) % 2 == 0:
             N = len(xy)
@@ -155,6 +101,33 @@ class CSV_PATH(CSV):
     def __init__(self, PATH):
         self.path = PATH
         self.extraer_csv()
+
+
+def synthetic_signal(t, harmonics=[60], fundamental=60):
+    """
+    Function for the creation of a synthetic signal
+
+
+
+    Returns
+    -------
+    numpy.array
+        (3, n) three phase matrix
+    """
+    wt = 2 * np.pi * fundamental * t
+    ang_A = float(0) * np.pi / 180
+    ang_B = float(240) * np.pi / 180
+    ang_C = float(120) * np.pi / 180
+
+    A, B, C = 0, 0, 0
+
+    for s in harmonics:
+        n = s / fundamental
+        A += 100 * np.sin(n * (wt + ang_A))
+        B += 100 * np.sin(n * (wt + ang_B))
+        C += 100 * np.sin(n * (wt + ang_C))
+
+    return np.array((A, B, C))
 
 
 class SyntheticSignal:

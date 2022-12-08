@@ -19,31 +19,7 @@ def xf_calc(N, dt) -> int:
     return rfftfreq(N, dt)[: N // 2]
 
 
-def synthetic_signal(t, harmonics=[60], fundamental=60):
-    """
-    Function for the creation of a synthetic signal
 
-
-
-    Returns
-    -------
-    numpy.array
-        (3, n) three phase matrix
-    """
-    wt = 2 * np.pi * fundamental * t
-    ang_A = float(0) * np.pi / 180
-    ang_B = float(240) * np.pi / 180
-    ang_C = float(120) * np.pi / 180
-
-    A, B, C = 0, 0, 0
-
-    for s in harmonics:
-        n = s / fundamental
-        A += 100 * np.sin(n * (wt + ang_A))
-        B += 100 * np.sin(n * (wt + ang_B))
-        C += 100 * np.sin(n * (wt + ang_C))
-
-    return np.array((A, B, C))
 
 
 def superimposed(signal, fs):
