@@ -1,6 +1,6 @@
 from utils.preprocess import windows_creator, windows_fourier
 import matplotlib.pyplot as plt
-from utils.signalload import CSV
+from utils.signalload import CSV, CSV_comma
 from utils.auxfunctions import superimposed
 
 signal = CSV()
@@ -9,6 +9,7 @@ fs = signal.fs
 
 
 signal = signal.R01Ia
+# signal = signal.Ic
 
 si = superimposed(signal, fs)
 
