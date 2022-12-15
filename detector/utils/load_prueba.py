@@ -1,70 +1,62 @@
-import pandas as pd
+# import pandas as pd
+
+# # función para devolver la lista de labels correcta
+# def new_labels(list1, list2, labels):
+#     final_list = []
+#     for x, y, z in zip(list1, list2, labels):
+#         if y == "":
+#             final_list.append(f"{z}: {x}")
+#         elif z == "Model":
+#             final_list.append(f"{x}: {y}")
+#         else:
+#             final_list.append(f"{z}: {x}-{y}")
+#     return final_list
 
 
-class CSV:
-    def __init__(self):
-        self.csv_load()
+# path = "C:\\Users\\aherrada\\OneDrive - Universidad del Norte\\Uninorte\\DetectionDataBase\\septDataBaseCSV\\Fallas\\Fault01_B112_RF40.csv"
+# df = pd.read_csv(path, delimiter=";")
+# # Obtener un número par de muestras
+# if len(df) % 2 != 0:
+#     df.drop(df.tail(1).index, inplace=True)
 
-    def csv_load(self):
-        """Creación de la ventana para selección de archivo CSV"""
-        root = tk.Tk()
-        root.withdraw()
-        root.attributes("-topmost", True)
-        root.lift()
-        # try:
-        #     self.path, *self._ = filedialog.askopenfilename(
-        #         multiple=False,
-        #         title="cargue CSV",
-        #         filetypes=(("archivos CSV", "*.csv"),),
-        #     )
-        # except ValueError:
-        #     raise SystemExit
+# df.columns = df.columns.str.replace(" ", "")
+# pattern = r"^b'([\w ]*)'"
 
-        self.path = filedialog.askopenfilename(
-            multiple=False,
-            title="cargue CSV",
-            filetypes=(("archivos CSV", "*.csv"),),
-        )
-        print(self.path)
+# node_from = df.iloc[0].str.replace(pattern, r"\1", regex=True).str.strip()
+# node_to = df.iloc[1].str.replace(pattern, r"\1", regex=True).str.strip()
+# df = df.drop(index=0)
+# df = df.drop(index=1)
 
-        self.nombre = self.path[self.path.rfind("/") + 1 :]
-        self.nombre = self.nombre.replace(".csv", "")
-        print(f"Se seleccionó {self.nombre}")
-        root.destroy()
-        self.extraer_csv()
+# df.columns = df.columns.str.replace(r"(V|I)[.\w-]*", r"\1", regex=True)
+# df.columns = df.columns.str.replace("\d*\.*\d+", r"Model", regex=True)
+
+# # Extraer si la medición es V, I o models; borrar si es Model
+# labels_list = df.columns.values.tolist()
+# # labels_list = [s.replace('Model','') for s in labels_list]
+
+# # convertir los labels de cada nodo a una lista
+# node_from_list = node_from.values.tolist()
+# node_to_list = node_to.values.tolist()
+
+# labels_list = new_labels(node_from_list, node_to_list, labels_list)
+# df.columns = labels_list
+# df = df.reset_index(drop=True)
+# # print(df.head(5))
 
 
-path = "C:\\Users\\aherrada\\OneDrive - Universidad del Norte\\Uninorte\\DetectionDataBase\\septDataBaseCSV\\Fallas\\Fault01_B112_RF40.csv"
-df = pd.read_csv(path, delimiter=";")
-df.columns = df.columns.str.replace(" ", "")
+# def print_relays(labels_list, currents=True, voltages=False, Models=False):
 
-# df[0:1] = df[0:1].str.decore("utf-8")
-# df.columns = df.columns.str.decode("utf-8")
+#     for i in labels_list:
+#         if ("V:" in i) and voltages:
+#             print(i)
+#         elif ("I:" in i) and currents:
+#             print(i)
+#         elif Models:
+#             print(i)
 
-pattern = r"^b'([\w ]*)'"
+from signalload import CSV_pandas
 
-node_from = df.iloc[0].str.replace(pattern, r"\1", regex=True)
-node_to = df.iloc[1].str.replace(pattern, r"\1", regex=True)
-df = df.drop(index=0)
-df = df.drop(index=1)
-
-
-# Obtener un número par de muestras
-if len(df) % 2 != 0:
-    df.drop(df.tail(1).index, inplace=True)
-
-# df.columns = df.columns.str.replace(r"^(\d)*(V|I)*", )
-
-# Cambiar los nombres de los medidores de corriente y voltaje
-df.columns = df.columns.str.replace(r"(V|I)[.\w-]*", r"\1", regex=True)
-df.columns = df.columns.str.replace("\d*\.*\d+", r"Model", regex=True)
-
-a = df.columns[1:]
-node_from["new"] = ""
-node_from["new"] = a
-
-# node_from = node_from.str.cat(node_to, sep="")
-
-
-# print(df.head())
-# print(node_from)
+signal = CSV_pandas()
+# print(dir(signal))
+# print(signal.I_X0004A_X0009A)
+signal.relay_list()
