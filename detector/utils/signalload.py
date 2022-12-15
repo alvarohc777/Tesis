@@ -84,14 +84,17 @@ class CSV:
             self.Ib = xy[:, 5]
             self.Ic = xy[:, 6]
 
+
 class CSV_pandas(CSV):
     def extraer_csv(self):
+
+        # para encontrar el tipo de delimitador del archivo .csv
         with open(self.path, "r") as f:
             header = next(f)
             sniffer = csv.Sniffer()
             delimiter = sniffer.sniff(header).delimiter
-        print(delimiter)
-        df = pd.read_csv(self.path, delimiter=";")
+
+        df = pd.read_csv(self.path, delimiter=delimiter)
         # Obtener un número par de muestras
         if len(df) % 2 != 0:
             df.drop(df.tail(1).index, inplace=True)
@@ -106,22 +109,20 @@ class CSV_pandas(CSV):
 
         df.columns = df.columns.str.replace(r"(V|I)[.\w-]*", r"\1", regex=True)
         df.columns = df.columns.str.replace("\d*\.*\d+", r"Model", regex=True)
-        
+
         # Extraer si la medición es V, I o models; borrar si es Model
         labels_list = df.columns.values.tolist()
-        
-        # labels_list = [s.replace('Model','') for s in labels_list]
 
         # convertir los labels de cada nodo a una lista
         node_from_list = node_from.values.tolist()
         node_to_list = node_to.values.tolist()
 
         self.labels_list = self.new_labels(node_from_list, node_to_list, labels_list)
-        
+
         df.columns = self.labels_list
-        df.set_index('time')
+        df.set_index("time")
         self.df = df.reset_index(drop=True)
-    
+
         # for label in self.labels_list[1:]:
         #     exec(f"self.{label} = '{label}'")
 
@@ -133,51 +134,58 @@ class CSV_pandas(CSV):
                 print(i)
             elif Models:
                 print(i)
-    
+
     # función para devolver la lista de labels correcta
     def new_labels(self, list1, list2, labels):
         final_list = []
         for x, y, z in zip(list1, list2, labels):
-            if z == 'time':
-                print(f"z: {z}")
+            if z == "time":
                 final_list.append(z)
             elif y == "":
                 final_list.append(f"{z}: {x}")
             elif z == "Model":
                 final_list.append(f"{x}: {y}")
-            
             else:
                 final_list.append(f"{z}: {x}-{y}")
         return final_list
-    
+
     def load_data(self, relay_name):
         try:
             params = {}
-            signals = self.df[['time',relay_name]]
+            signals = self.df[["time", relay_name]]
             signals = signals.to_numpy().astype(float)
             if len(signals[1]) % 2 == 0:
-                N = len(signals)
-            else: 
-                N = len(signals) - 1
-            print(signals.shape)
-            
-            signals = signals[:N:8]
-            t = signals[:,0]
-            x = signals[:,1]
-            tf= max(t)
-            ti= t[0]
-            fs = int((len(t) - 1)/ (tf - 0))
-            dt = 1 / fs
-            params['tf'] = tf
-            params['ti'] = ti
-            params['fs'] = fs
-            params['dt'] = dt
-            return x, t, params
-            
-        except KeyError:
-            print(f"There is no column named '{relay_name}'")
-        
+                n_samples = len(signals)
+            else:
+                n_samples = len(signals) - 1
 
+            signals = signals[:n_samples:8]
+            t = signals[:, 0]
+            x = signals[:, 1]
+            tf = max(t)
+            ti = t[0]
+            fs = int((len(t) - 1) / (tf - 0))
+            dt = 1 / fs
+            params["tf"] = tf
+            params["ti"] = ti
+            params["fs"] = fs
+            params["dt"] = dt
+            params["n_samples"] = n_samples
+            return x, t, params
+
+        except KeyError:
+            print(
+                f"There is no signal '{relay_name}\n please use .relay_list() method.'"
+            )
+            exit()
+
+
+# Clase para hacer pruebas, luego borrar
+# no muestra ventana de selección
+class CSV_pandas_path(CSV_pandas):
+    def csv_load(self):
+        self.path = "C:\\Users\\aherrada\\OneDrive - Universidad del Norte\\Uninorte\\DetectionDataBase\\septDataBaseCSV\\Fallas\\Fault01_B112_RF40.csv"
+        self.extraer_csv()
 
 
 class CSV_prueba(CSV):

@@ -3,6 +3,7 @@ from itertools import chain
 
 # Para realizar la transformada de Fourier
 from scipy.fft import rfft, rfftfreq
+from scipy.signal.windows import get_window as wndw
 
 # Para crear la ventana móvil (ventanas)
 from numpy.lib.stride_tricks import sliding_window_view as swv
@@ -38,10 +39,10 @@ def superimposed(signal, fs):
     si_signal1 = [0 for i in range(n_first_cycle)]
     si_signal2 = [round(signal[i] - signal[i - 64], 9) for i in range(n_first_cycle, N)]
 
-    return si_signal1 + si_signal2
+    return np.array(si_signal1 + si_signal2)
 
 
-def fourier(window, N):
+def fourier(window, N, dt):
     """
     Returns fft of input signal
 
@@ -60,12 +61,13 @@ def fourier(window, N):
     numpy.array
         fft coefficients
     """
+    xf = xf_calc(N, dt)
     yf = rfft(window)
     try:
         yf.shape[1]
-        return (2.0 / N) * np.abs(yf[:, 0 : N // 2])
+        return xf, (2.0 / N) * np.abs(yf[:, 0 : N // 2])
     except IndexError:
-        return (2.0 / N) * np.abs(yf[0 : N // 2])
+        return xf, (2.0 / N) * np.abs(yf[0 : N // 2])
 
 
 # def fourier_windows(windows, N):
@@ -75,7 +77,7 @@ def fourier(window, N):
 #         return (2.0 / N) * np.abs(yf[0 : N // 2])
 
 
-def moving_window(data, N, step):
+def moving_window(data, N, step, window_name="boxcar"):
     """
     Creación de las ventanas móviles para todas las señales
 
@@ -98,6 +100,7 @@ def moving_window(data, N, step):
     np.array
         Array con ventanas de tamaño N
     """
+    window_func = wndw(window_name, N, fftbins=True)
     ventanas_punto_a_punto = swv(data, (N))
     return ventanas_punto_a_punto[0::step]
 
