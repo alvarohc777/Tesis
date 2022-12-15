@@ -106,9 +106,10 @@ class CSV_pandas(CSV):
 
         df.columns = df.columns.str.replace(r"(V|I)[.\w-]*", r"\1", regex=True)
         df.columns = df.columns.str.replace("\d*\.*\d+", r"Model", regex=True)
-
+        
         # Extraer si la medición es V, I o models; borrar si es Model
         labels_list = df.columns.values.tolist()
+        
         # labels_list = [s.replace('Model','') for s in labels_list]
 
         # convertir los labels de cada nodo a una lista
@@ -116,7 +117,9 @@ class CSV_pandas(CSV):
         node_to_list = node_to.values.tolist()
 
         self.labels_list = self.new_labels(node_from_list, node_to_list, labels_list)
+        
         df.columns = self.labels_list
+        df.set_index('time')
         self.df = df.reset_index(drop=True)
     
         # for label in self.labels_list[1:]:
@@ -135,16 +138,44 @@ class CSV_pandas(CSV):
     def new_labels(self, list1, list2, labels):
         final_list = []
         for x, y, z in zip(list1, list2, labels):
-            if y == "":
+            if z == 'time':
+                print(f"z: {z}")
+                final_list.append(z)
+            elif y == "":
                 final_list.append(f"{z}: {x}")
             elif z == "Model":
                 final_list.append(f"{x}: {y}")
+            
             else:
                 final_list.append(f"{z}: {x}-{y}")
         return final_list
     
     def load_data(self, relay_name):
-        pass
+        try:
+            params = {}
+            signals = self.df[['time',relay_name]]
+            signals = signals.to_numpy().astype(float)
+            if len(signals[1]) % 2 == 0:
+                N = len(signals)
+            else: 
+                N = len(signals) - 1
+            print(signals.shape)
+            
+            signals = signals[:N:8]
+            t = signals[:,0]
+            x = signals[:,1]
+            tf= max(t)
+            ti= t[0]
+            fs = int((len(t) - 1)/ (tf - 0))
+            dt = 1 / fs
+            params['tf'] = tf
+            params['ti'] = ti
+            params['fs'] = fs
+            params['dt'] = dt
+            return x, t, params
+            
+        except KeyError:
+            print(f"There is no column named '{relay_name}'")
         
 
 
