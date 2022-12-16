@@ -1,5 +1,6 @@
 from utils.signalload import CSV_pandas, CSV_pandas_path
 from utils.auxfunctions import superimposed, moving_window, fourier
+from utils.detection import detector, harmonic_distortion, detection_iter
 import numpy as np
 import matplotlib.pyplot as plt
 from itertools import repeat
@@ -13,10 +14,14 @@ step = 4  # Pasos de las ventanas (muestras que entran, muestras que salen por v
 window_name = "boxcar"
 # ----------------------------------
 
+# Cargue de datos
 
 signal = CSV_pandas_path()
+signal.relay_list(voltages=True, Models=True)
 signal.relay_list()
-signal, t, params = signal.load_data("I: X0024A-R1A")
+signal, t, params = signal.load_data("I: X0022A-R1A")
+
+# Preprocesamiento
 signal_si = superimposed(signal, params["fs"])
 
 print(signal.shape)
@@ -27,8 +32,23 @@ windows, windows_si, windows_t = list(
 
 xf, windows_fft = fourier(windows, N, params["dt"])
 xf, windows_si_fft = fourier(windows_si, N, params["dt"])
-print(windows.shape, windows_si_fft.shape)
-plt.stem(xf, windows_si_fft[90])
+
+
+# detector
+# Cambiar el 90 por algún otro número (input)
+signal_fundamental = windows_fft[:, 1]
+si_fundamental = windows_si_fft[:, 1]
+
+fig, ax = plt.subplots(3, figsize=(10, 6))
+
+# HDF, HDC = harmonic_distortion(windows_fft[90], windows_fft[90, 1])
+ax[0].plot(t, signal)
+
+
+# trip = detection_iter(windows_fft, signal_fundamental)
+trip, HDF, HDC = detection_iter(windows_fft, signal_fundamental, return_THD=True)
+ax[1].stem(windows_t[:, -1], trip)
+print(windows_t.shape)
+
+ax[2].stem(windows_t[:, -1], HDF)
 plt.show()
-# plt.plot(windows)
-# plt.show()

@@ -86,6 +86,7 @@ class CSV:
 
 
 class CSV_pandas(CSV):
+        # métodos privados
     def extraer_csv(self):
 
         # para encontrar el tipo de delimitador del archivo .csv
@@ -98,17 +99,20 @@ class CSV_pandas(CSV):
         # Obtener un número par de muestras
         if len(df) % 2 != 0:
             df.drop(df.tail(1).index, inplace=True)
+        self.df = self.__rename_columns(df)
 
-        df.columns = df.columns.str.replace(" ", "")
+        # for label in self.labels_list[1:]:
+        #     exec(f"self.{label} = '{label}'")
+
+    def __rename_columns(self, df):
+        # Extraer los labels de las filas 1 y 2
         pattern = r"^b'([\w ]*)'"
-
         node_from = df.iloc[0].str.replace(pattern, r"\1", regex=True).str.strip()
         node_to = df.iloc[1].str.replace(pattern, r"\1", regex=True).str.strip()
         df = df.drop(index=0)
         df = df.drop(index=1)
 
-        df.columns = df.columns.str.replace(r"(V|I)[.\w-]*", r"\1", regex=True)
-        df.columns = df.columns.str.replace("\d*\.*\d+", r"Model", regex=True)
+        df = self.__columns_replace(df)
 
         # Extraer si la medición es V, I o models; borrar si es Model
         labels_list = df.columns.values.tolist()
@@ -117,26 +121,36 @@ class CSV_pandas(CSV):
         node_from_list = node_from.values.tolist()
         node_to_list = node_to.values.tolist()
 
-        self.labels_list = self.new_labels(node_from_list, node_to_list, labels_list)
+        self.labels_list = self.__new_labels(node_from_list, node_to_list, labels_list)
 
         df.columns = self.labels_list
         df.set_index("time")
-        self.df = df.reset_index(drop=True)
+        df = df.reset_index(drop=True)
+        return df
 
-        # for label in self.labels_list[1:]:
-        #     exec(f"self.{label} = '{label}'")
-
-    def relay_list(self, currents=True, voltages=False, Models=False):
-        for i in self.labels_list:
-            if ("V:" in i) and voltages:
-                print(i)
-            elif ("I:" in i) and currents:
-                print(i)
-            elif Models:
-                print(i)
+    def __columns_replace(self, df):
+        """Estandariza los nombres de las columnas para poder renombrarlas según
+        el tipo de datos que tenga"""
+        # Patterns
+        # Entre [] aparece a qué tipo de simulación provoca dichos patrones de nombre
+        pattern_1 = r"^(V|I)[.\w-]*"  # Columnas que comienzan con V-xxx, I-xxx [SEM] o Voltage [Manual]
+        pattern_2 = r"^(C)[.\w-]*"  # Columnas que comienzan con Current [manual]
+        pattern_3 = r"^(?![\s\S])"  # Columnas que estén vacías [Manual]
+        pattern_4 = r"^\d*\.*\d+"  # Columnas cuyos nombres sean números [SEM]
+        pattern_5 = (
+            r"MODELS\.*[\d]*"  # Columnas que tengan MODELS en mayúscula [Manual]
+        )
+        df.columns = df.columns.str.replace(" ", "")
+        df.columns = df.columns.str.replace(pattern_1, r"\1", regex=True)
+        df.columns = df.columns.str.replace(pattern_2, r"I", regex=True)
+        df.columns = df.columns.str.replace(pattern_3, r"Model", regex=True)
+        df.columns = df.columns.str.replace(pattern_4, r"Model", regex=True)
+        df.columns = df.columns.str.replace(pattern_5, r"Model", regex=True)
+        df.columns = df.columns.str.replace(r"Time", r"time", regex=True)
+        return df
 
     # función para devolver la lista de labels correcta
-    def new_labels(self, list1, list2, labels):
+    def __new_labels(self, list1, list2, labels):
         final_list = []
         for x, y, z in zip(list1, list2, labels):
             if z == "time":
@@ -149,6 +163,7 @@ class CSV_pandas(CSV):
                 final_list.append(f"{z}: {x}-{y}")
         return final_list
 
+    # Método públicos
     def load_data(self, relay_name):
         try:
             params = {}
@@ -179,12 +194,23 @@ class CSV_pandas(CSV):
             )
             exit()
 
+    
+    def relay_list(self, currents=True, voltages=False, Models=False):
+        for i in self.labels_list:
+            if ("V:" in i) and voltages:
+                print(i)
+            elif ("I:" in i) and currents:
+                print(i)
+            elif Models:
+                print(i)
+
 
 # Clase para hacer pruebas, luego borrar
 # no muestra ventana de selección
 class CSV_pandas_path(CSV_pandas):
     def csv_load(self):
-        self.path = "C:\\Users\\aherrada\\OneDrive - Universidad del Norte\\Uninorte\\DetectionDataBase\\septDataBaseCSV\\Fallas\\Fault01_B112_RF40.csv"
+        # self.path = "C:\\Users\\aherrada\\OneDrive - Universidad del Norte\\Uninorte\\DetectionDataBase\\septDataBaseCSV\\Fallas\\Fault01_B112_RF40.csv"
+        self.path = "C:\\Users\\aherrada\\OneDrive - Universidad del Norte\\Uninorte\\DetectionDataBase\\septDataBaseCSV\\Caps\\NoFault02_B112.csv"
         self.extraer_csv()
 
 
