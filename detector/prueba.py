@@ -16,9 +16,13 @@ window_name = "boxcar"
 
 # Cargue de datos
 
+
 signal = CSV_pandas_path()
 signal.relay_list(voltages=True, Models=True)
 signal.relay_list()
+
+# signal_name = input("Input relay name ").strip()
+# signal, t, params = signal.load_data("I: X0024A-R1A")
 signal, t, params = signal.load_data("I: X0022A-R1A")
 
 # Preprocesamiento

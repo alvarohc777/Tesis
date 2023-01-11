@@ -1,4 +1,5 @@
-from utils.preprocess import windows_creator, windows_fourier
+# from utils.preprocess import windows_creator, windows_fourier
+from utils.preprocess_old import windows_creator, windows_fourier
 import matplotlib.pyplot as plt
 from utils.signalload import CSV
 from utils.auxfunctions import superimposed, xf_calc, fourier
@@ -30,7 +31,7 @@ plt.show()
 
 
 # signal = CSV()
-# t = signal.t
+# t = signal.tP
 # fs = signal.fs
 # dt = signal.dt
 # signal = signal.R01Ia

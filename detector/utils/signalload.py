@@ -86,7 +86,7 @@ class CSV:
 
 
 class CSV_pandas(CSV):
-        # métodos privados
+    # métodos privados
     def extraer_csv(self):
 
         # para encontrar el tipo de delimitador del archivo .csv
@@ -131,22 +131,27 @@ class CSV_pandas(CSV):
     def __columns_replace(self, df):
         """Estandariza los nombres de las columnas para poder renombrarlas según
         el tipo de datos que tenga"""
-        # Patterns
-        # Entre [] aparece a qué tipo de simulación provoca dichos patrones de nombre
-        pattern_1 = r"^(V|I)[.\w-]*"  # Columnas que comienzan con V-xxx, I-xxx [SEM] o Voltage [Manual]
-        pattern_2 = r"^(C)[.\w-]*"  # Columnas que comienzan con Current [manual]
-        pattern_3 = r"^(?![\s\S])"  # Columnas que estén vacías [Manual]
-        pattern_4 = r"^\d*\.*\d+"  # Columnas cuyos nombres sean números [SEM]
-        pattern_5 = (
-            r"MODELS\.*[\d]*"  # Columnas que tengan MODELS en mayúscula [Manual]
-        )
-        df.columns = df.columns.str.replace(" ", "")
-        df.columns = df.columns.str.replace(pattern_1, r"\1", regex=True)
-        df.columns = df.columns.str.replace(pattern_2, r"I", regex=True)
-        df.columns = df.columns.str.replace(pattern_3, r"Model", regex=True)
-        df.columns = df.columns.str.replace(pattern_4, r"Model", regex=True)
-        df.columns = df.columns.str.replace(pattern_5, r"Model", regex=True)
-        df.columns = df.columns.str.replace(r"Time", r"time", regex=True)
+        patterns = [
+            (" ", ""),
+            (r"^(V|I)[.\w-]*", r"\1"),
+            (r"^(C)[.\w-]*", r"I"),
+            (r"^(?![\s\S])", r"Model"),
+            (r"^\d*\.*\d+", r"Model"),
+            (r"MODELS\.*[\d]*", r"Model"),
+            (r"Time", r"time"),
+        ]
+        # INFORMACIÓN DE Regex en patterns
+        # Quitar los espacios blancos
+        # Columnas que comienzan con V-xxx, I-xxx [SEM] o Voltage [Manual]
+        # Columnas que comienzan con Current [manual]
+        # Columnas que estén vacías [Manual]
+        # Columnas cuyos nombres sean números [SEM]
+        # Columnas que tengan MODELS en mayúscula [Manual]
+        # Hacer la T de time minúscula
+
+        # Crear un diccionario e iterar sobre este para reemplazar el str.replace(x,y)
+        for pattern in patterns:
+            df.columns = df.columns.str.replace(pattern[0], pattern[1], regex=True)
         return df
 
     # función para devolver la lista de labels correcta
@@ -194,7 +199,6 @@ class CSV_pandas(CSV):
             )
             exit()
 
-    
     def relay_list(self, currents=True, voltages=False, Models=False):
         for i in self.labels_list:
             if ("V:" in i) and voltages:
