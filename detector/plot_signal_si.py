@@ -1,4 +1,4 @@
-from utils.preprocess import windows_creator, windows_fourier
+from utils.preprocess_old import windows_creator, windows_fourier
 import matplotlib.pyplot as plt
 from utils.signalload import CSV
 from utils.auxfunctions import superimposed

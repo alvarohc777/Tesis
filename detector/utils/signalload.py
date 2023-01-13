@@ -124,6 +124,7 @@ class CSV_pandas(CSV):
         self.labels_list = self.__new_labels(node_from_list, node_to_list, labels_list)
 
         df.columns = self.labels_list
+        self.labels_list = self.labels_list[1:]
         df.set_index("time")
         df = df.reset_index(drop=True)
         return df
@@ -213,8 +214,8 @@ class CSV_pandas(CSV):
 # no muestra ventana de selección
 class CSV_pandas_path(CSV_pandas):
     def csv_load(self):
-        # self.path = "C:\\Users\\aherrada\\OneDrive - Universidad del Norte\\Uninorte\\DetectionDataBase\\septDataBaseCSV\\Fallas\\Fault01_B112_RF40.csv"
-        self.path = "C:\\Users\\aherrada\\OneDrive - Universidad del Norte\\Uninorte\\DetectionDataBase\\septDataBaseCSV\\Caps\\NoFault02_B112.csv"
+        self.path = "C:\\Users\\aherrada\\OneDrive - Universidad del Norte\\Uninorte\\DetectionDataBase\\septDataBaseCSV\\Fallas\\Fault01_B112_RF40.csv"
+        # self.path = "C:\\Users\\aherrada\\OneDrive - Universidad del Norte\\Uninorte\\DetectionDataBase\\septDataBaseCSV\\Caps\\NoFault02_B112.csv"
         self.extraer_csv()
 
 

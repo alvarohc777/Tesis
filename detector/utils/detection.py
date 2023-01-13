@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def harmonic_distortion(FFT_window, fundamental):
+def harmonic_distortion(FFT_window, fundamental=60):
     fault_harmonics = [2, 3, 4]
     caps_harmonics = [5, 6, 7, 8]
     # fundamental =
@@ -19,7 +19,7 @@ def harmonic_distortion(FFT_window, fundamental):
     return HDF, HDC
 
 
-def detector(HDF, HDC, thld=0.4):
+def detector(HDF, HDC, thld=0.1):
     if (HDF > thld) or (HDC > thld):
         if HDF > HDC:
             return 1
@@ -28,15 +28,42 @@ def detector(HDF, HDC, thld=0.4):
     return 0
 
 
-def detection_iter(FFT, fundamental, return_THD=False):
+def detection_iter(FFT, fundamental=60, return_THD=False):
+    """
+    Iterates through FFT moving windows and returns trip signal
+
+    Parameters
+    ----------
+
+    FFT: numpy array
+        shape (n, 32)
+
+    fundamnetal: int (optional)
+        system's fundamental frequency
+
+    return_THD: boolean (optional)
+        wether to return HDF and HDC
+
+    returns
+    -------
+
+    TRIP: list
+        list of len n
+
+    HDF: list
+        list of len n, indices of fault harmonic distortion
+
+    HDC: list
+        list of len n, indices of capacitor harmonic distortion
+    """
 
     HDF = []
     HDC = []
     TRIP = []
     print(f"FFT shape: {FFT.shape}")
-    print(f"fundamental: {fundamental.shape}")
-    for i, (FFT_window, i_fundamental) in enumerate(zip(FFT, fundamental)):
-        hdf, hdc = harmonic_distortion(FFT_window, i_fundamental)
+    # print(f"fundamental: {fundamental.shape}")
+    for FFT_window in FFT:
+        hdf, hdc = harmonic_distortion(FFT_window)
         TRIP.append(detector(hdf, hdc))
 
         if return_THD:

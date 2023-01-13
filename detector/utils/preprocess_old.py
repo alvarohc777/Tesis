@@ -1,4 +1,3 @@
-from utils.deco import calc_perf
 from utils.signalload import CSV, CSV_prueba
 from utils.auxfunctions import superimposed, moving_window, fourier, xf_calc
 
@@ -50,8 +49,8 @@ def windows_creator(window_len):
 def windows_fourier(window_len):
 
     windows, windows_si, windows_t, dt = windows_creator(window_len)
-    xf = xf_calc(window_len, dt)
-    windows_fft = fourier(windows, window_len)
-    windows_si_fft = fourier(windows_si, window_len)
+    # xf = xf_calc(window_len, dt)
+    xf, windows_fft = fourier(windows, window_len, dt)
+    _, windows_si_fft = fourier(windows_si, window_len, dt)
 
     return windows_fft, windows_si_fft, xf

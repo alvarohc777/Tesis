@@ -39,5 +39,5 @@ def animate(i):
     return (line,)
 
 
-anim = FuncAnimation(fig, animate, init_func=ini, frames=frames, interval=100)
+anim = FuncAnimation(fig, animate, init_func=ini, frames=frames, interval=1)
 plt.show()
