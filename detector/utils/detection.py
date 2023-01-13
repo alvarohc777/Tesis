@@ -1,7 +1,8 @@
 import numpy as np
 
 
-def harmonic_distortion(FFT_window, fundamental=60):
+def harmonic_distortion(FFT_window, fundamental):
+
     fault_harmonics = [2, 3, 4]
     caps_harmonics = [5, 6, 7, 8]
     # fundamental =
@@ -28,7 +29,7 @@ def detector(HDF, HDC, thld=0.1):
     return 0
 
 
-def detection_iter(FFT, fundamental=60, return_THD=False):
+def detection_iter(FFT, fundamental, return_THD=False):
     """
     Iterates through FFT moving windows and returns trip signal
 
@@ -59,11 +60,11 @@ def detection_iter(FFT, fundamental=60, return_THD=False):
 
     HDF = []
     HDC = []
-    TRIP = []
+    TRIP = [0]
     print(f"FFT shape: {FFT.shape}")
     # print(f"fundamental: {fundamental.shape}")
-    for FFT_window in FFT:
-        hdf, hdc = harmonic_distortion(FFT_window)
+    for FFT_window, fundamental in zip(FFT, fundamental):
+        hdf, hdc = harmonic_distortion(FFT_window, fundamental)
         TRIP.append(detector(hdf, hdc))
 
         if return_THD:
