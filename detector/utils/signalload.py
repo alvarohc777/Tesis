@@ -99,6 +99,7 @@ class CSV_pandas(CSV):
         # Obtener un número par de muestras
         if len(df) % 2 != 0:
             df.drop(df.tail(1).index, inplace=True)
+
         self.df = self.__rename_columns(df)
 
         # for label in self.labels_list[1:]:
@@ -140,6 +141,7 @@ class CSV_pandas(CSV):
             (r"^\d*\.*\d+", r"Model"),
             (r"MODELS\.*[\d]*", r"Model"),
             (r"Time", r"time"),
+            (r"b'", r""),
         ]
         # INFORMACIÓN DE Regex en patterns
         # Quitar los espacios blancos
