@@ -11,10 +11,6 @@ from numpy.lib.stride_tricks import sliding_window_view as swv
 # Para graficar
 import matplotlib.pyplot as plt
 
-# Para crear los GIF
-import imageio
-import os
-
 
 def xf_calc(N, dt) -> int:
     return rfftfreq(N, dt)[: N // 2]
@@ -123,36 +119,6 @@ def iterador_max_val(windows, window_function, N, dt, signal_name):
             print(f"Frequency {60*i:4}: {max_val:7.3f}")
 
 
-def iterator(windows, window_function, N, dt):
-    xf = rfftfreq(N, dt)[: N // 2]
-    fig, ax = plt.subplots(2, figsize=(10, 6))
-    fig.suptitle("SFTF Señal", fontsize=16)
-
-    ax[1].set_xlabel("Tiempo (s)")
-    ax[1].set_ylabel("Amplitud (A)")
-    window_max = np.empty(len(xf))
-
-    for window in windows:
-
-        window = window * window_function
-        fft_window = fourier(window, N)
-
-        for freq, (value, prev_max) in enumerate(zip(fft_window, window_max)):
-            if value > prev_max:
-                window_max[freq] = value
-
-        ax[0].cla()
-        ax[1].cla()
-        ax[0].set_xticks(xf[1::2])
-        ax[0].stem(xf, fft_window, ":")
-        ax[1].plot(window)
-        plt.pause(0.5)
-
-    print(f"Frequency Max    STFT      SI")
-    for i, max_val in enumerate(window_max):
-        print(f"Frequency {60*i:4}: {max_val:>7.4f}  {max_val:7.4f}")
-
-
 def iterator_mp(windows, windows_t, window_function, N, dt, signal_name):
     xf = rfftfreq(N, dt)[: N // 2]
     fig, ax = plt.subplots(2, figsize=(10, 6))
@@ -182,68 +148,3 @@ def iterator_mp(windows, windows_t, window_function, N, dt, signal_name):
     print(f"Frequency Max    STFT      SI")
     for i, max_val in enumerate(window_max):
         print(f"Frequency {60*i:4}: {max_val:>7.4f}  {max_val:7.4f}")
-
-
-def superi_iterator_gif(windows, windows_si, windows_t, window_function, N, dt):
-    xf = rfftfreq(N, dt)[: N // 2]
-    fig, ax = plt.subplots(4, figsize=(10, 6))
-    fig.suptitle("STFT Señal", fontsize=16)
-
-    ax[2].set_xlabel("Tiempo (s)")
-    ax[2].set_ylabel("Amplitud (A)")
-
-    if not os.path.exists("./gifs/imgs/"):
-        os.mkdir("./gifs/")
-        os.mkdir("./gifs/imgs/")
-    os.chdir("./gifs/imgs/")
-    cwd = os.getcwd()
-    print("Dirección de funciones: " + cwd)
-
-    filenames = []
-    for i, (x, y, t) in enumerate(zip(windows, windows_si, windows_t)):
-        x = x * window_function
-        fft_window = fourier(x, N)
-        y = y * window_function
-        fft_window_si = fourier(y, N)
-
-        ax[0].cla()
-        ax[0].grid()
-        ax[1].cla()
-        ax[1].grid()
-        ax[2].cla()
-        ax[2].grid()
-        ax[3].cla()
-        ax[3].grid()
-
-        ax[0].set_xticks(xf[1::2])
-        ax[0].set_xlabel(
-            f"Frecuencias (Hz) intervalo {windows_t[i][0]:.5f}-{windows_t[i][-1]:.5f}"
-        )
-        ax[0].set_ylabel(f"Frecuencia (Hz) Ventana {i}")
-        ax[0].stem(xf, fft_window, ":")
-
-        ax[1].plot(t, x)
-
-        ax[2].set_xticks(xf[1::2])
-        ax[2].stem(xf, fft_window_si, ":")
-        ax[3].plot(t, y)
-        plt.pause(0.005)
-
-        # file name creator
-        filename = f"{i}.png"
-        filenames.append(filename)
-        plt.savefig(cwd + "/" + filename)
-
-    # Build gif
-    save_gif(filenames)
-
-
-# Para crear un gif
-def save_gif(filenames):
-    with imageio.get_writer("mygif.gif", mode="I", fps=4) as writer:
-        for file in filenames:
-            image = imageio.imread(file)
-            writer.append_data(image)
-
-    for file in filenames:
-        os.remove(file)
