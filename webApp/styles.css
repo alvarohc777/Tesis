@@ -1,0 +1,103 @@
+body {
+    background: #6D9886;
+    margin: 0;
+}
+
+/* div {
+    border: 2px solid black;
+} */
+
+
+
+h1,
+h3,
+h4 {
+    font-family: Arial, Helvetica, sans-serif;
+    color: black;
+}
+
+h3 {
+    margin: 3px 10px;
+
+}
+
+h4 {
+    margin: 0px;
+
+}
+
+a {
+    color: black;
+    text-decoration: none;
+    border: 2px solid black;
+}
+
+form {
+    width: 75%;
+    background: whitesmoke;
+    margin: 10px 30px;
+    padding: 5px;
+    overflow: hidden;
+    overflow-wrap: break-word;
+}
+
+#navbar,
+#footer {
+    background: white;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0px 10px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+
+
+}
+
+#mainContent {
+    background: #908c87;
+    display: flex;
+    align-items: flex-start;
+
+}
+
+#Menu {
+    background: white;
+    /* flex-basis: 220px; */
+    /* width: 220px; */
+    height: calc(100vh - 60px);
+    position: sticky;
+    top: 60px;
+    border: 0px solid black;
+}
+
+#Menu div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#Plots {
+    background: #D9CAB3;
+    /* flex-basis: 60%; */
+    /* flex-grow: 2;
+    flex-shrink: 2;
+    align-self: flex-start; */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    /* height: calc(100vh - 60px); */
+
+
+}
+
+
+#Plots h1 {
+    text-align: center;
+}
+
+/* #Plots div {} */

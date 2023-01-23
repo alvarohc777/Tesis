@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./styles_sidebar.css">
+    <script defer src="./index_sidebar.js"></script>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <section id="navbar">
+
+        <button class="openbtn" onclick="openNav()">&#6779;Open Sidebar</button>
+
+        <div class="navLinks">
+            <a href="">
+                <h4>Inicio</h4>
+            </a>
+            <a href="">
+                <h4>Curriculum</h4>
+            </a>
+            <a href="">
+                <h4>GISEL</h4>
+            </a>
+            <a href="https://www.uninorte.edu.co/" target="_blank">
+                <h4>Uninorte</h4>
+            </a>
+        </div>
+    </section>
+
+    <!-- App Menu -->
+    <section id="Menu">
+        <!-- Close Sidebar menu -->
+        <div id="mySidebar" class="sidebar">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+            <!-- CSV File Upload -->
+            <div class="menuSection">
+
+                <h1>CSV Loader</h1>
+                <form action="" id="csvForm">
+                    <input type="file" accept=".csv" name="csvInput" id="csvInput" required style="display:none">
+                    <label for="csvInput">Escoger un CSV</label><br>
+                    <button type="submit">Load CSV</button>
+                </form>
+
+            </div>
+            <!-- Signal Selector -->
+            <div class="menuSection">
+                <h1>Signal Selector</h1>
+                <form action="" id="signalMenu">
+                    <input type="radio" id="rbtn1" value="R1_Ia" name="signalName">
+                    <label for="rbtn1">R1_Ia</label><br>
+                    <input type="radio" id="rbtn2" value="R1_Ib" name="signalName">
+                    <label for="rbtn2">R1_Ib</label><br>
+                    <input type="radio" id="rbtn3" value="R1_Ic" name="signalName">
+                    <label for="rbtn3">R1_Ic</label><br>
+                    <button type="submit">Select Signal</button>
+                </form>
+            </div>
+            <!-- Plots List -->
+            <div class="menuSection">
+                <h1>Plots</h1>
+                <form action="" id="plotsMenu">
+                    <h3>Images</h3>
+                    <input type="checkbox" id="cbox1" value="imgSignal">
+                    <label for="cbox1">Signal</label><br>
+                    <input type="checkbox" id="cbox2" value="imgSISignal">
+                    <label for="cbox2">Superimposed Signal</label><br>
+                    <input type="checkbox" id="cbox3" value="imgTripSignal">
+                    <label for="cbox3">Trip signal</label><br>
+                    <h3>Animations</h3>
+                    <input type="checkbox" id="cbox4" value="vidSignal">
+                    <label for="cbox4">Signal</label><br>
+                    <input type="checkbox" id="cbox5" value="vidSISignal">
+                    <label for="cbox5">Superimposed Signal</label><br>
+                    <input type="checkbox" id="cbox6" value="vidTripping">
+                    <label for="cbox6">Trip Signal</label><br>
+                    <input type="checkbox" id="cbox7" value="vidFFTSignal">
+                    <label for="cbox7">Signal FFT</label><br>
+                    <input type="checkbox" id="cbox8" value="vidFFTSISignal">
+                    <label for="cbox8">Superimposed signal FFT</label><br>
+                    <button type="submit">Load Plots</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <!-- Main Content Section -->
+    <section id="mainContent">
+
+        <section id="Plots">
+
+            <!-- <div>
+                <h1>Plots</h1>
+            </div> -->
+            <div class="plotDiv">
+                <h3>Signal</h3>
+                <img src="./static/sample_image.png" alt="image_sample" height="300px" width="400px">
+            </div>
+            <div class="plotDiv">
+                <h3>Signal</h3>
+                <img src="./static/sample_image.png" alt="image_sample" height="300px" width="400px">
+            </div>
+            <div class="plotDiv">
+                <h3>Signal</h3>
+                <img src="./static/sample_image.png" alt="image_sample" height="300px" width="400px">
+            </div>
+            <div class="plotDiv">
+                <h3>Signal</h3>
+                <img src="./static/sample_image.png" alt="image_sample" height="300px" width="400px">
+            </div>
+            <!-- <div class="plotDiv">
+                <h3>Signal</h3>
+                <img src="./static/sample_image.png" alt="image_sample" height="300px" width="400px">
+            </div>
+            <div class="plotDiv">
+                <h3>Signal</h3>
+                <img src="./static/sample_image.png" alt="image_sample" height="300px" width="400px">
+            </div>
+            <div class="plotDiv">
+                <h3>Signal</h3>
+                <img src="./static/sample_image.png" alt="image_sample" height="300px" width="400px">
+            </div>
+            <div class="plotDiv">
+                <h3>Signal</h3>
+                <img src="./static/sample_image.png" alt="image_sample" height="300px" width="400px">
+            </div> -->
+
+
+
+
+            <!-- " width="500px" height="2000px" alt=""> -->
+        </section>
+    </section>
+    <!-- footer -->
+    <section id="footer">
+
+        <a href="">
+            <h4>UTP</h4>
+        </a>
+        <a href="">
+            <h4>Integra</h4>
+        </a>
+        <a href="">
+            <h4>GISEL</h4>
+        </a>
+        <a href="https://www.uninorte.edu.co/" target="_blank">
+            <h4>Uninorte</h4>
+        </a>
+
+
+    </section>
+
+
+
+</body>
+
+</html>
