@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/bootstrap.css">
+    <link rel="stylesheet" href="./css/styles.css">
+    <script src="./js/jquery-3.6.0.js"></script>
+    <script src="./js/bootstrap.js"></script>
+</head>
+
+<body>
+    <div class="container">
+
+        <nav class="navbar navbar-dark bg-dark">
+            <span class="navba-brand mb-0 h1 text-white">Herramienta visualización Fallas</span>
+        </nav>
+    </div>
+    <div class="container">
+
+        <div class="row" id="load-div">
+            <div class="col-lg-6 col-md-12">
+                <h1 class='heading'>Cargue de Datos
+                </h1>
+                <button id="LoadCSV" type="button" class="btn btn-dark btn-md download-button">Load CSV</button>
+                <button type="button" class="btn btn-dark btn-md download-button">Load Signal</button>
+                <button type="button" class="btn btn-dark btn-md download-button">Detect Fault</button>
+                <button type="button" class="btn btn-dark btn-md download-button">Animate</button>
+            </div>
+            <div class="col-lg-6 col-md-12" id="csv-loader">
+                <h1 class='heading'>Upload</h1>
+                <form id="csvForm">
+                    <div class="custom-file">
+                        <input type="file" accept=".csv" class="custom-file-input" id="csvInput" required>
+                        <label class="custom-file-label" for="customInput">Escoger un CSV</label>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-dark btn-sm" type="submit" id="CSVUpload">Upload</button>
+                    </div>
+                </form>
+                <br>
+                <div>
+                    <ul id="signalsList">
+                        <li>
+                            hola
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row" id="plot-div">
+
+            <div class="col-lg-12 col-md-12">
+                <h1 class="heading">Plots</h1>
+            </div>
+        </div>
+
+    </div>
+    <script src="./js/index.js" type="text/javascript"></script>
+</body>
+
+</html>
