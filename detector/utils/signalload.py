@@ -155,8 +155,11 @@ class CSV_pandas:
 # Clase para hacer pruebas, luego borrar
 # no muestra ventana de selección
 class CSV_pandas_path(CSV_pandas):
-    def csv_load(self):
-        self.path = "C:\\Users\\aherrada\\OneDrive - Universidad del Norte\\Uninorte\\DetectionDataBase\\septDataBaseCSV\\Fallas\\Fault01_B112_RF40.csv"
+    def __init__(self, filename):
+        self.csv_load(filename)
+
+    def csv_load(self, filename):
+        self.path = filename
         # self.path = "C:\\Users\\aherrada\\OneDrive - Universidad del Norte\\Uninorte\\DetectionDataBase\\septDataBaseCSV\\Caps\\NoFault02_B112.csv"
         self.extraer_csv()
 
