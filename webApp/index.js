@@ -1,9 +1,13 @@
 let sidebarState = 0;
-const csvInput = document.getElementById("csvInput")
-const reader = new FileReader()
+var signalList
+const csvInput = document.getElementById("csvInput");
+const csvForm = document.getElementById("csvForm");
+const signalMenu = document.getElementById("signalMenu");
+const reader = new FileReader();
+const csvEndpoint = "http://127.0.0.1:8080/uploadCSV";
 
 
-// Funcionalidad
+//                                  Funcionalidad
 
 // Cargue de datos
 
@@ -20,6 +24,48 @@ csvInput.addEventListener('input', function () {
 
 });
 
+// Enviar CSV al servidor
+csvForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const formData = new FormData;
+
+    formData.append('csv_files', csvInput.files[0])
+    formData.append('file_type', 'CSV')
+
+    fetch(csvEndpoint, {
+        method: 'post',
+        body: formData
+    })
+        .then(res => res.json())
+        .then((data) => {
+            signalList = data;
+            console.log(signalList.signals_list);
+            signalListAppend(signalList.signals_list)
+        })
+        // .then(console.log(signalList))
+        .catch(err => console.log(err))
+});
+
+function signalListAppend(list) {
+    signalMenu.textContent = '';
+    let arrayLength = list.length;
+    for (let i = 0; i < arrayLength; i++) {
+        console.log(signalList[i])
+        let radiobox = document.createElement('input');
+
+
+        radiobox.type = 'radio';
+        radiobox.id = list[i];
+        radiobox.name = 'email';
+
+        let label = document.createElement('label');
+        label.htmlFor = list[i];
+        label.textContent = list[i];
+        signalMenu.appendChild(radiobox)
+        signalMenu.appendChild(label)
+        signalMenu.appendChild(document.createElement('BR'))
+    }
+}
 
 
 // Estética

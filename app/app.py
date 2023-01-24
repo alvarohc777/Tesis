@@ -24,7 +24,7 @@ async def root() -> dict:
 
 
 @app.post("/uploadCSV", tags=["CSV"])
-async def post_CSV(csv_files: UploadFile = File(...), nombre=File(...)) -> dict:
+async def post_CSV(csv_files: UploadFile = File(...), file_type=File(...)) -> dict:
     with open(csv_files.filename, "wb+") as f:
         f.write(csv_files.file.read())
     print(type(csv_files))
