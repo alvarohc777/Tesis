@@ -90,7 +90,7 @@ form {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    transition: margin-left 1s;
+    transition: margin-left 0.6s;
     min-height: 100vh;
 }
 
@@ -110,12 +110,22 @@ form {
 
 #signalList {
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+
 }
+
 
 #signalMenu {
     overflow-y: scroll;
     height: 100px;
+    width: 187.5px;
 }
+
+
 
 #Plots {
     background: #D9CAB3;
@@ -142,7 +152,7 @@ form {
     left: 0;
     background-color: white;
     overflow-x: hidden;
-    padding-top: 60px;
+    padding-top: 10px;
     transition: 0.7s;
 }
 

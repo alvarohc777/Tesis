@@ -36,11 +36,8 @@
     <section id="Menu">
         <!-- Close Sidebar menu -->
         <div id="mySidebar" class="sidebar">
-
-
             <!-- CSV File Upload -->
             <div class="menuSection">
-
                 <h1>CSV Loader</h1>
                 <form action="" id="csvForm">
                     <input type="file" accept=".csv" name="csvInput" id="csvInput" required style="display:none">
@@ -48,18 +45,21 @@
                     <button for="csvInput" type="button" onclick="selectCSV()">Escoger un CSV</button>
                     <button type="submit">Load CSV</button>
                 </form>
+                <!-- <button type="submit" form="csvForm">Prueba</button> -->
 
             </div>
             <!-- Signal Selector -->
             <div class="menuSection" id="signalList">
                 <h1>Signal Selector</h1>
-                <form action="" id="signalMenu">
-                    <input type="radio" id="rbtn1" value="R1_Ia" name="signalName">
-                    <label for="rbtn1">R1_Ia</label><br>
+                <div>
+                    <form action="" id="signalMenu">
 
+                        <p>Select a CSV</p>
+                        <button type="submit" style=" display:none;" id="signalMenuBtn"></button>
+                    </form>
+                </div>
+                <button type="submit" id="signalListBtn" onclick="submitSignal()">Prueba</button>
 
-                    <button type="submit">Select Signal</button>
-                </form>
             </div>
             <!-- Plots List -->
             <div class="menuSection">

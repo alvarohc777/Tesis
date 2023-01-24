@@ -3,6 +3,7 @@ var signalList
 const csvInput = document.getElementById("csvInput");
 const csvForm = document.getElementById("csvForm");
 const signalMenu = document.getElementById("signalMenu");
+const signalListBtn = document.getElementById("signalListBtn");
 const reader = new FileReader();
 const csvEndpoint = "http://127.0.0.1:8080/uploadCSV";
 
@@ -13,6 +14,10 @@ const csvEndpoint = "http://127.0.0.1:8080/uploadCSV";
 
 function selectCSV() {
     document.getElementById("csvInput").click();
+}
+
+function submitSignal() {
+    signalMenu.getElementsByTagName('button')[0].click();
 }
 
 csvInput.addEventListener('input', function () {
@@ -48,12 +53,21 @@ csvForm.addEventListener("submit", (e) => {
 
 function signalListAppend(list) {
     signalMenu.textContent = '';
+    let btn1 = document.createElement("button");
+    btn1.type = 'submit';
+    btn1.textContent = "prueba"
+    btn1.style.display = "none";
+    signalMenu.appendChild(btn1);
+
     let arrayLength = list.length;
+
+
+    let signalDiv = document.getElementById("signalList");
+
     for (let i = 0; i < arrayLength; i++) {
         console.log(signalList[i])
+
         let radiobox = document.createElement('input');
-
-
         radiobox.type = 'radio';
         radiobox.id = list[i];
         radiobox.name = 'email';
@@ -61,16 +75,20 @@ function signalListAppend(list) {
         let label = document.createElement('label');
         label.htmlFor = list[i];
         label.textContent = list[i];
+
+        // Append elements to signalMenu
         signalMenu.appendChild(radiobox);
         signalMenu.appendChild(label);
         signalMenu.appendChild(document.createElement('BR'));
     }
-    let btn = document.createElement("button");
-    btn.type = 'submit';
-    btn.textContent = "Load Plots";
-    signalMenu.appendChild(btn);
 }
 
+
+
+
+signalMenu.addEventListener('submit', function () {
+    console.log("hello")
+})
 
 // Estética
 function openNav() {
