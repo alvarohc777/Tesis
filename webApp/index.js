@@ -61,10 +61,14 @@ function signalListAppend(list) {
         let label = document.createElement('label');
         label.htmlFor = list[i];
         label.textContent = list[i];
-        signalMenu.appendChild(radiobox)
-        signalMenu.appendChild(label)
-        signalMenu.appendChild(document.createElement('BR'))
+        signalMenu.appendChild(radiobox);
+        signalMenu.appendChild(label);
+        signalMenu.appendChild(document.createElement('BR'));
     }
+    let btn = document.createElement("button");
+    btn.type = 'submit';
+    btn.textContent = "Load Plots";
+    signalMenu.appendChild(btn);
 }
 
 
