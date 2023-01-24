@@ -7,13 +7,15 @@ body {
     border: 2px solid black;
 } */
 
-
-
 h1,
 h3,
 h4 {
     font-family: Arial, Helvetica, sans-serif;
     color: black;
+}
+
+h1 {
+    text-align: center;
 }
 
 h3 {
@@ -29,7 +31,7 @@ h4 {
 a {
     color: black;
     text-decoration: none;
-    border: 2px solid black;
+    /* border: 2px solid black; */
 }
 
 form {
@@ -41,7 +43,33 @@ form {
     overflow-wrap: break-word;
 }
 
-#navbar,
+#navbar {
+    background: white;
+    height: 60px;
+    display: grid;
+    grid-template: 60px / 60px 1fr;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    gap: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+    background-clip: border-box;
+    background-color: red;
+
+}
+
+#navbar .navLinks {
+    background: white;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0px 10px;
+}
+
+
 #footer {
     background: white;
     height: 60px;
@@ -50,24 +78,24 @@ form {
     justify-content: center;
     flex-wrap: wrap;
     gap: 0px 10px;
-    position: sticky;
+    /* position: sticky;
     top: 0;
-    z-index: 1;
-
-
+    z-index: 1; */
 }
+
+
 
 #mainContent {
     background: #908c87;
     display: flex;
+    flex-direction: column;
     align-items: flex-start;
-
+    transition: margin-left 1s;
+    min-height: 100vh;
 }
 
-#Menu {
+/* #Menu {
     background: white;
-    /* flex-basis: 220px; */
-    /* width: 220px; */
     height: calc(100vh - 60px);
     position: sticky;
     top: 60px;
@@ -78,6 +106,15 @@ form {
     display: flex;
     flex-direction: column;
     align-items: center;
+} */
+
+#signalList {
+    overflow: hidden;
+}
+
+#signalMenu {
+    overflow-y: scroll;
+    height: 100px;
 }
 
 #Plots {
@@ -90,14 +127,62 @@ form {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-around;
+    flex: 1;
     /* height: calc(100vh - 60px); */
-
-
 }
 
 
-#Plots h1 {
-    text-align: center;
+.sidebar {
+    height: 100%;
+    /* Cambiar el width luego */
+    width: 250px;
+    position: fixed;
+    z-index: 1;
+    top: 60px;
+    left: 0;
+    background-color: white;
+    overflow-x: hidden;
+    padding-top: 60px;
+    transition: 0.7s;
 }
 
-/* #Plots div {} */
+.sidebar a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: yellow;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidebar a:hover {
+    color: #f1f1f1;
+}
+
+.sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.openbtn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: white;
+    color: black;
+    padding: 10px 15px;
+    border: none;
+}
+
+.openbtn:hover {
+    background-color: #444;
+}
+
+#main {
+    transition: margin-left .5s;
+    padding: 20px;
+}
+
+/* Sidebar */

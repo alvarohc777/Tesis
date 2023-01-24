@@ -6,46 +6,66 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./styles.css">
+    <script defer src="./index.js"></script>
 </head>
 
 <body>
     <!-- Navigation Bar -->
     <section id="navbar">
 
-        <a href="">
-            <h4>Inicio</h4>
-        </a>
-        <a href="">
-            <h4>Curriculum</h4>
-        </a>
-        <a href="">
-            <h4>GISEL</h4>
-        </a>
-        <a href="https://www.uninorte.edu.co/" target="_blank">
-            <h4>Uninorte</h4>
-        </a>
+        <button class="openbtn" onclick="openNav()"> &#9002;&#9002;&#9002;</button>
 
-
+        <div class="navLinks">
+            <a href="">
+                <h4>Inicio</h4>
+            </a>
+            <a href="">
+                <h4>Curriculum</h4>
+            </a>
+            <a href="">
+                <h4>GISEL</h4>
+            </a>
+            <a href="https://www.uninorte.edu.co/" target="_blank">
+                <h4>Uninorte</h4>
+            </a>
+        </div>
     </section>
-    <!-- Main Content Section -->
-    <section id="mainContent">
-        <!-- App Menu -->
-        <section id="Menu">
+
+    <!-- App Menu -->
+    <section id="Menu">
+        <!-- Close Sidebar menu -->
+        <div id="mySidebar" class="sidebar">
+
+
             <!-- CSV File Upload -->
             <div class="menuSection">
+
                 <h1>CSV Loader</h1>
                 <form action="" id="csvForm">
                     <input type="file" accept=".csv" name="csvInput" id="csvInput" required style="display:none">
-                    <label for="csvInput">Escoger un CSV</label><br>
+                    <!-- <label for="csvInput">Escoger un CSV</label><br> -->
+                    <button for="csvInput" type="button" onclick="selectCSV()">Escoger un CSV</button>
                     <button type="submit">Load CSV</button>
                 </form>
 
             </div>
             <!-- Signal Selector -->
-            <div class="menuSection">
+            <div class="menuSection" id="signalList">
                 <h1>Signal Selector</h1>
                 <form action="" id="signalMenu">
+                    <input type="radio" id="rbtn1" value="R1_Ia" name="signalName">
+                    <label for="rbtn1">R1_Ia</label><br>
+                    <input type="radio" id="rbtn2" value="R1_Ib" name="signalName">
+                    <label for="rbtn2">R1_Ib</label><br>
+                    <input type="radio" id="rbtn3" value="R1_Ic" name="signalName">
+                    <label for="rbtn3">R1_Ic</label><br>
+                    <input type="radio" id="rbtn1" value="R1_Ia" name="signalName">
+                    <label for="rbtn1">R1_Ia</label><br>
+                    <input type="radio" id="rbtn2" value="R1_Ib" name="signalName">
+                    <label for="rbtn2">R1_Ib</label><br>
+                    <input type="radio" id="rbtn3" value="R1_Ic" name="signalName">
+                    <label for="rbtn3">R1_Ic</label><br>
                     <input type="radio" id="rbtn1" value="R1_Ia" name="signalName">
                     <label for="rbtn1">R1_Ia</label><br>
                     <input type="radio" id="rbtn2" value="R1_Ib" name="signalName">
@@ -80,7 +100,11 @@
                     <button type="submit">Load Plots</button>
                 </form>
             </div>
-        </section>
+        </div>
+    </section>
+    <!-- Main Content Section -->
+    <section id="mainContent">
+
         <section id="Plots">
 
             <!-- <div>

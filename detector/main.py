@@ -11,7 +11,7 @@ N = 64
 signal_name = "I: X0024A-R1A"  # Fallas
 # signal_name = "I: X0022A-R1A"  # Caps
 # signal_name = "I: X0042A-R1A"  # HIF
-signal_name = "I: X0004A-X0009A"  # HIF
+signal_name = "I: X0024A-R1A"  # HIF
 
 # signals = CSV_pandas_path()
 signals = CSV_pandas()
@@ -32,8 +32,8 @@ si_fundamental = signal_si_fft[:, 1]
 y = signal_fft
 x = xf
 
-# trip = detection_iter(signal_fft, signal_fundamental)
-# fig = plot_signal_fft(t, signal, t_window, trip)
-a = fft_animation(x, y)
-anim = signal_render([a], interval=20)
+trip = detection_iter(signal_fft, signal_fundamental)
+fig = plot_signal_fft(t, signal, t_window, trip)
+# a = fft_animation(x, y)
+# anim = signal_render([a], interval=20)
 plt.show()
