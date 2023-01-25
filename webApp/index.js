@@ -35,7 +35,6 @@ csvForm.addEventListener("submit", (e) => {
     const formData = new FormData;
 
     formData.append('csv_files', csvInput.files[0])
-    formData.append('file_type', 'CSV')
 
     fetch(csvEndpoint, {
         method: 'post',
@@ -58,19 +57,21 @@ function signalListAppend(list) {
     btn1.textContent = "prueba"
     btn1.style.display = "none";
     signalMenu.appendChild(btn1);
-
-    let arrayLength = list.length;
-
-
     let signalDiv = document.getElementById("signalList");
 
+
+    let arrayLength = list.length;
     for (let i = 0; i < arrayLength; i++) {
-        console.log(signalList[i])
 
         let radiobox = document.createElement('input');
         radiobox.type = 'radio';
         radiobox.id = list[i];
+        radiobox.required = true;
         radiobox.name = 'email';
+        if (i === 0) {
+            radiobox.checked = true;
+        }
+
 
         let label = document.createElement('label');
         label.htmlFor = list[i];
@@ -83,12 +84,15 @@ function signalListAppend(list) {
     }
 }
 
-
-
-
-signalMenu.addEventListener('submit', function () {
-    console.log("hello")
+signalMenu.addEventListener("submit", function (e) {
+    e.preventDefault();
+    console.log("hello");
+    console.log(this);
 })
+
+
+
+
 
 // Estética
 function openNav() {

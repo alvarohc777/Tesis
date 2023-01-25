@@ -24,7 +24,7 @@ async def root() -> dict:
 
 
 @app.post("/uploadCSV", tags=["CSV"])
-async def post_CSV(csv_files: UploadFile = File(...), file_type=File(...)) -> dict:
+async def post_CSV(csv_files: UploadFile = File(...)) -> dict:
     with open(csv_files.filename, "wb+") as f:
         f.write(csv_files.file.read())
     print(type(csv_files))
@@ -33,3 +33,9 @@ async def post_CSV(csv_files: UploadFile = File(...), file_type=File(...)) -> di
     signals = CSV_pandas_path(csv_file_name)
     print(signals.labels_list)
     return {"signals_list": signals.labels_list, "file_name": csv_file_name}
+
+
+@app.post("/signalName", tags=["CSV"])
+async def post_signal_name(signal_name: str) -> dict:
+    print(signal_name)
+    return {"signal_name": signal_name}
