@@ -6,6 +6,7 @@ const signalMenu = document.getElementById("signalMenu");
 const signalListBtn = document.getElementById("signalListBtn");
 const reader = new FileReader();
 const csvEndpoint = "http://127.0.0.1:8080/uploadCSV";
+const signalNameEndpoint = "http://127.0.0.1:8080/signalName";
 
 
 //                                  Funcionalidad
@@ -65,9 +66,10 @@ function signalListAppend(list) {
 
         let radiobox = document.createElement('input');
         radiobox.type = 'radio';
-        radiobox.id = list[i];
+        // radiobox.id = list[i];
         radiobox.required = true;
-        radiobox.name = 'email';
+        radiobox.value = list[i]
+        radiobox.name = 'signalName';
         if (i === 0) {
             radiobox.checked = true;
         }
@@ -86,8 +88,23 @@ function signalListAppend(list) {
 
 signalMenu.addEventListener("submit", function (e) {
     e.preventDefault();
-    console.log("hello");
-    console.log(this);
+    let signalName = document.querySelector('input[name="signalName"]:checked').value;
+    // console.log(JSON.stringify({ "signal_name": signalName }));
+    fetch(signalNameEndpoint, {
+        method: 'post',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ "signal_name": signalName }),
+    })
+        .then(res => res.json())
+        .then((data) => {
+            console.log(data.signal_name);
+        })
+        .catch(err => console.log(err))
+
+
 })
 
 
