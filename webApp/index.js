@@ -2,6 +2,7 @@ let sidebarState = 0;
 var signalList
 const csvInput = document.getElementById("csvInput");
 const csvForm = document.getElementById("csvForm");
+const plotsMenu = document.getElementById("plotsMenu")
 const signalMenu = document.getElementById("signalMenu");
 const signalListBtn = document.getElementById("signalListBtn");
 const reader = new FileReader();
@@ -14,11 +15,15 @@ const signalNameEndpoint = "http://127.0.0.1:8080/signalName";
 // Cargue de datos
 
 function selectCSV() {
-    document.getElementById("csvInput").click();
+    csvInput.click();
 }
 
 function submitSignal() {
     signalMenu.getElementsByTagName('button')[0].click();
+}
+
+function submitPlots() {
+    plotsMenu.getElementsByTagName('button')[0].click();
 }
 
 csvInput.addEventListener('input', function () {
@@ -86,6 +91,7 @@ function signalListAppend(list) {
     }
 }
 
+// Enviar nombre de señal seleccionada
 signalMenu.addEventListener("submit", function (e) {
     e.preventDefault();
     let signalName = document.querySelector('input[name="signalName"]:checked').value;
@@ -108,6 +114,13 @@ signalMenu.addEventListener("submit", function (e) {
 
 })
 
+// Enviar plots
+
+plotsMenu.addEventListener('submit', function (e) {
+    e.preventDefault();
+    console.log("hola")
+
+})
 
 
 

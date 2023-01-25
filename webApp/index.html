@@ -62,7 +62,7 @@
 
             </div>
             <!-- Plots List -->
-            <div class="menuSection">
+            <div class="menuSection" id="plotsList">
                 <h1>Plots</h1>
                 <form action="" id="plotsMenu">
                     <h3>Images</h3>
@@ -83,8 +83,9 @@
                     <label for="cbox7">Signal FFT</label><br>
                     <input type="checkbox" id="cbox8" value="vidFFTSISignal">
                     <label for="cbox8">Superimposed signal FFT</label><br>
-                    <button type="submit">Load Plots</button>
+                    <button type="submit" style=" display:none;" id="plotsMenuBtn"></button>
                 </form>
+                <button type="submit" id="plotsListBtn" onclick="submitPlots()">Load Plots</button>
             </div>
         </div>
     </section>

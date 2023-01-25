@@ -107,7 +107,7 @@ form {
     align-items: center;
 } */
 
-#signalList {
+.menuSection {
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -116,6 +116,16 @@ form {
     align-items: center;
 
 }
+
+/* #signalList {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+
+} */
 
 
 #signalMenu {
