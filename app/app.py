@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile, Request
+from fastapi import FastAPI, File, UploadFile, Request, Body
 from fastapi.middleware.cors import CORSMiddleware
 from utils.signalload import CSV_pandas_path
 from pydantic import BaseModel
@@ -54,3 +54,8 @@ async def post_signal_name(load: SignalName) -> dict:
         "signal_name": load.signal_name,
         "filename": request_information["filename"],
     }
+
+
+@app.post("/plotsList", tags=["Plots"])
+async def post_plots_list(request: dict = Body(...)):
+    return request

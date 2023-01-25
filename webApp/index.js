@@ -6,8 +6,10 @@ const plotsMenu = document.getElementById("plotsMenu")
 const signalMenu = document.getElementById("signalMenu");
 const signalListBtn = document.getElementById("signalListBtn");
 const reader = new FileReader();
+// API endpoints
 const csvEndpoint = "http://127.0.0.1:8080/uploadCSV";
 const signalNameEndpoint = "http://127.0.0.1:8080/signalName";
+const plotsEndpoint = "http://127.0.0.1:8080/plotsList";
 
 
 //                                  Funcionalidad
@@ -118,7 +120,24 @@ signalMenu.addEventListener("submit", function (e) {
 
 plotsMenu.addEventListener('submit', function (e) {
     e.preventDefault();
-    console.log("hola")
+    const plotsDict = {}
+    for (let value of plotsMenu.getElementsByTagName('input')) {
+        plotsDict[value.id] = value.checked
+    }
+    fetch(plotsEndpoint, {
+        method: 'post',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(plotsDict)
+    })
+        .then(res => res.json())
+        .then((data) => {
+            console.log(data);
+        })
+        .catch(err => console.log(err))
+
 
 })
 
