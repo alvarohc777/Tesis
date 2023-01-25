@@ -17,11 +17,12 @@ app.add_middleware(
 
 
 class SignalName(BaseModel):
+    # csv_name: str
     signal_name: str
 
 
 # Variables
-csv_file_name = None
+request_information = {}
 
 
 @app.get("/", tags=["HomePage"])
@@ -33,15 +34,23 @@ async def root() -> dict:
 async def post_CSV(csv_files: UploadFile = File(...)) -> dict:
     with open(csv_files.filename, "wb+") as f:
         f.write(csv_files.file.read())
-    print(type(csv_files))
+
     csv_file_name = csv_files.filename
-    print(f"csv filename: {csv_file_name}")
     signals = CSV_pandas_path(csv_file_name)
-    print(signals.labels_list)
+    request_information["filename"] = csv_files.filename
+    request_information["csv"] = signals
+    print(type(csv_files))
+    print(f"csv filename: {csv_file_name}")
     return {"signals_list": signals.labels_list, "file_name": csv_file_name}
 
 
 @app.post("/signalName", tags=["CSV"])
-async def post_signal_name(signal_name: SignalName) -> dict:
-    print(signal_name.signal_name)
-    return {"signal_name": signal_name.signal_name}
+async def post_signal_name(load: SignalName) -> dict:
+    request_information["signal_name"] = load.signal_name
+    print(request_information["signal_name"])
+    print(request_information["filename"])
+    print(type(request_information["csv"]))
+    return {
+        "signal_name": load.signal_name,
+        "filename": request_information["filename"],
+    }
