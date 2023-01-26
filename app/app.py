@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from utils.signalload import CSV_pandas_path
 from utils.plot_funcs import signal_plt
 import matplotlib.pyplot as plt
+import numpy as np
 
 from pydantic import BaseModel
 import json
@@ -49,7 +50,7 @@ async def post_CSV(csv_files: UploadFile = File(...)) -> dict:
 
 
 @app.post("/signalName", tags=["CSV"])
-async def post_signal_name(load: SignalName) -> dict:
+async def post_signal_name(load: SignalName):
     signal_name = load.signal_name
     signals = request_information["signals"]
     request_information["signal_name"] = signal_name
@@ -59,17 +60,39 @@ async def post_signal_name(load: SignalName) -> dict:
     request_information["signal"] = signal
     request_information["t"] = t
     request_information["params"] = params
-    print(request_information["signal"])
-    fig = signal_plt(t, signal)
-    plt.show()
-    return {
-        "signal_name": load.signal_name,
-        "filename": request_information["filename"],
-    }
+
+    return {"response": "ok"}
 
 
 @app.post("/plotsList", tags=["Plots"])
 async def post_plots_list(request: dict = Body(...)):
-    if request["cbox1"] == True:
-        print("hola")
-    return request
+    signal = request_information["signal"].tolist()
+    t = request_information["t"].tolist()
+
+    return [t, signal]
+
+
+class RandomNumbers:
+    def __init__(self, n):
+        self.n = n
+        self.data = np.random.randint(0, 100, n)
+
+    def get_data(self):
+        return self.data.tolist()
+
+
+@app.get("/prueba", tags=["plotly"])
+async def prueba() -> dict:
+    import numpy as np
+
+    t = np.linspace(0, 10, 100)
+    signal = np.sin(2 * np.pi * 60 * t)
+    return {"signal": signal, "t": t}
+
+
+# Plotly prueba
+@app.get("/random/{n}", tags=["random"])
+async def random_numbers(n: int):
+    # r = RandomNumbers(n)
+    r = np.linspace(0, 10, 100).tolist()
+    return r

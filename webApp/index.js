@@ -12,6 +12,7 @@ const signalNameEndpoint = "http://127.0.0.1:8080/signalName";
 const plotsEndpoint = "http://127.0.0.1:8080/plotsList";
 
 
+
 //                                  Funcionalidad
 
 // Cargue de datos
@@ -135,12 +136,33 @@ plotsMenu.addEventListener('submit', function (e) {
         .then(res => res.json())
         .then((data) => {
             console.log(data);
+            imageCreator(data, "signal1")
+
         })
         .catch(err => console.log(err))
-
-
 })
 
+// Create image
+let plotLayout = {
+    autosize: false,
+    width: 400,
+    height: 300,
+    margin: {
+        l: 50,
+        r: 50,
+        b: 50,
+        t: 50,
+    },
+}
+function imageCreator(data, element_id) {
+    let fig = document.getElementById(element_id);
+    Plotly.newPlot('signal1', [{
+        x: data[0],
+        y: data[1]
+    }],
+        plotLayout
+    )
+}
 
 
 
@@ -161,3 +183,5 @@ function openNav() {
         sidebarState = 0;
     }
 }
+// Borrar
+document.getElementById("mainContent").style.marginLeft = "250px"

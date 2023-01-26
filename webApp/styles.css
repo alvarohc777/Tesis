@@ -155,7 +155,7 @@ form {
 .sidebar {
     height: 100%;
     /* Cambiar el width luego */
-    width: 0px;
+    width: 250px;
     position: fixed;
     z-index: 1;
     top: 60px;
