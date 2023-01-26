@@ -59,25 +59,6 @@ signalMenu.addEventListener("submit", function (e) {
         })
         .catch(err => console.log(err))
 })
-signalMenu.addEventListener("submit", function (e) {
-    e.preventDefault();
-    let signalName = document.querySelector('input[name="signalName"]:checked').value;
-    // console.log(JSON.stringify({ "signal_name": signalName }));
-    fetch(signalNameEndpoint, {
-        method: 'post',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ "signal_name": signalName }),
-    })
-        .then(res => res.json())
-        .then((data) => {
-            console.log(data.signal_name);
-            console.log(data.filename);
-        })
-        .catch(err => console.log(err))
-})
 
 signalMenu.addEventListener('change', function () {
     let signalName = document.querySelector('input[name="signalName"]:checked').value;
