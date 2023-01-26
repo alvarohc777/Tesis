@@ -59,40 +59,7 @@ csvForm.addEventListener("submit", (e) => {
         .catch(err => console.log(err))
 });
 
-function signalListAppend(list) {
-    signalMenu.textContent = '';
-    let btn1 = document.createElement("button");
-    btn1.type = 'submit';
-    btn1.textContent = "prueba"
-    btn1.style.display = "none";
-    signalMenu.appendChild(btn1);
-    let signalDiv = document.getElementById("signalList");
 
-
-    let arrayLength = list.length;
-    for (let i = 0; i < arrayLength; i++) {
-
-        let radiobox = document.createElement('input');
-        radiobox.type = 'radio';
-        // radiobox.id = list[i];
-        radiobox.required = true;
-        radiobox.value = list[i]
-        radiobox.name = 'signalName';
-        if (i === 0) {
-            radiobox.checked = true;
-        }
-
-
-        let label = document.createElement('label');
-        label.htmlFor = list[i];
-        label.textContent = list[i];
-
-        // Append elements to signalMenu
-        signalMenu.appendChild(radiobox);
-        signalMenu.appendChild(label);
-        signalMenu.appendChild(document.createElement('BR'));
-    }
-}
 
 // Enviar nombre de señal seleccionada
 signalMenu.addEventListener("submit", function (e) {
@@ -116,6 +83,8 @@ signalMenu.addEventListener("submit", function (e) {
 
 
 })
+
+
 
 // Enviar plots
 
@@ -142,46 +111,10 @@ plotsMenu.addEventListener('submit', function (e) {
         .catch(err => console.log(err))
 })
 
-// Create image
-let plotLayout = {
-    autosize: false,
-    width: 400,
-    height: 300,
-    margin: {
-        l: 50,
-        r: 50,
-        b: 50,
-        t: 50,
-    },
-}
-function imageCreator(data, element_id) {
-    let fig = document.getElementById(element_id);
-    Plotly.newPlot('signal1', [{
-        x: data[0],
-        y: data[1]
-    }],
-        plotLayout
-    )
-}
 
 
 
-// Estética
-function openNav() {
-    if (sidebarState === 0) {
-        document.getElementById("mySidebar").style.width = "250px";
-        document.getElementById("mainContent").style.marginLeft = "250px"
-        document.getElementById("footer").style.marginLeft = "250px";
-        document.getElementsByClassName("openbtn")[0].innerHTML = "x";
-        sidebarState = 1;
-    } else {
 
-        document.getElementById("mySidebar").style.width = "0";;
-        document.getElementById("mainContent").style.marginLeft = "0";
-        document.getElementById("footer").style.marginLeft = "0";
-        document.getElementsByClassName("openbtn")[0].innerHTML = "&#9002;&#9002;&#9002;";
-        sidebarState = 0;
-    }
-}
-// Borrar
-document.getElementById("mainContent").style.marginLeft = "250px"
+
+
+

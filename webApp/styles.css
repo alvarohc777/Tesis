@@ -151,6 +151,9 @@ form {
     width: 100%;
 }
 
+.plotDiv {
+    display: none;
+}
 
 .sidebar {
     height: 100%;

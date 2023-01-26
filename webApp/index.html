@@ -8,7 +8,12 @@
     <title>Document</title>
     <link rel="stylesheet" href="./styles.css">
     <script defer src="https://cdn.plot.ly/plotly-2.18.0.min.js"></script>
+    <script defer src="./responsive.js"></script>
+    <script defer src="./functions.js"></script>
     <script defer src="./index.js"></script>
+
+
+
 </head>
 
 <body>
@@ -98,7 +103,7 @@
             <!-- <div>
                 <h1>Plots</h1>
             </div> -->
-            <div class="plotDiv">
+            <div class="plotDiv" style=" display:none;">
                 <h3>Signal</h3>
                 <img src="./static/sample_image.png" alt="image_sample" height="300px" width="400px">
             </div>
@@ -109,26 +114,16 @@
             </div>
             <div class="plotDiv">
                 <h3>Signal</h3>
-                <img src="./static/sample_image.png" alt="image_sample" height="300px" width="400px">
+                <img id="signal2" src="./static/sample_image.png" alt="image_sample" height="300px" width="400px">
+            </div>
+            <div class="plotDiv">
+                <h3>Signal</h3>
+                <img id="signal3" src="./static/sample_image.png" alt="image_sample" height="300px" width="400px">
             </div>
 
 
-            <!-- <div class="plotDiv">
-                <h3>Signal</h3>
-                <img src="./static/sample_image.png" alt="image_sample" height="300px" width="400px">
-            </div>
-            <div class="plotDiv">
-                <h3>Signal</h3>
-                <img src="./static/sample_image.png" alt="image_sample" height="300px" width="400px">
-            </div>
-            <div class="plotDiv">
-                <h3>Signal</h3>
-                <img src="./static/sample_image.png" alt="image_sample" height="300px" width="400px">
-            </div>
-            <div class="plotDiv">
-                <h3>Signal</h3>
-                <img src="./static/sample_image.png" alt="image_sample" height="300px" width="400px">
-            </div> -->
+
+
 
 
 
