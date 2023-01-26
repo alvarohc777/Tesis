@@ -1,3 +1,14 @@
+
+// Cargue de datos
+
+function selectCSV() {
+    csvInput.click();
+}
+
+function submitSignal() {
+    signalMenu.getElementsByTagName('button')[0].click();
+}
+
 // Append radio buttons
 function signalListAppend(list) {
     signalMenu.textContent = '';
@@ -18,11 +29,9 @@ function signalListAppend(list) {
         radiobox.required = true;
         radiobox.value = list[i]
         radiobox.name = 'signalName';
-        if (i === 0) {
-            radiobox.checked = true;
-        }
-
-
+        // if (i === 0) {
+        //     radiobox.checked = true;
+        // }
         let label = document.createElement('label');
         label.htmlFor = list[i];
         label.textContent = list[i];
@@ -33,6 +42,7 @@ function signalListAppend(list) {
         signalMenu.appendChild(document.createElement('BR'));
     }
 }
+
 
 
 // Create image
@@ -58,3 +68,16 @@ function imageCreator(data, element_id) {
         plotLayout
     )
 }
+
+function submitPlots() {
+    plotsMenu.getElementsByTagName('button')[0].click();
+}
+
+csvInput.addEventListener('input', function () {
+    console.log("Se cargó el archivo:" + this.files[0].name);
+    let file = this.files[0]
+    reader.onload = (e) => console.log(e.target.result);
+    reader.onerror = (error) => console.log(error);
+    reader.readAsText(file);
+
+});

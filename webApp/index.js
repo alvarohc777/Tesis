@@ -13,30 +13,10 @@ const plotsEndpoint = "http://127.0.0.1:8080/plotsList";
 
 
 
-//                                  Funcionalidad
+// Event Listeners
 
-// Cargue de datos
 
-function selectCSV() {
-    csvInput.click();
-}
 
-function submitSignal() {
-    signalMenu.getElementsByTagName('button')[0].click();
-}
-
-function submitPlots() {
-    plotsMenu.getElementsByTagName('button')[0].click();
-}
-
-csvInput.addEventListener('input', function () {
-    console.log("Se cargó el archivo:" + this.files[0].name);
-    let file = this.files[0]
-    reader.onload = (e) => console.log(e.target.result);
-    reader.onerror = (error) => console.log(error);
-    reader.readAsText(file);
-
-});
 
 // Enviar CSV al servidor
 csvForm.addEventListener("submit", (e) => {
@@ -59,8 +39,6 @@ csvForm.addEventListener("submit", (e) => {
         .catch(err => console.log(err))
 });
 
-
-
 // Enviar nombre de señal seleccionada
 signalMenu.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -80,9 +58,50 @@ signalMenu.addEventListener("submit", function (e) {
             console.log(data.filename);
         })
         .catch(err => console.log(err))
-
-
 })
+signalMenu.addEventListener("submit", function (e) {
+    e.preventDefault();
+    let signalName = document.querySelector('input[name="signalName"]:checked').value;
+    // console.log(JSON.stringify({ "signal_name": signalName }));
+    fetch(signalNameEndpoint, {
+        method: 'post',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ "signal_name": signalName }),
+    })
+        .then(res => res.json())
+        .then((data) => {
+            console.log(data.signal_name);
+            console.log(data.filename);
+        })
+        .catch(err => console.log(err))
+})
+
+signalMenu.addEventListener('change', function () {
+    let signalName = document.querySelector('input[name="signalName"]:checked').value;
+    console.log(signalName)
+    fetch(signalNameEndpoint, {
+        method: 'post',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ "signal_name": signalName }),
+    })
+        .then(res => res.json())
+        .then((data) => {
+            console.log(data)
+        })
+        .catch(err => console.log(err))
+})
+
+
+
+
+
+
 
 
 
