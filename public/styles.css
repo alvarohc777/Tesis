@@ -6,7 +6,7 @@ body {
 /* FONTS */
 
 h1,
-h2,
+h3,
 h4 {
     font-family: Arial, Helvetica, sans-serif;
     color: black;
@@ -30,6 +30,34 @@ a {
 }
 
 /* xxx FONTS xxx */
+
+/* Form */
+form {
+    /* width: 75%; */
+    background: whitesmoke;
+    margin: 10px 30px;
+    padding: 5px;
+    overflow: hidden;
+    overflow: break-word;
+}
+
+
+.menuSelection {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    /* justify-items: center;
+    justify-content: center; */
+    align-items: center;
+}
+
+#signalMenu {
+    overflow-y: scroll;
+    height: 100px;
+    width: 187.5px;
+}
+
+/* xxx Form xxx */
 
 /* Layout */
 
@@ -61,7 +89,7 @@ a {
 
 #sidebar {
     height: 100%;
-    width: 0px;
+    width: 250px;
     position: fixed;
     z-index: 1;
     top: 60px;
@@ -86,4 +114,30 @@ a {
     padding: 20px;
 }
 
+#mainContent {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: margin-left 0.6s;
+    min-height: 100vh;
+}
+
+#plots {
+    background-color: #6D9886;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    flex: 1;
+    width: 100%;
+}
+
+/* .plotDiv {
+    display: none;
+} */
+
 /* xxx Layout xxx */
+
+/* Footer */
+
+/* xxx Footer xxx */
