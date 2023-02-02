@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fault Detector</title>
+    <link rel="stylesheet" href="./styles.css">
+    <script defer src="./scripts/index.js"></script>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <section id="navbar">
+        <button id="openbtn" onclick="toogleNav()">&#9002;&#9002;&#9002;</button>
+        <div class="navLinks">
+            <a href="">
+                <h4>Inicio</h4>
+            </a>
+            <a href="">
+                <h4>Curriculum</h4>
+            </a>
+            <a href="">
+                <h4>GISEL</h4>
+            </a>
+            <a href="https://www.uninorte.edu.co/">
+                <h4>Uninorte</h4>
+            </a>
+        </div>
+    </section>
+    <!--xxx navigation bar xxx-->
+
+
+    <!-- App Menu -->
+    <section id="menu">
+        <!-- Sidebar Menu -->
+        <div id="sidebar" class="sidebar" data-state="closed">
+            <!-- CSV File Upload -->
+            <div class="menuSection">
+                <h1>CSV Loader</h1>
+                <form action="" id="csvForm">
+                    <input type="file" accept=".csv" name="csvInput" id="csvInput" required style="display:none">
+                    <button for="csvInput" type="button" onclick="selectCSV()">Escoger un CSV</button>
+                    <button type="submit">Load CSV</button>
+                </form>
+            </div>
+            <!--xxx CSV File Upload xxx-->
+
+            <!-- Signal Selector -->
+            <div class="menuSelection" id="signalList">
+                <h1>Signal Selector</h1>
+                <div>
+                    <form action="" id="signalMenu">
+                        <p>Select a CSV</p>
+                    </form>
+                </div>
+            </div>
+            <!--xxx Signal Selector xxx-->
+
+            <!-- Plots List -->
+            <div class="menuSelection" id="plotsList">
+                <h1>Plots</h1>
+                <form action="" id="plotsMenu">
+                    <h3>Images</h3>
+                    <input type="checkbox" id="cbox1" value="imgSignal">
+                    <label for="cbox1">Signal</label><br>
+                    <input type="checkbox" id="cbox2" value="imgSISignal">
+                    <label for="cbox2">Superimposed Signal</label><br>
+                    <input type="checkbox" id="cbox3" value="imgTripSignal">
+                    <label for="cbox3">Trip signal</label><br>
+                    <h3>Animations</h3>
+                    <input type="checkbox" id="cbox4" value="vidSignal">
+                    <label for="cbox4">Signal</label><br>
+                    <input type="checkbox" id="cbox5" value="vidSISignal">
+                    <label for="cbox5">Superimposed Signal</label><br>
+                    <input type="checkbox" id="cbox6" value="vidTripping">
+                    <label for="cbox6">Trip Signal</label><br>
+                    <input type="checkbox" id="cbox7" value="vidFFTSignal">
+                    <label for="cbox7">Signal FFT</label><br>
+                    <input type="checkbox" id="cbox8" value="vidFFTSISignal">
+                    <label for="cbox8">Superimposed signal FFT</label><br>
+                    <button type="submit" style=" display:none;" id="plotsMenuBtn"></button>
+                </form>
+                <button type="submit" id="plotsListBtn" onclick="submitPlots()">Load Plots</button>
+            </div>
+            <!--xxx Plots List xxx-->
+
+        </div>
+        <!--xxx Sidebar Menu xxx-->
+    </section>
+    <!--xxx App Menu xxx-->
+
+    <!-- Main Content Section (plots) -->
+    <section id="mainContent">
+
+    </section>
+
+
+    <!-- Footer -->
+    <section id="footer">
+
+    </section>
+
+
+</body>
+
+</html>

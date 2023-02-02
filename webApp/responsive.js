@@ -8,7 +8,7 @@ function openNav() {
         sidebarState = 1;
     } else {
 
-        document.getElementById("mySidebar").style.width = "0";;
+        document.getElementById("mySidebar").style.width = "0";
         document.getElementById("mainContent").style.marginLeft = "0";
         document.getElementById("footer").style.marginLeft = "0";
         document.getElementsByClassName("openbtn")[0].innerHTML = "&#9002;&#9002;&#9002;";
