@@ -61,7 +61,7 @@ async def post_signal_name(load: SignalName):
     request_information["t"] = t
     request_information["params"] = params
 
-    return {"response": "ok"}
+    return {"response": signal_name}
 
 
 @app.post("/plotsList", tags=["Plots"])

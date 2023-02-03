@@ -1,20 +1,45 @@
-const sidebar = document.getElementById("sidebar")
-let sidebarState = sidebar.dataset.state
-console.log(sidebarState)
-function toogleNav() {
-    if (sidebarState === "closed") {
-        sidebar.style.width = "250px";
-        document.getElementById("openbtn").innerHTML = "x";
-        document.getElementById("mainContent").style.marginLeft = "250px";
+// API endpoints
+const csvEndpoint = "http://127.0.0.1:8080/uploadCSV";
+const signalNameEndpoint = "http://127.0.0.1:8080/signalName";
+const plotsEndpoint = "http://127.0.0.1:8080/plotsList";
 
-        sidebarState = "open"
-    } else {
-        sidebar.style.width = "0";
-        document.getElementById("openbtn").innerHTML = "&#9002;&#9002;&#9002;";
-        document.getElementById("mainContent").style.marginLeft = "0px";
-        sidebarState = "closed"
-    }
+// Variables
+
+
+// Constants
+const reader = new FileReader();
+const csvForm = document.getElementById("csvForm");
+const csvInput = document.getElementById("csvInput");
+
+// eventListeners
+
+// Cargue de datos
+
+function selectCSV() {
+    csvInput.click();
 }
 
-sidebar.style.width = "250px";
-document.getElementById("mainContent").style.marginLeft = "250px";
+csvInput.addEventListener('input', function () {
+    console.log('Se cargó el archivo' + this.files[0].name);
+    let file = this.files[0];
+    reader.onload = (e) => console.log(e.target.result);
+    reader.onerror = (error) => console.log(error);
+    reader.readAsText(file);
+});
+
+csvForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const formData = new FormData;
+    formData.append('csv_files', csvInput.files[0])
+    fetch(csvEndpoint, {
+        method: 'post',
+        body: formData
+    })
+        .then(res => res.json())
+        .then((data) => {
+            signalList = data;
+            console.log(signalList.signals_list);
+            signalListAppend(signalList.signals_list)
+        })
+        .catch(err => console.log(err))
+})

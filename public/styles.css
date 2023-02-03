@@ -31,6 +31,8 @@ a {
 
 /* xxx FONTS xxx */
 
+
+
 /* Form */
 form {
     /* width: 75%; */
@@ -59,6 +61,9 @@ form {
 
 /* xxx Form xxx */
 
+
+
+
 /* Layout */
 
 /* navbar */
@@ -86,6 +91,8 @@ form {
     flex-wrap: wrap;
     gap: 0px 10px;
 }
+
+/*xxx navbar xxx*/
 
 #sidebar {
     height: 100%;

@@ -15,7 +15,14 @@ const plotsEndpoint = "http://127.0.0.1:8080/plotsList";
 
 // Event Listeners
 
+csvInput.addEventListener('input', function () {
+    console.log("Se cargó el archivo:" + this.files[0].name);
+    let file = this.files[0]
+    reader.onload = (e) => console.log(e.target.result);
+    reader.onerror = (error) => console.log(error);
+    reader.readAsText(file);
 
+});
 
 
 // Enviar CSV al servidor

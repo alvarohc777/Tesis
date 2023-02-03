@@ -25,7 +25,7 @@ function signalListAppend(list) {
 
         let radiobox = document.createElement('input');
         radiobox.type = 'radio';
-        // radiobox.id = list[i];
+        radiobox.id = list[i];
         radiobox.required = true;
         radiobox.value = list[i]
         radiobox.name = 'signalName';
@@ -73,11 +73,3 @@ function submitPlots() {
     plotsMenu.getElementsByTagName('button')[0].click();
 }
 
-csvInput.addEventListener('input', function () {
-    console.log("Se cargó el archivo:" + this.files[0].name);
-    let file = this.files[0]
-    reader.onload = (e) => console.log(e.target.result);
-    reader.onerror = (error) => console.log(error);
-    reader.readAsText(file);
-
-});
