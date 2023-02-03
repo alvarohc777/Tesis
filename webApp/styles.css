@@ -90,7 +90,8 @@ form {
     flex-direction: column;
     align-items: flex-start;
     transition: margin-left 0.6s;
-    min-height: 100vh;
+
+    min-height: 100%;
 }
 
 /* #Menu {
@@ -151,9 +152,9 @@ form {
     width: 100%;
 }
 
-.plotDiv {
+/* .plotDiv {
     display: none;
-}
+} */
 
 .sidebar {
     height: 100%;

@@ -42,12 +42,12 @@ form {
 }
 
 
-.menuSelection {
+.menuSection {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    /* justify-items: center;
-    justify-content: center; */
+    justify-items: center;
+    justify-content: center;
     align-items: center;
 }
 
@@ -118,8 +118,11 @@ form {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    justify-content: space-around;
     transition: margin-left 0.6s;
-    min-height: 100vh;
+    min-height: calc(100vh - 60px);
+    margin: 30px;
+
 }
 
 #plots {
@@ -128,6 +131,7 @@ form {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-around;
+
     flex: 1;
     width: 100%;
 }
@@ -139,5 +143,16 @@ form {
 /* xxx Layout xxx */
 
 /* Footer */
+
+#footer {
+    background-color: white;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0px 10px;
+
+}
 
 /* xxx Footer xxx */
