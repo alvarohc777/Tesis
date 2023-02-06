@@ -72,27 +72,12 @@ async def post_plots_list(request: dict = Body(...)):
     return [t, signal]
 
 
-class RandomNumbers:
-    def __init__(self, n):
-        self.n = n
-        self.data = np.random.randint(0, 100, n)
-
-    def get_data(self):
-        return self.data.tolist()
+@app.post("plots/imgSignal")
 
 
-@app.get("/prueba", tags=["plotly"])
-async def prueba() -> dict:
-    import numpy as np
-
-    t = np.linspace(0, 10, 100)
-    signal = np.sin(2 * np.pi * 60 * t)
-    return {"signal": signal, "t": t}
 
 
-# Plotly prueba
-@app.get("/random/{n}", tags=["random"])
-async def random_numbers(n: int):
-    # r = RandomNumbers(n)
-    r = np.linspace(0, 10, 100).tolist()
-    return r
+
+
+
+

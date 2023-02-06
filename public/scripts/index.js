@@ -1,7 +1,8 @@
 // API endpoints
 const csvEndpoint = "http://127.0.0.1:8080/uploadCSV";
 const signalNameEndpoint = "http://127.0.0.1:8080/signalName";
-const plotsEndpoint = "http://127.0.0.1:8080/plotsList";
+// const plotsEndpoint = "http://127.0.0.1:8080/plotsList";
+const plotsEndpoint = "http://127.0.0.1:8080/plots/";
 
 // Variables
 
