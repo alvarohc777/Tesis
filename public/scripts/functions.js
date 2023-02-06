@@ -29,3 +29,40 @@ function signalListAppend(list) {
         signalMenu.appendChild(document.createElement('BR'));
     }
 }
+
+
+// Signal Divs
+
+function createSignalDiv(value) {
+
+    let divExists = document.getElementById(value.value);
+    if (divExists) {
+        divExists.parentElement.style = 'block'
+    } else {
+
+        const plotDiv = document.createElement('div');
+        const h3 = document.createElement('h3');
+        const signalDiv = document.createElement('div');
+
+        plotDiv.classList.add('plotDiv')
+        signalDiv.style['width'] = '400px';
+        signalDiv.style['height'] = '300px';
+        signalDiv.style.backgroundColor = 'black';
+        signalDiv.id = value.value
+        h3.innerHTML = value.dataset.name
+
+        plotDiv.appendChild(h3);
+        plotDiv.appendChild(signalDiv);
+        plotsSection.insertAdjacentElement('beforeend', plotDiv);
+    }
+
+};
+
+function removeSignalDiv(value) {
+    let divExists = document.getElementById(value.value);
+    if (divExists) {
+        divExists.parentElement.style.display = 'none';
+    } else {
+        console.log('doesnt exist')
+    }
+};

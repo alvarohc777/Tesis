@@ -76,18 +76,22 @@ signalMenu.addEventListener('change', function (e) {
 plotsMenu.addEventListener('submit', function (e) {
     e.preventDefault();
 });
-const pltDict = {};
+const
+    plotDict = {};
 for (let value of plotsMenu.getElementsByTagName('input')) {
-    pltDict[value.id] = value;
-    value.addEventListener('change', function (e) {
-        // const newDiv = document.createElement('div');
-        // const divContent = document.createTextNode(value.value);
-        // newDiv.appendChild(divContent);
-        // plotsSection.appendChild(newDiv);
-        let divHTML = `<div class="plotDiv"><h3>${value.value}</h3><div id="signal" style="width: 400px;height:300px;background:black"></div></div>`
-        plotsSection.insertAdjacentHTML('beforeend', divHTML)
+
+    plotDict[value.id] = value;
+    value.addEventListener('change', function () {
+        if (this.checked === true) {
+            createSignalDiv(value);
+        } else {
+            removeSignalDiv(value)
+        }
     })
 };
-console.log(pltDict)
+
+
+
+console.log(plotDict)
 
 
