@@ -58,18 +58,19 @@ function createDiv(value) {
     const plotDiv = document.createElement('div');
     const h3 = document.createElement('h3');
     const signalDiv = document.createElement('div');
-    // let heigthInPercentageOfParent = '80vh';
-
+    plotDiv.backgroundColor = "black";
     plotDiv.classList.add('plotDiv')
+
+
     signalDiv.style['width'] = '400px';
     signalDiv.style['height'] = '300px';
     signalDiv.style.backgroundColor = 'black';
-    signalDiv.id = value.value
-    h3.innerHTML = value.dataset.name
+    signalDiv.id = value.value;
+    h3.innerHTML = value.dataset.name;
 
 
-    let resizeObserver = new ResizeObserver(onResize)
-    resizeObserver.observe(signalDiv)
+    let resizeObserver = new ResizeObserver(onResize);
+    resizeObserver.observe(signalDiv);
 
     plotDiv.appendChild(h3);
     plotDiv.appendChild(signalDiv);
@@ -77,13 +78,16 @@ function createDiv(value) {
 }
 
 let plotLayout = {
-    autosize: true,
+    // autosize: true,
     margin: {
         l: 50,
         r: 50,
         b: 50,
         t: 50,
     },
+    modebar: {
+        orientation: 'v',
+    }
 };
 
 function imageCreator(data, element_id) {
@@ -94,12 +98,24 @@ function imageCreator(data, element_id) {
         y: data[1],
         line: { shape: data[2] },
     }],
-        plotLayout
+        plotLayout,
+        {
+            displayModeBar: true,
+            scrollZoom: true
+        }
     )
+    let plotContainer = fig.getElementsByClassName('plot-container')[0]
+    let resizeObserver = new ResizeObserver(onResize);
+    resizeObserver.observe(plotContainer);
+
 };
 
 function onResize(e) {
-    Plotly.Plots.resize(e[0].target);
+    let plotContainerResize = e[0].target
+    plotContainerResize.parentElement.style.width = plotContainerResize.style.width;
+    plotContainerResize.parentElement.style.height = plotContainerResize.style.height;
+
+    Plotly.Plots.resize(plotContainerResize);
 };
 
 function fetchSignalData(element_id) {
