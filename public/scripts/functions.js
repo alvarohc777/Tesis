@@ -86,7 +86,8 @@ function imageCreator(data, element_id) {
     fig.parentNode.style.display = "block";
     Plotly.newPlot(element_id, [{
         x: data[0],
-        y: data[1]
+        y: data[1],
+        line: { shape: 'hv' },
     }],
         plotLayout
     )

@@ -105,6 +105,8 @@ async def plot_trip_signal(request: dict = Body(...)):
     si_fundamental = signal_si_fft[:, 1]
     trip = detection_iter(signal_fft, signal_fundamental)
     t_window = np.insert(t_window[:, -1], 0, 0).tolist()
+    trip = np.insert(trip, 0, 0).tolist()
+
     return [t_window, trip]
 
 

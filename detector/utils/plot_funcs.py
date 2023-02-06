@@ -31,11 +31,13 @@ def plot_signal_fft(t, signal, t_window, trip):
 
     """
     t_window = np.insert(t_window[:, -1], 0, 0)
+    trip = np.insert(trip, 0, 0)
+    # t_window = t_window[:, -1]
     fig = plt.figure()
     axis1 = fig.add_subplot(2, 1, 1)
     axis2 = fig.add_subplot(2, 1, 2)
 
-    axis1.step(t_window, trip)
+    axis1.step(t_window, trip, where="post")
     axis2.step(t, signal)
 
     return fig
