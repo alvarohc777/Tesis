@@ -58,6 +58,7 @@ function createDiv(value) {
     const plotDiv = document.createElement('div');
     const h3 = document.createElement('h3');
     const signalDiv = document.createElement('div');
+    // let heigthInPercentageOfParent = '80vh';
 
     plotDiv.classList.add('plotDiv')
     signalDiv.style['width'] = '400px';
@@ -91,7 +92,8 @@ function imageCreator(data, element_id) {
     )
 }
 function fetchSignalData(element_id) {
-    fetch(plotsEndpoint, {
+    console.log(`${plotsEndpoint}${element_id}`)
+    fetch(`${plotsEndpoint}${element_id}`, {
         method: 'post',
         headers: {
             'Accept': 'application/json',

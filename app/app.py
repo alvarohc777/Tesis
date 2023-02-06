@@ -1,9 +1,14 @@
 from fastapi import FastAPI, File, UploadFile, Request, Body
 from fastapi.middleware.cors import CORSMiddleware
-from utils.signalload import CSV_pandas_path
-from utils.plot_funcs import signal_plt
 import matplotlib.pyplot as plt
 import numpy as np
+
+# Custom functions and classes
+from utils.signalload import CSV_pandas_path
+from utils.plot_funcs import signal_plt
+from utils.auxfunctions import superimposed
+from utils.preprocess import windows_creator
+from utils.detection import detection_iter
 
 from pydantic import BaseModel
 import json
@@ -64,20 +69,47 @@ async def post_signal_name(load: SignalName):
     return {"response": signal_name}
 
 
-@app.post("/plotsList", tags=["Plots"])
-async def post_plots_list(request: dict = Body(...)):
+@app.post("/plots/imgSignal", tags=["static_plots"])
+async def plot_signal(request: dict = Body(...)):
     signal = request_information["signal"].tolist()
     t = request_information["t"].tolist()
 
     return [t, signal]
 
 
-@app.post("plots/imgSignal")
+@app.post("/plots/imgSISignal", tags=["static_plots"])
+async def plot_si_signal(request: dict = Body(...)):
+    signal = request_information["signal"]
+    fs = request_information["params"]["fs"]
+    si_signal = superimposed(signal, fs).tolist()
+    t = request_information["t"].tolist()
+
+    return [t, si_signal]
 
 
+@app.post("/plots/imgTripSignal", tags=["static_plots"])
+async def plot_trip_signal(request: dict = Body(...)):
+    signals = request_information["signals"]
+    signal_name = request_information["signal_name"]
+    (signal_window, signal_si_window, t_window), (
+        signal_fft,
+        signal_si_fft,
+        xf,
+    ) = windows_creator(
+        64,
+        signals=signals,
+        signal_name=signal_name,
+        windows_fourier=True,
+    )
+    signal_fundamental = signal_fft[:, 1]
+    si_fundamental = signal_si_fft[:, 1]
+    trip = detection_iter(signal_fft, signal_fundamental)
+    t_window = np.insert(t_window[:, -1], 0, 0).tolist()
+    return [t_window, trip]
 
 
-
-
-
-
+#     (signal_window, signal_si_window, t_window), (
+#     signal_fft,
+#     signal_si_fft,
+#     xf,
+# ) = windows_creator(N, signals, signal_name, windows_fourier=True)

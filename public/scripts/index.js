@@ -14,6 +14,7 @@ const csvInput = document.getElementById("csvInput");
 const signalMenu = document.getElementById('signalMenu');
 const plotsMenu = document.getElementById('plotsMenu');
 const plotsSection = document.getElementById('plots')
+const plotDict = {};
 // eventListeners
 
 // Cargue de datos
@@ -58,6 +59,15 @@ signalMenu.addEventListener('change', function (e) {
     e.preventDefault();
     let signalName = document.querySelector('input[name="signalName"]:checked').value;
     console.log(JSON.stringify({ "signal_name": signalName }));
+
+
+    let divs = plotsSection.getElementsByClassName('plotDiv');
+    for (let div of divs) {
+        div.remove();
+    }
+
+
+
     fetch(signalNameEndpoint, {
         method: 'post',
         headers: {
@@ -68,6 +78,12 @@ signalMenu.addEventListener('change', function (e) {
     })
         .then(res => res.json())
         .then((data) => console.log(data))
+        .then(() => {
+            for (let value of plotsMenu.getElementsByTagName('input')) {
+                plotAddRemove(value)
+            }
+        },
+        )
         .catch(err => console.log(err))
 });
 
@@ -77,19 +93,22 @@ signalMenu.addEventListener('change', function (e) {
 plotsMenu.addEventListener('submit', function (e) {
     e.preventDefault();
 });
-const plotDict = {};
+
 for (let value of plotsMenu.getElementsByTagName('input')) {
 
     plotDict[value.id] = value;
     value.addEventListener('change', function () {
-        if (this.checked === true) {
-            plotSignal(value);
-        } else {
-            removeSignal(value);
-        }
+        plotAddRemove(value)
     })
 };
 
+function plotAddRemove(value) {
+    if (value.checked === true) {
+        plotSignal(value);
+    } else {
+        removeSignal(value);
+    }
+}
 
 
 console.log(plotDict)
