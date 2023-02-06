@@ -87,7 +87,7 @@ function imageCreator(data, element_id) {
     Plotly.newPlot(element_id, [{
         x: data[0],
         y: data[1],
-        line: { shape: 'hv' },
+        line: { shape: data[2] },
     }],
         plotLayout
     )

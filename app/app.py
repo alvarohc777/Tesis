@@ -74,7 +74,7 @@ async def plot_signal(request: dict = Body(...)):
     signal = request_information["signal"].tolist()
     t = request_information["t"].tolist()
 
-    return [t, signal]
+    return [t, signal, "linear"]
 
 
 @app.post("/plots/imgSISignal", tags=["static_plots"])
@@ -84,7 +84,7 @@ async def plot_si_signal(request: dict = Body(...)):
     si_signal = superimposed(signal, fs).tolist()
     t = request_information["t"].tolist()
 
-    return [t, si_signal]
+    return [t, si_signal, "linear"]
 
 
 @app.post("/plots/imgTripSignal", tags=["static_plots"])
@@ -107,7 +107,7 @@ async def plot_trip_signal(request: dict = Body(...)):
     t_window = np.insert(t_window[:, -1], 0, 0).tolist()
     trip = np.insert(trip, 0, 0).tolist()
 
-    return [t_window, trip]
+    return [t_window, trip, "hv"]
 
 
 #     (signal_window, signal_si_window, t_window), (
