@@ -143,9 +143,11 @@ form {
     width: 100%;
 }
 
-/* .plotDiv {
-    display: none;
-} */
+.plotDiv div {
+    /* display: none; */
+    resize: both;
+    overflow: auto;
+}
 
 /* xxx Layout xxx */
 

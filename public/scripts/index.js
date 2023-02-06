@@ -10,6 +10,7 @@ const plotsEndpoint = "http://127.0.0.1:8080/plotsList";
 const reader = new FileReader();
 const csvForm = document.getElementById("csvForm");
 const csvInput = document.getElementById("csvInput");
+const signalMenu = document.getElementById('signalMenu');
 
 // eventListeners
 
@@ -41,5 +42,25 @@ csvForm.addEventListener('submit', (e) => {
             console.log(signalList.signals_list);
             signalListAppend(signalList.signals_list)
         })
+        .catch(err => console.log(err))
+})
+
+
+// Submit signal
+
+signalMenu.addEventListener('change', function (e) {
+    e.preventDefault();
+    let signalName = document.querySelector('input[name="signalName"]:checked').value;
+    console.log(JSON.stringify({ "signal_name": signalName }));
+    fetch(signalNameEndpoint, {
+        method: 'post',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ "signal_name": signalName }),
+    })
+        .then(res => res.json())
+        .then((data) => console.log(data))
         .catch(err => console.log(err))
 })

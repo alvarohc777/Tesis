@@ -1,4 +1,4 @@
-const signalMenu = document.getElementById('signalMenu');
+
 
 function signalListAppend(list) {
     signalMenu.textContent = '';
