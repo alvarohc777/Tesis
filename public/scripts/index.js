@@ -76,16 +76,15 @@ signalMenu.addEventListener('change', function (e) {
 plotsMenu.addEventListener('submit', function (e) {
     e.preventDefault();
 });
-const
-    plotDict = {};
+const plotDict = {};
 for (let value of plotsMenu.getElementsByTagName('input')) {
 
     plotDict[value.id] = value;
     value.addEventListener('change', function () {
         if (this.checked === true) {
-            createSignalDiv(value);
+            plotSignal(value);
         } else {
-            removeSignalDiv(value)
+            removeSignal(value);
         }
     })
 };
