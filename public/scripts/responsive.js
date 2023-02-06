@@ -20,3 +20,4 @@ function toogleNav() {
 
 sidebar.style.width = "250px";
 document.getElementById("mainContent").style.marginLeft = "250px";
+document.getElementById("footer").style.marginLeft = "250px";
