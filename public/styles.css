@@ -161,6 +161,7 @@ form {
     justify-content: center;
     flex-wrap: wrap;
     gap: 0px 10px;
+    transition: margin-left 0.7s;
 
 }
 

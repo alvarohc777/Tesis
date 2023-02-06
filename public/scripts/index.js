@@ -11,6 +11,7 @@ const reader = new FileReader();
 const csvForm = document.getElementById("csvForm");
 const csvInput = document.getElementById("csvInput");
 const signalMenu = document.getElementById('signalMenu');
+const plotsMenu = document.getElementById('plotsMenu');
 
 // eventListeners
 
@@ -43,7 +44,7 @@ csvForm.addEventListener('submit', (e) => {
             signalListAppend(signalList.signals_list)
         })
         .catch(err => console.log(err))
-})
+});
 
 
 // Submit signal
@@ -63,4 +64,8 @@ signalMenu.addEventListener('change', function (e) {
         .then(res => res.json())
         .then((data) => console.log(data))
         .catch(err => console.log(err))
-})
+});
+
+plotsMenu.addEventListener('change', function (e) {
+
+});

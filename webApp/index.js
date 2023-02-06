@@ -17,7 +17,7 @@ const plotsEndpoint = "http://127.0.0.1:8080/plotsList";
 
 csvInput.addEventListener('input', function () {
     console.log("Se cargó el archivo:" + this.files[0].name);
-    let file = this.files[0]
+    let file = this.files[0];
     reader.onload = (e) => console.log(e.target.result);
     reader.onerror = (error) => console.log(error);
     reader.readAsText(file);
@@ -69,7 +69,7 @@ signalMenu.addEventListener("submit", function (e) {
 
 signalMenu.addEventListener('change', function () {
     let signalName = document.querySelector('input[name="signalName"]:checked').value;
-    console.log(signalName)
+    console.log(signalName);
     fetch(signalNameEndpoint, {
         method: 'post',
         headers: {
@@ -97,7 +97,7 @@ signalMenu.addEventListener('change', function () {
 
 plotsMenu.addEventListener('submit', function (e) {
     e.preventDefault();
-    const plotsDict = {}
+    const plotsDict = {};
     for (let value of plotsMenu.getElementsByTagName('input')) {
         plotsDict[value.id] = value.checked
     }
