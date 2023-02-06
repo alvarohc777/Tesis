@@ -67,12 +67,17 @@ function createDiv(value) {
     signalDiv.id = value.value
     h3.innerHTML = value.dataset.name
 
+
+    let resizeObserver = new ResizeObserver(onResize)
+    resizeObserver.observe(signalDiv)
+
     plotDiv.appendChild(h3);
     plotDiv.appendChild(signalDiv);
     plotsSection.insertAdjacentElement('beforeend', plotDiv);
 }
 
 let plotLayout = {
+    autosize: true,
     margin: {
         l: 50,
         r: 50,
@@ -91,7 +96,12 @@ function imageCreator(data, element_id) {
     }],
         plotLayout
     )
-}
+};
+
+function onResize(e) {
+    Plotly.Plots.resize(e[0].target);
+};
+
 function fetchSignalData(element_id) {
     console.log(`${plotsEndpoint}${element_id}`)
     fetch(`${plotsEndpoint}${element_id}`, {
