@@ -64,13 +64,18 @@ function createDiv(value) {
 
     signalDiv.style['width'] = '400px';
     signalDiv.style['height'] = '300px';
-    signalDiv.style.backgroundColor = 'black';
+    signalDiv.style.backgroundColor = 'white';
     signalDiv.id = value.value;
+    signalDiv.className = 'responsiveDiv';
     h3.innerHTML = value.dataset.name;
 
+    let observer = new ResizeObserver(function (mutations) {
+        window.dispatchEvent(new Event('resize'));
+    });
+    observer.observe(signalDiv, {
+        attributes: true
+    })
 
-    let resizeObserver = new ResizeObserver(onResize);
-    resizeObserver.observe(signalDiv);
 
     plotDiv.appendChild(h3);
     plotDiv.appendChild(signalDiv);
@@ -78,7 +83,7 @@ function createDiv(value) {
 }
 
 let plotLayout = {
-    // autosize: true,
+    autosize: true,
     margin: {
         l: 50,
         r: 50,
@@ -100,23 +105,18 @@ function imageCreator(data, element_id) {
     }],
         plotLayout,
         {
-            displayModeBar: true,
-            scrollZoom: true
+            // displayModeBar: true,
+            scrollZoom: true,
+            responsive: true
         }
     )
-    let plotContainer = fig.getElementsByClassName('plot-container')[0]
-    let resizeObserver = new ResizeObserver(onResize);
-    resizeObserver.observe(plotContainer);
-
 };
 
-function onResize(e) {
-    let plotContainerResize = e[0].target
-    plotContainerResize.parentElement.style.width = plotContainerResize.style.width;
-    plotContainerResize.parentElement.style.height = plotContainerResize.style.height;
 
-    Plotly.Plots.resize(plotContainerResize);
-};
+
+function divMutations(mutations) {
+    window.dispatchEvent(new Event('resize'));
+}
 
 function fetchSignalData(element_id) {
     console.log(`${plotsEndpoint}${element_id}`)

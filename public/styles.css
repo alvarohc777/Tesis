@@ -143,10 +143,17 @@ form {
     width: 100%;
 }
 
-.plot-container {
+/* .plot-container {
+    resize: both;
+    overflow: auto;
+} */
+
+.responsiveDiv {
     resize: both;
     overflow: auto;
 }
+
+
 
 .plotDiv {
     margin: 30px;
