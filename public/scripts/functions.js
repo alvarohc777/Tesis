@@ -1,5 +1,3 @@
-
-
 function signalListAppend(list) {
     signalMenu.textContent = '';
 
@@ -29,7 +27,6 @@ function signalListAppend(list) {
         signalMenu.appendChild(document.createElement('BR'));
     }
 }
-
 
 // Signal Divs
 
@@ -76,11 +73,12 @@ function createDiv(value) {
         attributes: true
     })
 
-
     plotDiv.appendChild(h3);
     plotDiv.appendChild(signalDiv);
     plotsSection.insertAdjacentElement('beforeend', plotDiv);
 }
+
+// plot configs and functions
 
 let plotLayout = {
     autosize: true,
@@ -111,12 +109,6 @@ function imageCreator(data, element_id) {
         }
     )
 };
-
-
-
-function divMutations(mutations) {
-    window.dispatchEvent(new Event('resize'));
-}
 
 function fetchSignalData(element_id) {
     console.log(`${plotsEndpoint}${element_id}`)

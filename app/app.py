@@ -108,3 +108,8 @@ async def plot_trip_signal(request: dict = Body(...)):
 
 
 app.mount("/", StaticFiles(directory="public", html=True), name="static")
+
+
+# Para servir la página
+prueba = FastAPI()
+prueba.mount("/prueba", StaticFiles(directory="public", html=True), name="prueba")
