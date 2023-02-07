@@ -42,12 +42,13 @@ async def post_CSV(csv_files: UploadFile = File(...)) -> dict:
     with open(csv_files.filename, "wb+") as f:
         f.write(csv_files.file.read())
     request_information.clear()
+    request_information["plots"] = {}
     csv_file_name = csv_files.filename
     signals = CSV_pandas_path(csv_file_name)
 
     request_information["filename"] = csv_file_name
     request_information["signals"] = signals
-    request_information["window_lenth"] = 64
+    request_information["window_length"] = 64
     request_information["step"] = 4
 
     print(f"csv filename: {csv_file_name}")
@@ -84,7 +85,7 @@ async def plot_si_signal(request: dict = Body(...)):
 async def plot_trip_signal(request: dict = Body(...)):
 
     t_window, trip, line_shape, plot_type = plt_api.img_trip(request_information)
-
+    print(plot_type)
     return [t_window, trip, line_shape]
 
 
