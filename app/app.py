@@ -10,6 +10,7 @@ from utils.plot_funcs import signal_plt
 from utils.auxfunctions import superimposed
 from utils.preprocess import windows_creator
 from utils.detection import detection_iter
+import utils.plot_api as plt_api
 
 from pydantic import BaseModel
 import json
@@ -40,7 +41,7 @@ request_information = {}
 async def post_CSV(csv_files: UploadFile = File(...)) -> dict:
     with open(csv_files.filename, "wb+") as f:
         f.write(csv_files.file.read())
-
+    request_information.clear()
     csv_file_name = csv_files.filename
     signals = CSV_pandas_path(csv_file_name)
 
@@ -57,54 +58,31 @@ async def post_signal_name(load: SignalName):
     signals = request_information["signals"]
     request_information["signal_name"] = signal_name
 
-    signal, t, params = signals.load_data(signal_name)
-
-    request_information["signal"] = signal
-    request_information["t"] = t
-    request_information["params"] = params
-
     return {"response": signal_name}
 
 
 @app.post("/plots/imgSignal", tags=["static_plots"])
 async def plot_signal(request: dict = Body(...)):
-    signal = request_information["signal"].tolist()
-    t = request_information["t"].tolist()
 
-    return [t, signal, "linear"]
+    t, signal, line_shape = plt_api.img_signal(request_information)
+
+    return [t, signal, line_shape]
 
 
 @app.post("/plots/imgSISignal", tags=["static_plots"])
 async def plot_si_signal(request: dict = Body(...)):
-    signal = request_information["signal"]
-    fs = request_information["params"]["fs"]
-    si_signal = superimposed(signal, fs).tolist()
-    t = request_information["t"].tolist()
 
-    return [t, si_signal, "linear"]
+    si_signal, t, line_shape = plt_api.img_si_signal(request_information)
+
+    return [t, si_signal, line_shape]
 
 
-@app.post("/plots/imgTripSignal", tags=["static_plots"])
+@app.post("/plots/imgTrip", tags=["static_plots"])
 async def plot_trip_signal(request: dict = Body(...)):
-    signals = request_information["signals"]
-    signal_name = request_information["signal_name"]
-    (signal_window, signal_si_window, t_window), (
-        signal_fft,
-        signal_si_fft,
-        xf,
-    ) = windows_creator(
-        64,
-        signals=signals,
-        signal_name=signal_name,
-        windows_fourier=True,
-    )
-    signal_fundamental = signal_fft[:, 1]
-    si_fundamental = signal_si_fft[:, 1]
-    trip = detection_iter(signal_fft, signal_fundamental)
-    t_window = np.insert(t_window[:, -1], 0, 0).tolist()
-    trip = np.insert(trip, 0, 0).tolist()
 
-    return [t_window, trip, "hv"]
+    t_window, trip, line_shape = plt_api.img_trip(request_information)
+
+    return [t_window, trip, line_shape]
 
 
 app.mount("/", StaticFiles(directory="public", html=True), name="static")
