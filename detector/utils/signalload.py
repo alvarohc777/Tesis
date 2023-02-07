@@ -112,7 +112,7 @@ class CSV_pandas:
         return final_list
 
     # Método públicos
-    def load_data(self, relay_name):
+    def load_data(self, relay_name: str):
         try:
             params = {}
             signals = self.df[["time", relay_name]]
