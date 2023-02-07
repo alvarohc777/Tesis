@@ -1,3 +1,4 @@
 /env/
+/prod_env/
 __pycache__/
 *.pyc
