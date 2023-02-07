@@ -1,4 +1,5 @@
 from fastapi import FastAPI, File, UploadFile, Request, Body
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 import matplotlib.pyplot as plt
 import numpy as np
@@ -16,6 +17,7 @@ import json
 app = FastAPI()
 origins = ["null", "http://localhost:8080", "http://127.0.0.1:8080"]
 
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -32,11 +34,6 @@ class SignalName(BaseModel):
 
 # Variables
 request_information = {}
-
-
-@app.get("/", tags=["HomePage"])
-async def root() -> dict:
-    return {"ping": "pong"}
 
 
 @app.post("/uploadCSV", tags=["CSV"])
@@ -110,8 +107,4 @@ async def plot_trip_signal(request: dict = Body(...)):
     return [t_window, trip, "hv"]
 
 
-#     (signal_window, signal_si_window, t_window), (
-#     signal_fft,
-#     signal_si_fft,
-#     xf,
-# ) = windows_creator(N, signals, signal_name, windows_fourier=True)
+app.mount("/", StaticFiles(directory="public", html=True), name="static")

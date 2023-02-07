@@ -148,6 +148,10 @@ form {
     overflow: auto;
 }
 
+.plotDiv {
+    margin: 30px;
+}
+
 /* xxx Layout xxx */
 
 /* Footer */
