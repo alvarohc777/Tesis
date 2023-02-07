@@ -134,6 +134,7 @@ class CSV_pandas:
             params["fs"] = fs
             params["dt"] = dt
             params["n_samples"] = n_samples
+            params["line_shape"] = "linear"
             return x, t, params
 
         except KeyError:

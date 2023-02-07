@@ -47,6 +47,9 @@ async def post_CSV(csv_files: UploadFile = File(...)) -> dict:
 
     request_information["filename"] = csv_file_name
     request_information["signals"] = signals
+    request_information["window_lenth"] = 64
+    request_information["step"] = 4
+
     print(f"csv filename: {csv_file_name}")
 
     return {"signals_list": signals.labels_list, "file_name": csv_file_name}
@@ -64,30 +67,25 @@ async def post_signal_name(load: SignalName):
 @app.post("/plots/imgSignal", tags=["static_plots"])
 async def plot_signal(request: dict = Body(...)):
 
-    t, signal, line_shape = plt_api.img_signal(request_information)
-
+    t, signal, line_shape, plot_type = plt_api.img_signal(request_information)
+    print(plot_type)
     return [t, signal, line_shape]
 
 
 @app.post("/plots/imgSISignal", tags=["static_plots"])
 async def plot_si_signal(request: dict = Body(...)):
 
-    si_signal, t, line_shape = plt_api.img_si_signal(request_information)
-
+    t, si_signal, line_shape, plot_type = plt_api.img_si_signal(request_information)
+    print(plot_type)
     return [t, si_signal, line_shape]
 
 
 @app.post("/plots/imgTrip", tags=["static_plots"])
 async def plot_trip_signal(request: dict = Body(...)):
 
-    t_window, trip, line_shape = plt_api.img_trip(request_information)
+    t_window, trip, line_shape, plot_type = plt_api.img_trip(request_information)
 
     return [t_window, trip, line_shape]
 
 
 app.mount("/", StaticFiles(directory="public", html=True), name="static")
-
-
-# Para servir la página
-prueba = FastAPI()
-prueba.mount("/prueba", StaticFiles(directory="public", html=True), name="prueba")
