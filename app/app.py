@@ -70,7 +70,7 @@ async def plot_signal(request: dict = Body(...)):
 
     t, signal, line_shape, plot_type = plt_api.img_signal(request_information)
     print(plot_type)
-    return [t, signal, line_shape]
+    return [t, signal, line_shape, plot_type]
 
 
 @app.post("/plots/imgSISignal", tags=["static_plots"])
@@ -78,7 +78,7 @@ async def plot_si_signal(request: dict = Body(...)):
 
     t, si_signal, line_shape, plot_type = plt_api.img_si_signal(request_information)
     print(plot_type)
-    return [t, si_signal, line_shape]
+    return [t, si_signal, line_shape, plot_type]
 
 
 @app.post("/plots/imgTrip", tags=["static_plots"])
@@ -86,15 +86,18 @@ async def plot_trip_signal(request: dict = Body(...)):
 
     t_window, trip, line_shape, plot_type = plt_api.img_trip(request_information)
     print(plot_type)
-    return [t_window, trip, line_shape]
+    return [t_window, trip, line_shape, plot_type]
 
 @app.post("/plots/animSignal", tags=["anim_plots"])
-async def plot_signal_anim(request: dict = Body(...)) -> dict:
-    return {'response': 'animSignal'}
+async def plot_signal_anim(request: dict = Body(...)):
+    t_windows, signal_windows, line_shape, plot_type = plt_api.anim_signal(request_information)
+    
+    return [t_windows,  signal_windows, line_shape, plot_type]
 
 @app.post("/plots/animSISignal" , tags=["anim_si_plots"])
-async def plot_si_signal_anim(request: dict = Body(...)) ->dict:
-    return {'response': 'animSISIgnal'}
+async def plot_si_signal_anim(request: dict = Body(...)):
+    t_windows, si_signal_windows, line_shape, plot_type = plt_api.anim_si_signal(request_information)
+    return [t_windows, si_signal_windows, line_shape, plot_type]
 
 @app.post("/plots/animTrip" , tags=["anim_trip"])
 async def plot_trip_anim(request: dict = Body(...)) ->dict:

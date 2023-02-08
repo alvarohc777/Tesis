@@ -65,7 +65,7 @@ def anim_signal(request_information, no_return=False):
         print("no return anim_signal")
         return
 
-    return t_windows, signal_windows, "", "anim"
+    return t_windows.tolist(), signal_windows.tolist(), "", "anim"
 
 
 def anim_si_signal(request_information, no_return=False):
@@ -90,7 +90,7 @@ def anim_si_signal(request_information, no_return=False):
         print("no return anim_si_signal")
         return
 
-    return t_windows, si_signal_windows, "", "anim"
+    return t_windows.tolist(), si_signal_windows.tolist(), "", "anim"
 
 
 def anim_fft(request_information, no_return=False):
