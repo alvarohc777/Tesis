@@ -125,9 +125,9 @@ async def plot_si_fft_anim(request: dict = Body(...)) -> dict:
 favicon_path = "public/static/favicon.ico"
 
 
-@app.get("/favicon.ico", include_in_schema=False)
-async def favicon():
-    return FileResponse(favicon_path)
+# @app.get("/favicon.ico", include_in_schema=False)
+# async def favicon():
+#     return FileResponse(favicon_path)
 
 
 app.mount("/", StaticFiles(directory="public", html=True), name="static")

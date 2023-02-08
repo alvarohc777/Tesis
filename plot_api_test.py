@@ -18,9 +18,9 @@ request_information["step"] = 4
 # plt.show()
 
 # static trip
-t, signal, _, _ = plt_api.img_trip(request_information)
-plt.step(t, signal, where="post")
-plt.show()
+# t, signal, _, _ = plt_api.img_trip(request_information)
+# plt.step(t, signal, where="post")
+# plt.show()
 
 
 # static Superimposed
@@ -30,7 +30,8 @@ plt.show()
 
 
 # Anim signal window
-# t_window, signal_window, _, _ = plt_api.anim_signal(request_information)
+t_windows, signal_windows, max_min, _ = plt_api.anim_signal(request_information)
+print(max_min)
 
 
 # Anim si signal window

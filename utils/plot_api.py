@@ -60,12 +60,14 @@ def anim_signal(request_information, no_return=False):
     request_information["signal_windows"] = signal_windows
     request_information["t_windows"] = t_windows
     request_information["plots"]["anim_signal"] = True
-
+    max_in_windows = signal_windows.max()
+    min_in_windows = signal_windows.min()
+    max_min = [max_in_windows, min_in_windows]
     if no_return:
         print("no return anim_signal")
         return
 
-    return t_windows.tolist(), signal_windows.tolist(), "", "anim"
+    return t_windows.tolist(), signal_windows.tolist(), max_min, "anim"
 
 
 def anim_si_signal(request_information, no_return=False):
@@ -85,12 +87,15 @@ def anim_si_signal(request_information, no_return=False):
     request_information["si_signal_windows"] = si_signal_windows
     request_information["t_windows"] = t_windows
     request_information["plots"]["anim_si_signal"] = True
+    max_in_windows = si_signal_windows.max()
+    min_in_windows = si_signal_windows.min()
+    max_min = [max_in_windows, min_in_windows]
 
     if no_return:
         print("no return anim_si_signal")
         return
 
-    return t_windows.tolist(), si_signal_windows.tolist(), "", "anim"
+    return t_windows.tolist(), si_signal_windows.tolist(), max_min, "anim"
 
 
 def anim_fft(request_information, no_return=False):

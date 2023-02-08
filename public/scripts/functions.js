@@ -80,22 +80,24 @@ function createDiv(value) {
 
 // plot configs and functions
 
-let plotLayout = {
-    autosize: true,
-    margin: {
-        l: 50,
-        r: 50,
-        b: 50,
-        t: 50,
-    },
-    modebar: {
-        orientation: 'v',
-    }
-};
+
 
 function imageCreator(data, element_id) {
     let fig = document.getElementById(element_id);
     fig.parentNode.style.display = "block";
+
+    let plotLayout = {
+        autosize: true,
+        margin: {
+            l: 50,
+            r: 50,
+            b: 50,
+            t: 50,
+        },
+        modebar: {
+            orientation: 'v',
+        }
+    };
     Plotly.newPlot(element_id, [{
         x: data[0],
         y: data[1],
@@ -126,79 +128,80 @@ function fetchSignalData(element_id) {
         .then((data) => {
 
             if (data[3] === 'img') {
-                // imageCreator(data, element_id)
-                console.log('img')
+                imageCreator(data, element_id)
             } else if (data[3] === 'anim') {
-                animationCreator(element_id)
+                animationCreator(data, element_id)
             }
 
         })
         .catch(err => console.log(err))
 };
 
-function animationCreator(element_id) {
+function animationCreator(data, element_id) {
+
 
     let fig = document.getElementById(element_id);
-    fig.parentNode.style.display = "block";
-    var n = 100;
-    var x = [], y = [], z = [];
-    var dt = 0.015;
+    let window_index = 0
+    let maxWindowIndex = data[0].length - 1
 
-    for (i = 0; i < n; i++) {
-        x[i] = Math.random() * 2 - 1;
-        y[i] = Math.random() * 2 - 1;
-        z[i] = 30 + Math.random() * 10;
+    let plotLayout = {
+        autosize: true,
+        margin: {
+            l: 50,
+            r: 50,
+            b: 50,
+            t: 50,
+        },
+        modebar: {
+            orientation: 'v',
+        },
+        yaxis: {
+            range: [data[2][1], data[2][0]]
+        }
+    };
+
+    fig.parentNode.style.display = "block";
+    Plotly.newPlot(element_id, [{
+        x: data[0][window_index],
+        y: data[1][window_index],
+        // line: { shape: data[2] },
+    }],
+        plotLayout,
+        {
+            // displayModeBar: true,
+            scrollZoom: true,
+            responsive: true
+
+        }
+    )
+
+    function window_iterator() {
+        if (window_index == maxWindowIndex) {
+            window_index = 0;
+        } else {
+            window_index++
+        }
     }
 
-    Plotly.newPlot(element_id, [{
-        x: x,
-        y: y,
-        mode: 'markers'
-    }], {
-        xaxis: { range: [-40, 40] },
-        yaxis: { range: [0, 60] }
-    }, { showSendToCloud: true })
+    function update() {
+        window_iterator()
+        Plotly.animate(element_id, {
+            data: [{ x: data[0][window_index], y: data[1][window_index] }]
+        },
+            {
+                transition: {
+                    duration: 1,
+                },
+                frame: {
+                    duration: 1,
+                    redraw: true,
+                }
+            });
+        requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update)
 
-    // function compute() {
-    //     var s = 10, b = 8 / 3, r = 28;
-    //     var dx, dy, dz;
-    //     var xh, yh, zh;
-    //     for (var i = 0; i < n; i++) {
-    //         dx = s * (y[i] - x[i]);
-    //         dy = x[i] * (r - z[i]) - y[i];
-    //         dz = x[i] * y[i] - b * z[i];
 
-    //         xh = x[i] + dx * dt * 0.5;
-    //         yh = y[i] + dy * dt * 0.5;
-    //         zh = z[i] + dz * dt * 0.5;
 
-    //         dx = s * (yh - xh);
-    //         dy = xh * (r - zh) - yh;
-    //         dz = xh * yh - b * zh;
 
-    //         x[i] += dx * dt;
-    //         y[i] += dy * dt;
-    //         z[i] += dz * dt;
-    //     }
-    // }
-
-    // function update() {
-    //     compute();
-
-    //     Plotly.animate(element_id, {
-    //         data: [{ x: x, y: z }]
-    //     }, {
-    //         transition: {
-    //             duration: 0,
-    //         },
-    //         frame: {
-    //             duration: 0,
-    //             redraw: false,
-    //         }
-    //     });
-
-    //     requestAnimationFrame(update);
-    // }
-
-    // requestAnimationFrame(update);
 };
