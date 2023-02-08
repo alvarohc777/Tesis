@@ -114,12 +114,22 @@ def anim_fft(request_information, no_return=False):
     request_information["fft_windows"] = fft_windows
     request_information["fft_windows_fundamental"] = fft_windows[:, 1]
     request_information["plots"]["anim_fft"] = True
+    max_in_windows = fft_windows.max()
+    min_in_windows = fft_windows.min()
+    max_min = [max_in_windows, min_in_windows]
 
     if no_return:
         print("no return anim_fft")
         return
 
-    return xf, fft_windows, "", "anim"
+    number_of_windows = len(fft_windows)
+
+    return (
+        np.tile(xf, (number_of_windows, 1)).tolist(),
+        fft_windows.tolist(),
+        max_min,
+        "anim",
+    )
 
 
 def anim_si_fft(request_information, no_return=False):
@@ -138,12 +148,15 @@ def anim_si_fft(request_information, no_return=False):
     request_information["si_fft_windows"] = si_fft_windows
     request_information["si_fft_windows_fundamental"] = si_fft_windows[:, 1]
     request_information["plots"]["anim_si_fft"] = True
+    max_in_windows = si_fft_windows.max()
+    min_in_windows = si_fft_windows.min()
+    max_min = [max_in_windows, min_in_windows]
 
     if no_return:
         print("no return anim_fft")
         return
 
-    return xf, si_fft_windows, "", "anim"
+    return xf, si_fft_windows, max_min, "anim"
 
 
 def anim_trip(request_information, no_return=False):
@@ -158,12 +171,15 @@ def anim_trip(request_information, no_return=False):
 
     request_information["trip_windows"] = trip_windows
     request_information["plots"]["anim_trip"] = True
+    max_in_windows = max(trip_windows)
+    min_in_windows = min(trip_windows)
+    max_min = [max_in_windows, min_in_windows]
 
     if no_return:
         print("no return anim_trip")
         return
 
-    return trip_windows, "", "anim"
+    return trip_windows, max_min, "anim"
 
 
 def anim_si_trip(request_information, no_return=False):

@@ -108,13 +108,17 @@ async def plot_si_signal_anim(request: dict = Body(...)):
 
 
 @app.post("/plots/animTrip", tags=["anim_trip"])
-async def plot_trip_anim(request: dict = Body(...)) -> dict:
+async def plot_trip_anim(request: dict = Body(...)):
+    # t_windows = request_information["t_windows"]
+    # trip_windows, max_min, plot_type = plt_api.anim_trip(request_information)
+    # return [t_windows, trip_windows, max_min, plot_type]
     return {"response": "animTrip"}
 
 
 @app.post("/plots/animFFT", tags=["anim_fft"])
-async def plot_fft_anim(request: dict = Body(...)) -> dict:
-    return {"response": "animFFT"}
+async def plot_fft_anim(request: dict = Body(...)):
+    xf, fft_windows, max_min, plot_type = plt_api.anim_fft(request_information)
+    return [xf, fft_windows, max_min, plot_type]
 
 
 @app.post("/plots/animSIFFT", tags=["anim_si_fft"])
