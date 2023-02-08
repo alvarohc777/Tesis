@@ -88,5 +88,24 @@ async def plot_trip_signal(request: dict = Body(...)):
     print(plot_type)
     return [t_window, trip, line_shape]
 
+@app.post("/plots/animSignal", tags=["anim_plots"])
+async def plot_signal_anim(request: dict = Body(...)) -> dict:
+    return {'response': 'animSignal'}
+
+@app.post("/plots/animSISignal" , tags=["anim_si_plots"])
+async def plot_si_signal_anim(request: dict = Body(...)) ->dict:
+    return {'response': 'animSISIgnal'}
+
+@app.post("/plots/animTrip" , tags=["anim_trip"])
+async def plot_trip_anim(request: dict = Body(...)) ->dict:
+    return {'response': 'animTrip'}
+
+@app.post("/plots/animFFT" , tags=["anim_fft"])
+async def plot_fft_anim(request: dict = Body(...)) ->dict:
+    return {'response': 'animFFT'}
+
+@app.post("/plots/animSIFFT" , tags=["anim_si_fft"])
+async def plot_si_fft_anim(request: dict = Body(...)) ->dict:
+    return {'response': 'animSIFFT'}
 
 app.mount("/", StaticFiles(directory="public", html=True), name="static")
