@@ -1,4 +1,5 @@
 from fastapi import FastAPI, File, UploadFile, Request, Body
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 import matplotlib.pyplot as plt
@@ -88,27 +89,45 @@ async def plot_trip_signal(request: dict = Body(...)):
     print(plot_type)
     return [t_window, trip, line_shape, plot_type]
 
+
 @app.post("/plots/animSignal", tags=["anim_plots"])
 async def plot_signal_anim(request: dict = Body(...)):
-    t_windows, signal_windows, line_shape, plot_type = plt_api.anim_signal(request_information)
-    
-    return [t_windows,  signal_windows, line_shape, plot_type]
+    t_windows, signal_windows, line_shape, plot_type = plt_api.anim_signal(
+        request_information
+    )
 
-@app.post("/plots/animSISignal" , tags=["anim_si_plots"])
+    return [t_windows, signal_windows, line_shape, plot_type]
+
+
+@app.post("/plots/animSISignal", tags=["anim_si_plots"])
 async def plot_si_signal_anim(request: dict = Body(...)):
-    t_windows, si_signal_windows, line_shape, plot_type = plt_api.anim_si_signal(request_information)
+    t_windows, si_signal_windows, line_shape, plot_type = plt_api.anim_si_signal(
+        request_information
+    )
     return [t_windows, si_signal_windows, line_shape, plot_type]
 
-@app.post("/plots/animTrip" , tags=["anim_trip"])
-async def plot_trip_anim(request: dict = Body(...)) ->dict:
-    return {'response': 'animTrip'}
 
-@app.post("/plots/animFFT" , tags=["anim_fft"])
-async def plot_fft_anim(request: dict = Body(...)) ->dict:
-    return {'response': 'animFFT'}
+@app.post("/plots/animTrip", tags=["anim_trip"])
+async def plot_trip_anim(request: dict = Body(...)) -> dict:
+    return {"response": "animTrip"}
 
-@app.post("/plots/animSIFFT" , tags=["anim_si_fft"])
-async def plot_si_fft_anim(request: dict = Body(...)) ->dict:
-    return {'response': 'animSIFFT'}
+
+@app.post("/plots/animFFT", tags=["anim_fft"])
+async def plot_fft_anim(request: dict = Body(...)) -> dict:
+    return {"response": "animFFT"}
+
+
+@app.post("/plots/animSIFFT", tags=["anim_si_fft"])
+async def plot_si_fft_anim(request: dict = Body(...)) -> dict:
+    return {"response": "animSIFFT"}
+
+
+favicon_path = "public/static/favicon.ico"
+
+
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    return FileResponse(favicon_path)
+
 
 app.mount("/", StaticFiles(directory="public", html=True), name="static")
