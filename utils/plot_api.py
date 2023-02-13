@@ -25,6 +25,7 @@ def img_si_signal(request_information, no_return=False):
     signal = request_information.get("signal", "")
 
     if len(signal) == 0:
+        print("No existe signal")
 
         img_signal(request_information, no_return=True)
 
@@ -47,6 +48,7 @@ def anim_signal(request_information, no_return=False):
     signal = request_information.get("signal", "")
 
     if len(signal) == 0:
+        print("No existe signal")
         img_signal(request_information, no_return=True)
 
     signal = request_information["signal"]
@@ -73,7 +75,7 @@ def anim_signal(request_information, no_return=False):
 def anim_si_signal(request_information, no_return=False):
     si_signal = request_information.get("si_signal", "")
     if len(si_signal) == 0:
-        print("No existe la señal")
+        print("No existe si_signal")
         img_si_signal(request_information, no_return=True)
 
     si_signal = request_information["si_signal"]
@@ -101,7 +103,7 @@ def anim_si_signal(request_information, no_return=False):
 def anim_fft(request_information, no_return=False):
     signal_windows = request_information.get("signal_windows", "")
     if len(signal_windows) == 0:
-        print("No existe la señal")
+        print("No existe signal_windows")
         anim_signal(request_information, no_return=True)
 
     signal_windows = request_information["signal_windows"]
@@ -128,14 +130,14 @@ def anim_fft(request_information, no_return=False):
         np.tile(xf, (number_of_windows, 1)).tolist(),
         fft_windows.tolist(),
         max_min,
-        "anim",
+        "STFT",
     )
 
 
 def anim_si_fft(request_information, no_return=False):
     si_signal_windows = request_information.get("si_signal_windows", "")
     if len(si_signal_windows) == 0:
-        print("No existe la señal")
+        print("No existe si_signal_windows")
         anim_si_signal(request_information, no_return=True)
 
     si_signal_windows = request_information["si_signal_windows"]
@@ -156,7 +158,10 @@ def anim_si_fft(request_information, no_return=False):
         print("no return anim_fft")
         return
 
-    return xf, si_fft_windows, max_min, "anim"
+    number_of_windows = len(si_fft_windows)
+
+    
+    return np.tile(xf, (number_of_windows, 1)).tolist(), si_fft_windows.tolist(), max_min, "STFT"
 
 
 def anim_trip(request_information, no_return=False):

@@ -122,8 +122,10 @@ async def plot_fft_anim(request: dict = Body(...)):
 
 
 @app.post("/plots/animSIFFT", tags=["anim_si_fft"])
-async def plot_si_fft_anim(request: dict = Body(...)) -> dict:
-    return {"response": "animSIFFT"}
+async def plot_si_fft_anim(request: dict = Body(...)):
+    xf, si_fft_windows, max_min, plot_type = plt_api.anim_si_fft(request_information)
+    
+    return [xf, si_fft_windows, max_min, plot_type]
 
 
 favicon_path = "public/static/favicon.ico"

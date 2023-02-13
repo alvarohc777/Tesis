@@ -76,43 +76,7 @@ function createDiv(value) {
     plotDiv.appendChild(h3);
     plotDiv.appendChild(signalDiv);
     plotsSection.insertAdjacentElement('beforeend', plotDiv);
-}
-
-// plot configs and functions
-
-
-
-function imageCreator(data, element_id) {
-    let fig = document.getElementById(element_id);
-    fig.parentNode.style.display = "block";
-
-    let plotLayout = {
-        autosize: true,
-        margin: {
-            l: 50,
-            r: 50,
-            b: 50,
-            t: 50,
-        },
-        modebar: {
-            orientation: 'v',
-        }
-    };
-    Plotly.newPlot(element_id, [{
-        x: data[0],
-        y: data[1],
-        line: { shape: data[2] },
-    }],
-        plotLayout,
-        {
-            // displayModeBar: true,
-            scrollZoom: true,
-            responsive: true
-        }
-    )
 };
-
-
 
 function fetchSignalData(element_id) {
     // console.log(`${plotsEndpoint}${element_id}`)
@@ -131,34 +95,65 @@ function fetchSignalData(element_id) {
                 imageCreator(data, element_id)
             } else if (data[3] === 'anim') {
                 animationCreator(data, element_id)
+            } else if (data[3] == 'STFT') {
+                stftCreator(data, element_id)
             }
 
         })
         .catch(err => console.log(err))
 };
 
-function animationCreator(data, element_id) {
+// plot configs and functions
 
+const plotOptions = {
+    scrollZoom: true,
+    responsive: true,
+    // displayModeBar: true,
+}
+
+const plotLayout = {
+    autosize: true,
+    margin: {
+        l: 50,
+        r: 50,
+        b: 50,
+        t: 50,
+    },
+    modebar: {
+        orientation: 'v',
+    }
+};
+
+// Image plot
+function imageCreator(data, element_id) {
+    let fig = document.getElementById(element_id);
+    fig.parentNode.style.display = "block";
+
+    let layout = JSON.parse(JSON.stringify(plotLayout));
+    Plotly.newPlot(element_id, [{
+        x: data[0],
+        y: data[1],
+        line: { shape: data[2] },
+    }],
+        layout,
+        plotOptions
+    )
+};
+
+
+function animationCreator(data, element_id) {
 
     let fig = document.getElementById(element_id);
     let window_index = 0
     let maxWindowIndex = data[0].length - 1
 
-    let plotLayout = {
-        autosize: true,
-        margin: {
-            l: 50,
-            r: 50,
-            b: 50,
-            t: 50,
-        },
-        modebar: {
-            orientation: 'v',
-        },
+    const animLayout = {
         yaxis: {
             range: [data[2][1], data[2][0]]
-        }
+        },
     };
+    let layout = JSON.parse(JSON.stringify(plotLayout));
+    layout = Object.assign(layout, animLayout);
 
     fig.parentNode.style.display = "block";
     Plotly.newPlot(element_id, [{
@@ -166,15 +161,9 @@ function animationCreator(data, element_id) {
         y: data[1][window_index],
         // line: { shape: data[2] },
     }],
-        plotLayout,
-        {
-            // displayModeBar: true,
-            scrollZoom: true,
-            responsive: true
-
-        }
+        layout,
+        plotOptions
     )
-
     function window_iterator() {
         if (window_index == maxWindowIndex) {
             window_index = 0;
@@ -182,7 +171,6 @@ function animationCreator(data, element_id) {
             window_index++
         }
     }
-
     function update() {
         window_iterator()
         Plotly.animate(element_id, {
@@ -200,8 +188,61 @@ function animationCreator(data, element_id) {
         requestAnimationFrame(update);
     }
     requestAnimationFrame(update)
+};
 
+function stftCreator(data, element_id) {
+    let fig = document.getElementById(element_id);
+    let window_index = 0
+    let maxWindowIndex = data[0].length - 1
+    const stftLayout = {
+        yaxis: {
+            range: [data[2][1], data[2][0]]
+        },
+        xaxis: {
+            tickangle: -45,
+            tickvals: data[0][window_index].slice(0, 11),
+            // ticktext: ['0', '60', '', '180', '', '300', '', '420', '', '540', ''],
+            ticklabelstep: 2,
+        },
+    };
 
+    let layout = JSON.parse(JSON.stringify(plotLayout));
+    layout = Object.assign(layout, stftLayout);
 
-
+    fig.parentNode.style.display = "block";
+    Plotly.newPlot(element_id, [{
+        x: data[0][window_index].slice(0, 11),
+        y: data[1][window_index],
+        // line: { shape: data[2] },
+        // mode: 'markers',
+        type: 'bar',
+        width: 10,
+    }],
+        layout,
+        plotOptions
+    )
+    function window_iterator() {
+        if (window_index == maxWindowIndex) {
+            window_index = 0;
+        } else {
+            window_index++
+        }
+    }
+    function update() {
+        window_iterator()
+        Plotly.animate(element_id, {
+            data: [{ x: data[0][window_index].slice(0, 11), y: data[1][window_index] }]
+        },
+            {
+                transition: {
+                    duration: 1,
+                },
+                frame: {
+                    duration: 1,
+                    redraw: true,
+                }
+            });
+        requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update)
 };
