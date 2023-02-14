@@ -4,10 +4,8 @@ let sliderMax = slider.max;
 let sliderVal = slider.value;
 
 
-slider.addEventListener('input', function () {
-    sliderVal = slider.value;
-    console.log(sliderVal);
-});
+
+
 
 function signalListAppend(list) {
     signalMenu.textContent = '';
@@ -105,8 +103,10 @@ function fetchSignalData(element_id) {
             if (data[3] === 'img') {
                 imageCreator(data, element_id)
             } else if (data[3] === 'anim') {
+                slider.max = data[0].length - 1
                 animationCreator(data, element_id)
             } else if (data[3] == 'STFT') {
+                slider.max = data[0].length - 1
                 stftCreator(data, element_id)
             }
 
@@ -155,6 +155,7 @@ function imageCreator(data, element_id) {
 function animationCreator(data, element_id) {
 
     let fig = document.getElementById(element_id);
+
     let window_index = 0
     let maxWindowIndex = data[0].length - 1
 
@@ -167,44 +168,32 @@ function animationCreator(data, element_id) {
     layout = Object.assign(layout, animLayout);
 
     fig.parentNode.style.display = "block";
-    Plotly.newPlot(element_id, [{
-        x: data[0][window_index],
-        y: data[1][window_index],
+    Plotly.react(element_id, [{
+        x: data[0][slider.value],
+        y: data[1][slider.value],
         // line: { shape: data[2] },
     }],
         layout,
         plotOptions
     )
-    function window_iterator() {
-        if (window_index == maxWindowIndex) {
-            window_index = 0;
-        } else {
-            window_index++
-        }
-    }
-    function update() {
-        window_iterator()
-        Plotly.animate(element_id, {
-            data: [{ x: data[0][window_index], y: data[1][window_index] }]
-        },
-            {
-                transition: {
-                    duration: 1,
-                },
-                frame: {
-                    duration: 1,
-                    redraw: true,
-                }
-            });
-        requestAnimationFrame(update);
-    }
-    requestAnimationFrame(update)
+
+
+    slider.addEventListener('input', function () {
+        Plotly.react(element_id, [{
+            x: data[0][slider.value],
+            y: data[1][slider.value],
+        }],
+            layout,
+            plotOptions)
+    });
 };
+
 
 function stftCreator(data, element_id) {
     let fig = document.getElementById(element_id);
     let window_index = 0
     let maxWindowIndex = data[0].length - 1
+
     const stftLayout = {
         yaxis: {
             range: [data[2][1], data[2][0]]
@@ -222,8 +211,8 @@ function stftCreator(data, element_id) {
 
     fig.parentNode.style.display = "block";
     Plotly.newPlot(element_id, [{
-        x: data[0][window_index].slice(0, 11),
-        y: data[1][window_index],
+        x: data[0][slider.value].slice(0, 11),
+        y: data[1][slider.value],
         // line: { shape: data[2] },
         // mode: 'markers',
         type: 'bar',
@@ -232,28 +221,49 @@ function stftCreator(data, element_id) {
         layout,
         plotOptions
     )
-    function window_iterator() {
-        if (window_index == maxWindowIndex) {
-            window_index = 0;
-        } else {
-            window_index++
+
+    // Reactive plot
+    slider.addEventListener('input', function () {
+        Plotly.react(element_id, [{
+            x: data[0][slider.value].slice(0, 11),
+            y: data[1][slider.value],
+            type: 'bar',
+            width: 10,
+        }],
+            layout,
+            plotOptions)
+    });
+};
+
+
+
+
+
+
+// Play/Pause logic
+
+const playBtn = document.getElementById('play');
+const stopBtn = document.getElementById('stop');
+let playState = false;
+let playIntervalID = 0;
+
+playBtn.addEventListener('click', function () {
+    playState = true;
+    console.log('play')
+    playIntervalID = setInterval(playPlots, 200);
+});
+stopBtn.addEventListener('click', function () {
+    playState = false;
+    console.log('pause')
+    clearInterval(playIntervalID)
+});
+
+function playPlots() {
+    if (playState === true) {
+        slider.dispatchEvent(new Event('input', {}), slider.value++);
+        if (slider.value === slider.max) {
+            // slider.value = 0
+            playState = false;
         }
     }
-    function update() {
-        window_iterator()
-        Plotly.animate(element_id, {
-            data: [{ x: data[0][window_index].slice(0, 11), y: data[1][window_index] }]
-        },
-            {
-                transition: {
-                    duration: 1,
-                },
-                frame: {
-                    duration: 1,
-                    redraw: true,
-                }
-            });
-        requestAnimationFrame(update);
-    }
-    requestAnimationFrame(update)
 };
