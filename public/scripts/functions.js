@@ -1,3 +1,14 @@
+const slider = document.getElementById('slider')
+let sliderMin = slider.min;
+let sliderMax = slider.max;
+let sliderVal = slider.value;
+
+
+slider.addEventListener('input', function () {
+    sliderVal = slider.value;
+    console.log(sliderVal);
+});
+
 function signalListAppend(list) {
     signalMenu.textContent = '';
 
