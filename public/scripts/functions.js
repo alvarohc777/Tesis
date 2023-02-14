@@ -142,7 +142,7 @@ function imageCreator(data, element_id) {
 
 
 function animationCreator(data, element_id) {
-
+    document.getElementById('slidecontainer').style.display = 'block';
     let fig = document.getElementById(element_id);
     let window_index = 0
     let maxWindowIndex = data[0].length - 1
