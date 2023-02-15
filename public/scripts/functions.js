@@ -271,13 +271,19 @@ stopBtn.addEventListener('click', function () {
 
 plusSample.addEventListener('mousedown', function () {
     slider.dispatchEvent(new Event('input', {}), slider.value++);
-    intervalId = setInterval(() => { slider.value++ }, 100);
+    intervalId = setInterval(() => {
+        slider.value++;
+        slider.dispatchEvent(new Event('input', {}), slider.value++);
+    }, 100);
 })
 plusSample.addEventListener('mouseup', () => { clearInterval(intervalId) })
 
 minusSample.addEventListener('mousedown', function () {
     slider.dispatchEvent(new Event('input', {}), slider.value--);
-    intervalId = setInterval(() => { slider.value-- }, 100);
+    intervalId = setInterval(() => {
+        slider.value--;
+        slider.dispatchEvent(new Event('input', {}), slider.value--);
+    }, 100);
 })
 minusSample.addEventListener('mouseup', () => { clearInterval(intervalId) })
 // function funcionPrueba() {
