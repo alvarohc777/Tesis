@@ -159,6 +159,19 @@ form {
     margin: 30px;
 }
 
+#mediaMenu {
+    width: 55%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    justify-items: center;
+    justify-content: space-around;
+    align-items: center;
+    margin: 2px auto;
+}
+
+
+
 /* xxx Layout xxx */
 
 /* Footer */

@@ -243,8 +243,9 @@ function stftCreator(data, element_id) {
 // Play/Pause logic
 
 const playBtn = document.getElementById('play');
-const pauseBtn = document.getElementById('pause');
-const stopBtn = document.getElementById('stop')
+const stopBtn = document.getElementById('stop');
+const plusSample = document.getElementById('plusSample');
+const minusSample = document.getElementById('minusSample');
 let playState = false;
 let playIntervalID = 0;
 
@@ -257,19 +258,22 @@ playBtn.addEventListener('click', function () {
     };
     playState = true;
     console.log('play');
-    playIntervalID = setInterval(playPlots, 200);
+    playIntervalID = setInterval(playPlots, 100);
 });
-pauseBtn.addEventListener('click', function () {
-    playState = false;
-    console.log('pause');
-    clearInterval(playIntervalID);
-});
+
 stopBtn.addEventListener('click', function () {
     playState = false;
     clearInterval(playIntervalID);
     slider.value = 0;
     console.log('stop');
 });
+
+plusSample.addEventListener('click', function () {
+    slider.dispatchEvent(new Event('input', {}), slider.value++);
+})
+minusSample.addEventListener('click', function () {
+    slider.dispatchEvent(new Event('input', {}), slider.value--);
+})
 
 function playPlots() {
     if (playState === true) {
