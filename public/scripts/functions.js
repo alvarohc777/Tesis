@@ -243,27 +243,40 @@ function stftCreator(data, element_id) {
 // Play/Pause logic
 
 const playBtn = document.getElementById('play');
-const stopBtn = document.getElementById('stop');
+const pauseBtn = document.getElementById('pause');
+const stopBtn = document.getElementById('stop')
 let playState = false;
 let playIntervalID = 0;
 
 playBtn.addEventListener('click', function () {
+    if (playState === true) {
+        console.log('pause')
+        playState = false;
+        clearInterval(playIntervalID)
+        return
+    };
     playState = true;
-    console.log('play')
+    console.log('play');
     playIntervalID = setInterval(playPlots, 200);
+});
+pauseBtn.addEventListener('click', function () {
+    playState = false;
+    console.log('pause');
+    clearInterval(playIntervalID);
 });
 stopBtn.addEventListener('click', function () {
     playState = false;
-    console.log('pause')
-    clearInterval(playIntervalID)
+    clearInterval(playIntervalID);
+    slider.value = 0;
+    console.log('stop');
 });
 
 function playPlots() {
     if (playState === true) {
         slider.dispatchEvent(new Event('input', {}), slider.value++);
         if (slider.value === slider.max) {
-            // slider.value = 0
             playState = false;
+            // slider.value = 0
         }
     }
 };
