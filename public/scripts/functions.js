@@ -248,6 +248,7 @@ const plusSample = document.getElementById('plusSample');
 const minusSample = document.getElementById('minusSample');
 let playState = false;
 let playIntervalID = 0;
+let intervalId = 0;
 
 playBtn.addEventListener('click', function () {
     if (playState === true) {
@@ -268,12 +269,26 @@ stopBtn.addEventListener('click', function () {
     console.log('stop');
 });
 
-plusSample.addEventListener('click', function () {
+plusSample.addEventListener('mousedown', function () {
     slider.dispatchEvent(new Event('input', {}), slider.value++);
+    intervalId = setInterval(() => { slider.value++ }, 100);
 })
-minusSample.addEventListener('click', function () {
+plusSample.addEventListener('mouseup', () => { clearInterval(intervalId) })
+
+minusSample.addEventListener('mousedown', function () {
     slider.dispatchEvent(new Event('input', {}), slider.value--);
+    intervalId = setInterval(() => { slider.value-- }, 100);
 })
+minusSample.addEventListener('mouseup', () => { clearInterval(intervalId) })
+// function funcionPrueba() {
+//     console.log('hola')
+// }
+// var intervalId;
+// minusSample.addEventListener("mousedown", function () {
+//     intervalId = setInterval(console.log('hola'), 500);
+// }).mouseup(function () {
+//     clearInterval(intervalId);
+// });
 
 function playPlots() {
     if (playState === true) {
