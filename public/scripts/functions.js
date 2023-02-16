@@ -1,6 +1,7 @@
 const slider = document.getElementById('slider')
 let sliderMin = slider.min;
 let sliderMax = slider.max;
+let animationsExist = false;
 
 function signalListAppend(list) {
     signalMenu.textContent = '';
@@ -104,9 +105,11 @@ function fetchSignalData(element_id) {
                 imageCreator(data, element_id)
             } else if (data[3] === 'anim') {
                 slider.max = data[0].length - 1
+                animationsExist = true;
                 animationCreator(data, element_id)
             } else if (data[3] == 'STFT') {
                 slider.max = data[0].length - 1
+                animationsExist = true;
                 stftCreator(data, element_id)
             }
 
@@ -149,6 +152,35 @@ function imageCreator(data, element_id) {
         layout,
         plotOptions
     )
+    let maxWindowValueY = Math.max(...data[1]);
+    let minWindowValueY = Math.min(...data[1]);
+    slider.addEventListener('input', () => {
+        if (animationsExist === true) {
+
+            // let maxWindowValue = data[1].indexOf(Math.max(...data[1]));
+            console.log(data[0].length)
+
+            let minWindowValueX = data[0][slider.value * 4];
+
+            let update = {
+                shapes: [
+                    //line vertical
+                    {
+                        type: 'line',
+                        x0: minWindowValueX,
+                        y0: minWindowValueY,
+                        x1: minWindowValueX,
+                        y1: maxWindowValueY,
+                        line: {
+                            color: 'rgb(55, 128, 191)',
+                            width: 1.5
+                        }
+                    },]
+            }
+            Plotly.relayout(element_id, update);
+
+        }
+    })
 };
 
 
