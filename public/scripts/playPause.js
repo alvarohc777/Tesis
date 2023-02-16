@@ -1,5 +1,3 @@
-// Play/Pause logic
-
 const playBtn = document.getElementById('play');
 const stopBtn = document.getElementById('stop');
 const plusSample = document.getElementById('plusSample');
@@ -8,10 +6,10 @@ let playState = false;
 let playIntervalID = 0;
 let intervalId = 0;
 
+// play button logic
 playBtn.addEventListener('click', function () {
     // pause slider
     if (playState === true) {
-        console.log('pause slider')
         playState = false;
         clearInterval(playIntervalID)
         return
@@ -24,17 +22,28 @@ playBtn.addEventListener('click', function () {
     }
     // play slider
     playState = true;
-    console.log('play');
     playIntervalID = setInterval(playPlots, 100);
 });
 
+function playPlots() {
+    if (playState === true) {
+        slider.dispatchEvent(new Event('input', {}), slider.value++);
+        if (slider.value === slider.max) {
+            playState = false;
+        }
+    }
+};
+
+
+// stop button logic
 stopBtn.addEventListener('click', function () {
     playState = false;
     clearInterval(playIntervalID);
-    slider.value = 0;
-    console.log('stop');
+    slider.dispatchEvent(new Event('input', {}), slider.value = 0);
 });
 
+
+// +1 button logic
 plusSample.addEventListener('mousedown', function () {
     slider.dispatchEvent(new Event('input', {}), slider.value++);
     intervalId = setInterval(() => {
@@ -44,6 +53,8 @@ plusSample.addEventListener('mousedown', function () {
 })
 plusSample.addEventListener('mouseup', () => { clearInterval(intervalId) })
 
+
+// -1 button logic
 minusSample.addEventListener('mousedown', function () {
     slider.dispatchEvent(new Event('input', {}), slider.value--);
     intervalId = setInterval(() => {
@@ -53,12 +64,10 @@ minusSample.addEventListener('mousedown', function () {
 })
 minusSample.addEventListener('mouseup', () => { clearInterval(intervalId) })
 
-function playPlots() {
-    if (playState === true) {
 
-        slider.dispatchEvent(new Event('input', {}), slider.value++);
-        if (slider.value === slider.max) {
-            playState = false;
-        }
-    }
-};
+// // Optional Behaviour: if slider moved, then animations is paused.
+// slider.addEventListener('click', () => {
+//     clearInterval(playIntervalID);
+//     playState = false;
+//     console.log('slider pressed')
+// }) 
