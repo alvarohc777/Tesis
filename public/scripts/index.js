@@ -79,9 +79,10 @@ signalMenu.addEventListener('change', function (e) {
         .then(res => res.json())
         .then((data) => console.log(data))
         .then(() => {
-            console.log(plotsMenu.getElementsByTagName('input'))
+            animationsExist = false;
+            let plotDivs = document.querySelectorAll('.plotDiv');
+            plotDivs.forEach(div => { div.remove() });
             for (let value of plotsMenu.getElementsByTagName('input')) {
-                console.log(value.value)
                 plotAddRemove(value)
             }
         },
@@ -97,7 +98,6 @@ plotsMenu.addEventListener('submit', function (e) {
 });
 
 for (let value of plotsMenu.getElementsByTagName('input')) {
-
     plotDict[value.id] = value;
     value.addEventListener('change', function () {
         plotAddRemove(value)
