@@ -69,28 +69,32 @@
                 <h1>Plots</h1>
                 <form action="" id="plotsMenu">
                     <h3>Images</h3>
-                    <input type="checkbox" id="cbox1" value="imgSignal" data-name="Signal">
-                    <label for="cbox1">Signal</label><br>
-                    <input type="checkbox" id="cbox2" value="imgSISignal" data-name="Superimposed Signal">
-                    <label for="cbox2">Superimposed Signal</label><br>
-                    <input type="checkbox" id="cbox3" value="imgTrip" data-name="Trip signal">
-                    <label for="cbox3">Trip signal</label><br>
+                    <input type="checkbox" id="imgSignal-checkbox" value="imgSignal" data-name="Signal" data-index="1">
+                    <label for="imgSignal-checkbox">Signal</label><br>
+                    <input type="checkbox" id="imgSISignal-checkbox" value="imgSISignal" data-name="Superimposed Signal"
+                        data-index="2">
+                    <label for="imgSISignal-checkbox">Superimposed Signal</label><br>
+                    <input type="checkbox" id="imgTrip-checkbox" value="imgTrip" data-name="Trip signal" data-index="3">
+                    <label for="imgTrip-checkbox">Trip signal</label><br>
                     <h3>Animations</h3>
-                    <input type="checkbox" id="cbox4" value="animSignal" data-name="Signal">
-                    <label for="cbox4">Signal </label><br>
-                    <input type="checkbox" id="cbox5" value="animSISignal" data-name="Superimposed Signal">
-                    <label for="cbox5">Superimposed Signal</label><br>
-                    <input type="checkbox" id="cbox7" value="animFFT" data-name="Signal FFT">
-                    <label for="cbox7">Signal FFT</label><br>
-                    <input type="checkbox" id="cbox8" value="animSIFFT" data-name="Superimposed signal FFT">
-                    <label for="cbox8">Superimposed signal FFT</label><br>
+                    <input type="checkbox" id="animSignal-checkbox" value="animSignal" data-name="Signal"
+                        data-index="4">
+                    <label for="animSignal-checkbox">Signal </label><br>
+                    <input type="checkbox" id="animSISignal-checkbox" value="animSISignal"
+                        data-name="Superimposed Signal" data-index="5">
+                    <label for="animSISignal-checkbox">Superimposed Signal</label><br>
+                    <input type="checkbox" id="animFFT-checkbox" value="animFFT" data-name="Signal FFT" data-index="6">
+                    <label for="animFFT-checkbox">Signal FFT</label><br>
+                    <input type="checkbox" id="animSIFFT-checkbox" value="animSIFFT" data-name="Superimposed signal FFT"
+                        data-index="7">
+                    <label for="animSIFFT-checkbox">Superimposed signal FFT</label><br>
                     <button type="submit" style=" display:none;" id="plotsMenuBtn"></button>
                 </form>
             </div>
             <!--xxx Plots List xxx-->
             <!-- slider -->
             <div class="menuSection" id="slidecontainer">
-                <input type="range" min="0" max="50" value="0" id="slider">
+                <input type="range" min="0" max="49" value="0" id="slider">
             </div>
             <div class="menuSection" id="mediaMenu">
                 <button id="minusSample">&#10094;</button>
