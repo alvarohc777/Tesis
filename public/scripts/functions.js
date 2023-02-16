@@ -251,12 +251,20 @@ let playIntervalID = 0;
 let intervalId = 0;
 
 playBtn.addEventListener('click', function () {
+    // pause slider
     if (playState === true) {
-        console.log('pause')
+        console.log('pause slider')
         playState = false;
         clearInterval(playIntervalID)
         return
     };
+    // restart slider when at end
+    if (slider.value === slider.max) {
+        console.log('restart slider')
+        slider.value = 0;
+
+    }
+    // play slider
     playState = true;
     console.log('play');
     playIntervalID = setInterval(playPlots, 100);
@@ -286,18 +294,10 @@ minusSample.addEventListener('mousedown', function () {
     }, 100);
 })
 minusSample.addEventListener('mouseup', () => { clearInterval(intervalId) })
-// function funcionPrueba() {
-//     console.log('hola')
-// }
-// var intervalId;
-// minusSample.addEventListener("mousedown", function () {
-//     intervalId = setInterval(console.log('hola'), 500);
-// }).mouseup(function () {
-//     clearInterval(intervalId);
-// });
 
 function playPlots() {
     if (playState === true) {
+
         slider.dispatchEvent(new Event('input', {}), slider.value++);
         if (slider.value === slider.max) {
             playState = false;
