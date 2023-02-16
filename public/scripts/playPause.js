@@ -21,7 +21,7 @@ playBtn.addEventListener('click', function () {
     }
     // play slider
     playState = true;
-    playIntervalID = setInterval(playPlots, 100);
+    playIntervalID = setInterval(playPlots, 70);
 });
 
 function playPlots() {
@@ -44,9 +44,14 @@ stopBtn.addEventListener('click', function () {
 
 // +1 button logic
 plusSample.addEventListener('mousedown', function () {
+    clearInterval(playIntervalID);
+    playState = false;
+    if (slider.value == slider.max) {
+        slider.value = 0;
+    }
     slider.dispatchEvent(new Event('input', {}), slider.value++);
     intervalId = setInterval(() => {
-        slider.value++;
+        clearInterval(playIntervalID);
         slider.dispatchEvent(new Event('input', {}), slider.value++);
     }, 100);
 })
@@ -55,9 +60,14 @@ plusSample.addEventListener('mouseup', () => { clearInterval(intervalId) })
 
 // -1 button logic
 minusSample.addEventListener('mousedown', function () {
+    clearInterval(playIntervalID);
+    playState = false;
+    if (slider.value == 0) {
+        slider.value = slider.max;
+    }
     slider.dispatchEvent(new Event('input', {}), slider.value--);
     intervalId = setInterval(() => {
-        slider.value--;
+        // slider.value--;
         slider.dispatchEvent(new Event('input', {}), slider.value--);
     }, 100);
 })

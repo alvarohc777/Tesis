@@ -79,7 +79,9 @@ signalMenu.addEventListener('change', function (e) {
         .then(res => res.json())
         .then((data) => console.log(data))
         .then(() => {
+            console.log(plotsMenu.getElementsByTagName('input'))
             for (let value of plotsMenu.getElementsByTagName('input')) {
+                console.log(value.value)
                 plotAddRemove(value)
             }
         },
@@ -110,7 +112,5 @@ function plotAddRemove(value) {
     }
 }
 
-
-console.log(plotDict)
 
 

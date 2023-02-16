@@ -56,12 +56,17 @@ function removeSignal(value) {
 };
 
 function createDiv(value) {
+
+    // console.log('value')
+    // console.log(value)
+    // // console.log(plotDiv.style.order)
+    // console.log(value.dataset.index)
+    // plotDiv.style.order = value.dataset.index
     const plotDiv = document.createElement('div');
     const h3 = document.createElement('h3');
     const signalDiv = document.createElement('div');
     plotDiv.backgroundColor = "black";
-    plotDiv.classList.add('plotDiv')
-
+    plotDiv.classList.add('plotDiv');
 
     signalDiv.style['width'] = '400px';
     signalDiv.style['height'] = '300px';
