@@ -14,6 +14,7 @@ h4 {
 
 h1 {
     text-align: center;
+    margin-bottom: 0;
 }
 
 h3 {
@@ -37,7 +38,7 @@ a {
 form {
     /* width: 75%; */
     background: whitesmoke;
-    margin: 10px 30px;
+    margin: 0px 30px;
     padding: 5px;
     overflow: hidden;
     overflow: break-word;
@@ -128,17 +129,16 @@ form {
     justify-content: space-around;
     transition: margin-left 0.6s;
     min-height: calc(100vh - 60px);
-    margin: 30px;
+    /* margin: 30px; */
 
 }
 
 #plots {
-    background-color: #6D9886;
+    background-color: black;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-around;
-
     flex: 1;
     width: 100%;
 }
