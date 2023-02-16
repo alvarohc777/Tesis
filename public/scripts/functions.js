@@ -107,10 +107,12 @@ function fetchSignalData(element_id) {
                 slider.max = data[0].length - 1
                 animationsExist = true;
                 animationCreator(data, element_id)
+                slider.dispatchEvent(new Event('input', {}), slider.value = slider.value);
             } else if (data[3] == 'STFT') {
                 slider.max = data[0].length - 1
                 animationsExist = true;
                 stftCreator(data, element_id)
+                slider.dispatchEvent(new Event('input', {}), slider.value = slider.value);
             }
 
         })
