@@ -155,16 +155,17 @@ function imageCreator(data, element_id) {
     let maxWindowValueY = Math.max(...data[1]);
     let minWindowValueY = Math.min(...data[1]);
     slider.addEventListener('input', () => {
+
         if (animationsExist === true) {
 
             // let maxWindowValue = data[1].indexOf(Math.max(...data[1]));
-            console.log(data[0].length)
 
             let minWindowValueX = data[0][slider.value * 4];
+            let maxWindowValueX = data[0][(slider.value * 4) + 63];
 
             let update = {
                 shapes: [
-                    //line vertical
+                    // Begining of Window
                     {
                         type: 'line',
                         x0: minWindowValueX,
@@ -175,7 +176,43 @@ function imageCreator(data, element_id) {
                             color: 'rgb(55, 128, 191)',
                             width: 1.5
                         }
-                    },]
+                    },
+                    // End of window
+                    {
+                        type: 'line',
+                        x0: maxWindowValueX,
+                        y0: minWindowValueY,
+                        x1: maxWindowValueX,
+                        y1: maxWindowValueY,
+                        line: {
+                            color: 'rgb(55, 128, 191)',
+                            width: 1.5
+                        }
+                    },
+                    // top of window
+                    {
+                        type: 'line',
+                        x0: minWindowValueX,
+                        y0: maxWindowValueY,
+                        x1: maxWindowValueX,
+                        y1: maxWindowValueY,
+                        line: {
+                            color: 'rgb(55, 128, 191)',
+                            width: 1.5
+                        }
+                    },
+                    // bottom of window
+                    {
+                        type: 'line',
+                        x0: minWindowValueX,
+                        y0: minWindowValueY,
+                        x1: maxWindowValueX,
+                        y1: minWindowValueY,
+                        line: {
+                            color: 'rgb(55, 128, 191)',
+                            width: 1.5
+                        }
+                    }]
             }
             Plotly.relayout(element_id, update);
 
