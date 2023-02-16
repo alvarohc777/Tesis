@@ -47,9 +47,11 @@ plusSample.addEventListener('mousedown', function () {
     clearInterval(playIntervalID);
     playState = false;
     if (slider.value == slider.max) {
-        slider.value = 0;
+        slider.dispatchEvent(new Event('input', {}), slider.value = 0);
+        return
     }
     slider.dispatchEvent(new Event('input', {}), slider.value++);
+
     intervalId = setInterval(() => {
         clearInterval(playIntervalID);
         slider.dispatchEvent(new Event('input', {}), slider.value++);
@@ -62,10 +64,12 @@ plusSample.addEventListener('mouseup', () => { clearInterval(intervalId) })
 minusSample.addEventListener('mousedown', function () {
     clearInterval(playIntervalID);
     playState = false;
-    if (slider.value == 0) {
-        slider.value = slider.max;
-    }
+
     slider.dispatchEvent(new Event('input', {}), slider.value--);
+    if (slider.value == 0) {
+        slider.dispatchEvent(new Event('input', {}), slider.value = slider.max);
+        return
+    }
     intervalId = setInterval(() => {
         // slider.value--;
         slider.dispatchEvent(new Event('input', {}), slider.value--);
