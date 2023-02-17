@@ -58,7 +58,7 @@ plusSample.addEventListener('mousedown', function () {
     }, 100);
 })
 plusSample.addEventListener('mouseup', () => { clearInterval(intervalId) })
-
+plusSample.addEventListener('mouseout', () => { clearInterval(intervalId) })
 
 // -1 button logic
 minusSample.addEventListener('mousedown', function () {
@@ -76,7 +76,7 @@ minusSample.addEventListener('mousedown', function () {
     }, 100);
 })
 minusSample.addEventListener('mouseup', () => { clearInterval(intervalId) })
-
+minusSample.addEventListener('mouseout', () => { clearInterval(intervalId) })
 
 // // Optional Behaviour: if slider moved, then animations is paused.
 // slider.addEventListener('click', () => {
