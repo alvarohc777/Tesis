@@ -88,6 +88,13 @@ async def plot_trip_signal(request: dict = Body(...)):
     print(plot_type)
     return [t_window, trip, line_shape, plot_type]
 
+@app.post("/plots/imgSITrip", tags=["static_plots"])
+async def plot_trip_si_signal(request: dict = Body(...)):
+
+    t_window, trip, line_shape, plot_type = plt_api.img_si_trip(request_information)
+    print(plot_type)
+    return [t_window, trip, line_shape, plot_type]
+
 
 @app.post("/plots/animSignal", tags=["animations"])
 async def plot_signal_anim(request: dict = Body(...)):
