@@ -244,6 +244,8 @@ function tripCreator(data, element_id) {
         x: data[0],
         y: data[1],
         line: { shape: data[2] },
+        "name": '',
+        "text": 'Trip Signal',
     }],
         layout,
         plotOptions
@@ -259,12 +261,20 @@ function tripCreator(data, element_id) {
             marker: {
                 color: 'rgb(139,0,0)',
                 size: 8
-            }
+            },
+            "name": '',
+            "text": 'Trip Signal',
         }
         Plotly.addTraces(element_id, tripSignal, 1);
     }
     function relayout(maxWindowValueX, valueY) {
         let update = {
+            yaxis: {
+
+                tickvals: [0, 1, 2],
+                ticktext: ['0', 'Fault', 'Caps'],
+                ticklabelstep: 1,
+            },
             shapes: [
                 // Begining of Window
                 {
