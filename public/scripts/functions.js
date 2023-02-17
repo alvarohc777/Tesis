@@ -37,14 +37,10 @@ function signalListAppend(list) {
 
 function plotSignal(value) {
 
-
-
     let divExists = document.getElementById(value.value);
     if (divExists) {
-
         divExists.parentElement.style = 'block'
     } else {
-        console.log(document.getElementById(value.value))
         createDiv(value);
         fetchSignalData(value.value);
     }
@@ -56,7 +52,7 @@ function removeSignal(value) {
     if (divExists) {
         divExists.parentElement.style.display = 'none';
     } else {
-        console.log('doesnt exist')
+        console.log(`${value.value} doesnt exist`)
     }
 };
 
@@ -81,7 +77,6 @@ function createDiv(value) {
     observer.observe(signalDiv, {
         attributes: true
     })
-
     plotDiv.appendChild(h3);
     plotDiv.appendChild(signalDiv);
     plotsSection.insertAdjacentElement('beforeend', plotDiv);
@@ -99,36 +94,32 @@ function fetchSignalData(element_id) {
     })
         .then(res => res.json())
         .then((data) => {
-
             if (data[3] === 'img') {
-
                 imageCreator(data, element_id)
             } else if (data[3] === 'trip') {
-                console.log(data[0].length)
                 tripCreator(data, element_id)
             } else if (data[3] === 'anim') {
-                console.log(data[0].length)
-                slider.max = data[0].length - 1
-                animationsExist = true;
                 animationCreator(data, element_id)
-                slider.dispatchEvent(new Event('input', {}), slider.value = slider.value);
+                initAnim(data)
             } else if (data[3] == 'STFT') {
-                slider.max = data[0].length - 1
-                animationsExist = true;
                 stftCreator(data, element_id)
-                slider.dispatchEvent(new Event('input', {}), slider.value = slider.value);
+                initAnim(data)
             }
-
         })
         .catch(err => console.log(err))
 };
+
+function initAnim(data) {
+    slider.max = data[0].length - 1
+    animationsExist = true;
+    slider.dispatchEvent(new Event('input', {}), slider.value = slider.value);
+}
 
 // plot configs and functions
 
 const plotOptions = {
     scrollZoom: true,
     responsive: true,
-    // displayModeBar: true,
 }
 
 const plotLayout = {
@@ -143,6 +134,7 @@ const plotLayout = {
         orientation: 'v',
     }
 };
+// ---------------------------- //
 
 // Image plot
 function imageCreator(data, element_id) {
@@ -223,21 +215,9 @@ function imageCreator(data, element_id) {
             Plotly.relayout(element_id, update);
         }
         signalMenu.addEventListener('change', () => {
-            console.log('hubo cambio')
             slider.removeEventListener('input', anonima)
         })
     })
-
-    // slider.addEventListener('click', function clicked() {
-    //     console.log('clickeado')
-    //     console.log(slider.value)
-    //     if (parseInt(slider.value) === 0) {
-    //         console.log('valor es 0')
-    //         slider.removeEventListener('click', clicked, false)
-    //     }
-
-    // }, false)
-
 };
 
 
@@ -268,61 +248,65 @@ function tripCreator(data, element_id) {
         layout,
         plotOptions
     );
-    let maxWindowValueX = data[0][parseInt(slider.value) + 1];
-    let valueY = data[1][parseInt(slider.value) + 1];
-    console.log(parseInt(slider.value) + 1);
-    let tripSignal = {
-        x: [maxWindowValueX],
-        y: [valueY],
-        mode: 'markers'
+
+    // Current trip signal value animation functions
+    function addTraces(maxWindowValueX, valueY) {
+
+        let tripSignal = {
+            x: [maxWindowValueX],
+            y: [valueY],
+            mode: 'markers',
+            marker: {
+                color: 'rgb(139,0,0)',
+                size: 8
+            }
+        }
+        Plotly.addTraces(element_id, tripSignal, 1);
+    }
+    function relayout(maxWindowValueX, valueY) {
+        let update = {
+            shapes: [
+                // Begining of Window
+                {
+                    type: 'line',
+                    x0: maxWindowValueX,
+                    y0: 0,
+                    x1: maxWindowValueX,
+                    y1: valueY,
+                    line: {
+                        color: 'rgb(139,0,0)',
+                        width: 1.5
+                    }
+                },
+            ]
+        }
+        Plotly.relayout(element_id, update);
     }
 
-    Plotly.addTraces(element_id, tripSignal, 1);
+    // Initial Trip point creator
+    let maxWindowValueX = data[0][parseInt(slider.value) + 1];
+    let valueY = data[1][parseInt(slider.value) + 1];
+    addTraces(maxWindowValueX, valueY)
+    relayout(maxWindowValueX, valueY)
 
+
+    // Event listener to update current window trip signal
     slider.addEventListener('input', function anonima() {
 
         if (animationsExist === true) {
-
             // let maxWindowValue = data[1].indexOf(Math.max(...data[1]));
             Plotly.deleteTraces(element_id, 1);
             let maxWindowValueX = data[0][parseInt(slider.value) + 1];
             let valueY = data[1][parseInt(slider.value) + 1];
-            console.log(parseInt(slider.value) + 1);
-            // console.log(element_id)
-            let tripSignal = {
-                x: [maxWindowValueX],
-                y: [valueY],
-                mode: 'markers',
-                marker: {
-                    color: 'rgb(139,0,0)',
-                    size: 8
-                }
-            }
-            Plotly.addTraces(element_id, tripSignal, 1);
-            let update = {
-                shapes: [
-                    // Begining of Window
-                    {
-                        type: 'line',
-                        x0: maxWindowValueX,
-                        y0: 0,
-                        x1: maxWindowValueX,
-                        y1: valueY,
-                        line: {
-                            color: 'rgb(139,0,0)',
-                            width: 1.5
-                        }
-                    },
-                ]
-            }
-            Plotly.relayout(element_id, update);
+            addTraces(maxWindowValueX, valueY)
+            relayout(maxWindowValueX, valueY)
         };
         signalMenu.addEventListener('change', () => {
-            console.log('hubo cambio 2')
             slider.removeEventListener('input', anonima)
         });
     })
 };
+
 
 
 function animationCreator(data, element_id) {
@@ -359,7 +343,6 @@ function animationCreator(data, element_id) {
             layout,
             plotOptions);
         signalMenu.addEventListener('change', () => {
-            console.log('hubo cambio 2')
             slider.removeEventListener('input', anonima)
         })
     });
@@ -410,9 +393,7 @@ function stftCreator(data, element_id) {
             layout,
             plotOptions);
         signalMenu.addEventListener('change', () => {
-            console.log('hubo cambio 2')
             slider.removeEventListener('input', anonima)
         })
     });
-
 };
