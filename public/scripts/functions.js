@@ -283,9 +283,24 @@ function tripCreator(data, element_id) {
                     size: 8
                 }
             }
-
             Plotly.addTraces(element_id, tripSignal, 1);
-            // Plotly.update(element_id, tripSignal, ll, 1);
+            let update = {
+                shapes: [
+                    // Begining of Window
+                    {
+                        type: 'line',
+                        x0: maxWindowValueX,
+                        y0: 0,
+                        x1: maxWindowValueX,
+                        y1: valueY,
+                        line: {
+                            color: 'rgb(139,0,0)',
+                            width: 1.5
+                        }
+                    },
+                ]
+            }
+            Plotly.relayout(element_id, update);
         }
     })
 };
