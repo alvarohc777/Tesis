@@ -102,8 +102,13 @@ function fetchSignalData(element_id) {
         .then((data) => {
 
             if (data[3] === 'img') {
+
                 imageCreator(data, element_id)
+            } else if (data[3] === 'trip') {
+                console.log(data[0].length)
+                tripCreator(data, element_id)
             } else if (data[3] === 'anim') {
+                console.log(data[0].length)
                 slider.max = data[0].length - 1
                 animationsExist = true;
                 animationCreator(data, element_id)
@@ -217,7 +222,70 @@ function imageCreator(data, element_id) {
                     }]
             }
             Plotly.relayout(element_id, update);
+        }
+    })
+};
 
+
+// Image plot
+function tripCreator(data, element_id) {
+    let fig = document.getElementById(element_id);
+    fig.parentNode.style.display = "block";
+
+    let maxWindowValueY = Math.max(...data[1]);
+    let minWindowValueY = Math.min(...data[1]);
+    const staticLayout = {
+        xaxis: {
+            range: [data[0][0], (data[0][parseInt(data[0].length) - 1])]
+        },
+        yaxis: {
+            range: [minWindowValueY - 0.03, maxWindowValueY + 0.03]
+        },
+        showlegend: false
+    }
+    let layout = JSON.parse(JSON.stringify(plotLayout));
+    layout = Object.assign(layout, staticLayout);
+
+    Plotly.newPlot(element_id, [{
+        x: data[0],
+        y: data[1],
+        line: { shape: data[2] },
+    }],
+        layout,
+        plotOptions
+    );
+    let maxWindowValueX = data[0][parseInt(slider.value) + 1];
+    let valueY = data[1][parseInt(slider.value) + 1];
+    console.log(parseInt(slider.value) + 1);
+    let tripSignal = {
+        x: [maxWindowValueX],
+        y: [valueY],
+        mode: 'markers'
+    }
+
+    Plotly.addTraces(element_id, tripSignal, 1);
+
+    slider.addEventListener('input', () => {
+
+        if (animationsExist === true) {
+
+            // let maxWindowValue = data[1].indexOf(Math.max(...data[1]));
+            Plotly.deleteTraces(element_id, 1);
+            let maxWindowValueX = data[0][parseInt(slider.value) + 1];
+            let valueY = data[1][parseInt(slider.value) + 1];
+            console.log(parseInt(slider.value) + 1);
+            let tripSignal = {
+                x: [maxWindowValueX],
+                y: [valueY],
+                mode: 'markers',
+                marker: {
+                    color: 'rgb(139,0,0)',
+                    size: 8
+                }
+            }
+
+            Plotly.addTraces(element_id, tripSignal, 1);
+            // Plotly.update(element_id, tripSignal, ll, 1);
         }
     })
 };

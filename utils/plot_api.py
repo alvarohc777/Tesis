@@ -242,4 +242,4 @@ def img_trip(request_information, no_return=False):
     t_windows = request_information["t_windows"]
     t_window = np.insert(t_windows[:, -1], 0, 0)
     trip_windows = np.insert(trip_windows, 0, 0)
-    return t_window.tolist(), trip_windows.tolist(), "hv", "img"
+    return t_window.tolist(), trip_windows.tolist(), "hv", "trip"
