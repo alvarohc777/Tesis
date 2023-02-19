@@ -98,7 +98,7 @@ plotsMenu.addEventListener('submit', function (e) {
 });
 
 for (let value of plotsMenu.getElementsByTagName('input')) {
-    plotDict[value.id] = value;
+    plotDict[value.value] = value.checked;
     value.addEventListener('change', function () {
         plotAddRemove(value)
     })

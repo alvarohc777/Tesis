@@ -1,12 +1,18 @@
-from ninja import NinjaAPI, File
+from ninja import NinjaAPI, File, Schema
 from ninja.files import UploadedFile
+
+
+
 from utils_tesis.signalload import CSV_pandas_path
 import utils_tesis.plot_api as plt_api
 from pydantic import BaseModel
 
 api =NinjaAPI()
 
-class SignalName(BaseModel):
+# class SignalName(BaseModel):
+#     # csv_name: str
+#     signal_name: str
+class SignalName(Schema):
     # csv_name: str
     signal_name: str
 
@@ -17,7 +23,7 @@ def hello(request):
 # Variables
 request_information = {}
 
-@api.post('/uploadCSV')
+@api.post('/uploadCSV', tags=['CSV'])
 def post_CSV(request, csv_files: UploadedFile = File(...)):
     with open(csv_files.name, "wb+") as f:
         f.write(csv_files.file.read())
@@ -36,7 +42,7 @@ def post_CSV(request, csv_files: UploadedFile = File(...)):
     return {"signals_list": signals.labels_list, "file_name": csv_file_name}
 
     
-@api.post("/signalName")
+@api.post("/signalName", tags=["CSV"])
 async def post_signal_name(request, load: SignalName):
     signal_name = load.signal_name
     # signals = request_information["signals"]
@@ -44,9 +50,22 @@ async def post_signal_name(request, load: SignalName):
 
     return {"response": signal_name}
 
-@api.post("/plots/imgSignal")
-async def plot_signal(request: dict = Body(...)):
-
+@api.get("/plots/imgSignal", tags=["static_plots"])
+async def plot_signal(request):
     t, signal, line_shape, plot_type = plt_api.img_signal(request_information)
     print(plot_type)
     return [t, signal, line_shape, plot_type]
+
+@api.get("/plots/imgSISignal", tags=["static_plots"])
+async def plot_si_signal(request):
+    # print(f"Request: {request.body.decode() }")
+    t, si_signal, line_shape, plot_type = plt_api.img_si_signal(request_information)
+    print(plot_type)
+    return [t, si_signal, line_shape, plot_type]
+
+@api.get("/plots/imgTrip", tags=["static_plots"])
+async def plot_trip_signal(request):
+
+    t_window, trip, line_shape, plot_type = plt_api.img_trip(request_information)
+    print(plot_type)
+    return [t_window, trip, line_shape, plot_type]

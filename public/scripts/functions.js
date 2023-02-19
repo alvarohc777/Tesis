@@ -84,13 +84,16 @@ function createDiv(value) {
 
 function fetchSignalData(element_id) {
     // console.log(`${plotsEndpoint}${element_id}`)
+    console.log('holña')
+    console.log(plotDict)
+    console.log(JSON.stringify(plotDict))
     fetch(`${plotsEndpoint}${element_id}`, {
-        method: 'post',
+        method: 'get',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(plotDict)
+        // body: JSON.stringify(plotDict)
     })
         .then(res => res.json())
         .then((data) => {
