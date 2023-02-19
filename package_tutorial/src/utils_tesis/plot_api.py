@@ -1,9 +1,8 @@
 from utils_tesis.auxfunctions import superimposed, moving_window, fourier
-from utils_tesis.preprocess import windows_creator
 from utils_tesis.detection import detection_iter
 import numpy as np
 from itertools import repeat
-import matplotlib.pyplot as plt
+
 
 
 def img_signal(request_information, no_return=False):
