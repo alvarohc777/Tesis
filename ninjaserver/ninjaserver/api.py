@@ -43,29 +43,71 @@ def post_CSV(request, csv_files: UploadedFile = File(...)):
 
     
 @api.post("/signalName", tags=["CSV"])
-async def post_signal_name(request, load: SignalName):
+def post_signal_name(request, load: SignalName):
     signal_name = load.signal_name
     # signals = request_information["signals"]
     request_information["signal_name"] = signal_name
 
     return {"response": signal_name}
 
+# Static Plots
+
 @api.get("/plots/imgSignal", tags=["static_plots"])
-async def plot_signal(request):
+def plot_signal(request):
     t, signal, line_shape, plot_type = plt_api.img_signal(request_information)
     print(plot_type)
     return [t, signal, line_shape, plot_type]
 
 @api.get("/plots/imgSISignal", tags=["static_plots"])
-async def plot_si_signal(request):
+def plot_si_signal(request):
     # print(f"Request: {request.body.decode() }")
     t, si_signal, line_shape, plot_type = plt_api.img_si_signal(request_information)
     print(plot_type)
     return [t, si_signal, line_shape, plot_type]
 
 @api.get("/plots/imgTrip", tags=["static_plots"])
-async def plot_trip_signal(request):
+def plot_trip_signal(request):
 
     t_window, trip, line_shape, plot_type = plt_api.img_trip(request_information)
     print(plot_type)
     return [t_window, trip, line_shape, plot_type]
+
+@api.post("/plots/imgSITrip", tags=["static_plots"])
+def plot_trip_si_signal(request):
+
+    t_window, trip, line_shape, plot_type = plt_api.img_si_trip(request_information)
+    print(plot_type)
+    return [t_window, trip, line_shape, plot_type]
+
+# Animations
+
+@api.get("/plots/animSignal", tags=["animations"])
+def plot_signal_anim(request):
+    t_windows, signal_windows, line_shape, plot_type = plt_api.anim_signal(
+        request_information
+    )
+
+    return [t_windows, signal_windows, line_shape, plot_type]
+
+
+@api.get("/plots/animSISignal", tags=["animations"])
+async def plot_si_signal_anim(request):
+    t_windows, si_signal_windows, line_shape, plot_type = plt_api.anim_si_signal(
+        request_information
+    )
+    return [t_windows, si_signal_windows, line_shape, plot_type]
+
+
+@api.get("/plots/animFFT", tags=["animatons"])
+async def plot_fft_anim(request):
+    xf, fft_windows, max_min, plot_type = plt_api.anim_fft(request_information)
+    return [xf, fft_windows, max_min, plot_type]
+
+
+@api.get("/plots/animSIFFT", tags=["animations"])
+async def plot_si_fft_anim(request):
+    xf, si_fft_windows, max_min, plot_type = plt_api.anim_si_fft(request_information)
+    
+    return [xf, si_fft_windows, max_min, plot_type]
+
+# app.mount("/", StaticFiles(directory="public", html=True), name="static")
