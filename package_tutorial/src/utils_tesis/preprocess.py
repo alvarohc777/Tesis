@@ -1,5 +1,5 @@
-from utils.auxfunctions import superimposed, moving_window, fourier, wndw
-from utils.signalload import CSV_pandas_path, CSV_pandas
+from utils_tesis.auxfunctions import superimposed, moving_window, fourier, wndw
+from utils_tesis.signalload import CSV_pandas_path, CSV_pandas
 import matplotlib.pyplot as plt
 from itertools import repeat
 import inspect
