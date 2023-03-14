@@ -5,10 +5,11 @@ build-backend = "hatchling.build"
 
 [project]
 name = "utils_tesis"
-version = "0.0.3"
+version = "0.0.4"
 authors = [
   { name="alvarohc777", email="aherrada@uninorte.edu.co" },
 ]
+
 description = "Auxiliar functions for my thesis"
 readme = "README.md"
 requires-python = ">=3.7"
