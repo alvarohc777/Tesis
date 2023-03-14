@@ -1,8 +1,8 @@
-import utils.auxfunctions as ax
-import utils.signalload as sl
-from utils.deco import calc_perf
-from utils.signalload import CSV, CSV_prueba
-from utils.auxfunctions import (
+import .auxfunctions as ax
+import .signalload as sl
+from .deco import calc_perf
+from .signalload import CSV, CSV_prueba
+from .auxfunctions import (
     superimposed,
     moving_window,
     fourier,
