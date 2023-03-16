@@ -8,6 +8,8 @@ import csv
 class CSV_pandas:
     """Class to load and extract signals from CSV into Pandas DataFrame and numpy arrays"""
 
+    step = 8
+
     def __init__(self):
         """Constructor
         Once class instance is created, a window will be opened to
@@ -189,7 +191,7 @@ class CSV_pandas:
             else:
                 n_samples = len(signals) - 1
 
-            signals = signals[:n_samples:8]
+            signals = signals[: n_samples : self.step]
             t = signals[:, 0]
             x = signals[:, 1]
             tf = max(t)
