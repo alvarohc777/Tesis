@@ -18,6 +18,13 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: "3.x"
+          
+      - name: Extract version from Git tag
+        id: extract_version
+        run: echo "VERSION=$(echo ${GITHUB_REF#refs/tags/} | sed 's/v//')" >> $GITHUB_ENV
+
+      - name: Update pyproject.toml with dynamic version
+        run: sed -i "s/version = \".*\"/version = \"${{ env.VERSION }}\"/" pyproject.toml
 
       - name: Build source and wheel distributions
         run: |
