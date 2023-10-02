@@ -1,9 +1,8 @@
-from utils.auxfunctions import superimposed, moving_window, fourier
-from utils.preprocess import windows_creator
-from utils.detection import detection_iter
+from utils_tesis.auxfunctions import superimposed, moving_window, fourier
+from utils_tesis.detection import detection_iter
 import numpy as np
 from itertools import repeat
-import matplotlib.pyplot as plt
+
 
 
 def img_signal(request_information, no_return=False):
@@ -160,8 +159,12 @@ def anim_si_fft(request_information, no_return=False):
 
     number_of_windows = len(si_fft_windows)
 
-    
-    return np.tile(xf, (number_of_windows, 1)).tolist(), si_fft_windows.tolist(), max_min, "STFT"
+    return (
+        np.tile(xf, (number_of_windows, 1)).tolist(),
+        si_fft_windows.tolist(),
+        max_min,
+        "STFT",
+    )
 
 
 def anim_trip(request_information, no_return=False):
@@ -243,6 +246,7 @@ def img_trip(request_information, no_return=False):
     t_window = np.insert(t_windows[:, -1], 0, 0)
     trip_windows = np.insert(trip_windows, 0, 0)
     return t_window.tolist(), trip_windows.tolist(), "hv", "trip"
+
 
 def img_si_trip(request_information, no_return=False):
     trip_windows = request_information.get("si_trip_windows", "")

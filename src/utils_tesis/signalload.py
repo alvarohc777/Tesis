@@ -6,11 +6,20 @@ import csv
 
 
 class CSV_pandas:
+    """Class to load and extract signals from CSV into Pandas DataFrame and numpy arrays"""
+
+    step = 8
+
     def __init__(self):
+        """Constructor
+        Once class instance is created, a window will be opened to
+        search for CSV file.
+        """
         self.csv_load()
 
     def csv_load(self):
-        """Creación de la ventana para selección de archivo CSV"""
+        """Method to open a file exporer
+        window to load CSV file from system"""
         root = tk.Tk()
         root.withdraw()
         root.attributes("-topmost", True)
@@ -31,6 +40,7 @@ class CSV_pandas:
 
     # métodos privados
     def extraer_csv(self):
+        """Method to create pandas dataframe from CSV file"""
 
         # para encontrar el tipo de delimitador del archivo .csv
         with open(self.path, "r") as f:
@@ -45,7 +55,22 @@ class CSV_pandas:
 
         self.df = self.__rename_columns(df)
 
-    def __rename_columns(self, df):
+    def __rename_columns(self, df: pd.DataFrame) -> pd.DataFrame:
+        """Private method, renames columns from Dataframe into more
+        readable names. i.e. it creates a new name for each column by
+        merging the three original named columns returned on CSV from
+        ATP
+
+        Parameters
+        ----------
+        df : pd.DataFrame
+            Signals dataframe
+
+        Returns
+        -------
+        pd.DataFrame
+            Signals dataframe with renamed columns
+        """
         # Extraer los labels de las filas 1 y 2
         pattern = r"^b'([\w ]*)'"
         node_from = df.iloc[0].str.replace(pattern, r"\1", regex=True).str.strip()
@@ -70,9 +95,24 @@ class CSV_pandas:
         df = df.reset_index(drop=True)
         return df
 
-    def __columns_replace(self, df):
-        """Estandariza los nombres de las columnas para poder renombrarlas según
-        el tipo de datos que tenga"""
+    def __columns_replace(self, df: pd.DataFrame) -> pd.DataFrame:
+        """Private method, standarizes columns names, making it easier to rename them
+        according to signal type they represent.
+
+        eg. for different CSV with time column named as: "Time", "TIME" or "time", all will
+        be returned as "time"
+
+
+        Parameters
+        ----------
+        df : pd.DataFrame
+            Signals dataframe
+
+        Returns
+        -------
+        pd.DataFrame
+            Signals dataframe with standarized columns names
+        """
         patterns = [
             (" ", ""),
             (r"^(V|I)[.\w-]*", r"\1"),
@@ -98,7 +138,24 @@ class CSV_pandas:
         return df
 
     # función para devolver la lista de labels correcta
-    def __new_labels(self, list1, list2, labels):
+    def __new_labels(self, list1: list, list2: list, labels: list) -> list:
+        """Private method, merges three labels rows from each column into one row
+
+        Parameters
+        ----------
+        list1 : list
+            FROM node list. ROW 2 in CSV
+        list2 : list
+            TO node list. ROW 3 in CSV
+        labels : list
+            Signal type list (current, voltage or MODEL). ROW 1 in CSV
+
+        Returns
+        -------
+        list
+            List with correct column labels
+        """
+
         final_list = []
         for x, y, z in zip(list1, list2, labels):
             if z == "time":
@@ -112,7 +169,19 @@ class CSV_pandas:
         return final_list
 
     # Método públicos
-    def load_data(self, relay_name):
+    def load_data(self, relay_name: str) -> tuple[np.ndarray, np.ndarray, dict]:
+        """Loads a signal from CSV given a relay_name (signal name) as input
+
+        Parameters
+        ----------
+        relay_name : str
+            Name of signal to load. Use .relay_list method to list all available signals
+
+        Returns
+        -------
+        tuple[np.ndarray, np.ndarray, dict]
+            signal array, time array, dictionary with signal parameters
+        """
         try:
             params = {}
             signals = self.df[["time", relay_name]]
@@ -122,7 +191,7 @@ class CSV_pandas:
             else:
                 n_samples = len(signals) - 1
 
-            signals = signals[:n_samples:8]
+            signals = signals[: n_samples : self.step]
             t = signals[:, 0]
             x = signals[:, 1]
             tf = max(t)
@@ -142,23 +211,65 @@ class CSV_pandas:
             )
             exit()
 
-    def relay_list(self, currents=True, voltages=False, Models=False):
+    def relay_list(
+        self, currents: bool = True, voltages: bool = False, MODELS: bool = False
+    ):
+        """Method, prints a list of available signals. Only lists currents by default.
+        To list voltages use voltages = True.
+        To list MODELS use Models = True.
+
+        Parameters
+        ----------
+        currents : bool, optional
+            Whether or not to print available current signals,
+            by default True
+        voltages : bool, optional
+            Wheter or not to print available voltage signals,
+            by default False
+        Models : bool, optional
+            Wheter or not to print available MODELS signals,
+            by default False
+        """
         for i in self.labels_list:
             if ("V:" in i) and voltages:
                 print(i)
             elif ("I:" in i) and currents:
                 print(i)
-            elif Models:
+            elif MODELS:
                 print(i)
 
 
 # Clase para hacer pruebas, luego borrar
 # no muestra ventana de selección
 class CSV_pandas_path(CSV_pandas):
-    def __init__(self, filename):
+    """Class to load CSV with path and not by opening
+    a file explorer window
+
+    Parameters
+    ----------
+    CSV_pandas : parent class
+        Parent class from which CSV_pandas_path inherits from
+    """
+
+    def __init__(self, filename: str):
+        """Constructor
+
+        Parameters
+        ----------
+        filename : str
+            Path of CSV
+        """
+
         self.csv_load(filename)
 
-    def csv_load(self, filename):
+    def csv_load(self, filename: str):
+        """Function to load CSV
+
+        Parameters
+        ----------
+        filename : str
+            Path of CSV
+        """
         self.path = filename
         # self.path = "C:\\Users\\aherrada\\OneDrive - Universidad del Norte\\Uninorte\\DetectionDataBase\\septDataBaseCSV\\Caps\\NoFault02_B112.csv"
         self.extraer_csv()
