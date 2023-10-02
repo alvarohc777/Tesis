@@ -1,5 +1,5 @@
 name: Publish tesis-utils to PyPI / GitHub
-run-name: tesis-utils build to PyPI / GitHub.
+run-name: ${{ github.respository }}  build to PyPI / GitHub.
 on:
   push:
     tags:
