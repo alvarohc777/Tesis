@@ -1,5 +1,5 @@
-name: Publish ${{ github.event.repository.name }} to PyPI / GitHub
-run-name: Publish ${{ github.event.repository.name }} to PyPI / GitHub.
+name: Publish ${{ github.repository }} to PyPI / GitHub
+run-name: Publish ${{ github.repository }} to PyPI / GitHub.
 on:
   push:
     tags:
