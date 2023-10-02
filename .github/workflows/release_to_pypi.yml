@@ -1,5 +1,5 @@
-name: Publish ${{ github.repository }} to PyPI / GitHub
-run-name: Publish ${{ github.repository }} to PyPI / GitHub.
+name: Publish tesis-utils to PyPI / GitHub
+run-name: tesis-utils build to PyPI / GitHub.
 on:
   push:
     tags:
@@ -18,7 +18,7 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: "3.x"
-
+          
       - name: Extract version from Git tag
         id: extract_version
         run: echo "VERSION=$(echo ${GITHUB_REF#refs/tags/} | sed 's/v//')" >> $GITHUB_ENV
