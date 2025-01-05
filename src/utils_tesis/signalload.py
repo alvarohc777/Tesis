@@ -8,13 +8,16 @@ import csv
 class CSV_pandas:
     """Class to load and extract signals from CSV into Pandas DataFrame and numpy arrays"""
 
-    step = 8
+    # step = 8
 
-    def __init__(self):
+    def __init__(self, step: int = 1):
         """Constructor
         Once class instance is created, a window will be opened to
         search for CSV file.
+        step : int, optional
+            If downsampling is needed, an n step reduction means each nth sample will be used, by default 1
         """
+        self.step = step
         self.csv_load()
 
     def csv_load(self):
@@ -251,15 +254,17 @@ class CSV_pandas_path(CSV_pandas):
         Parent class from which CSV_pandas_path inherits from
     """
 
-    def __init__(self, filename: str):
-        """Constructor
+    def __init__(self, filename: str, step: int = 1):
+        """_summary_
 
         Parameters
         ----------
         filename : str
-            Path of CSV
+            Path to CSV
+        step : int, optional
+            If downsampling is needed, an n step reduction means each nth sample will be used, by default 1
         """
-
+        self.step = step
         self.csv_load(filename)
 
     def csv_load(self, filename: str):
@@ -271,7 +276,6 @@ class CSV_pandas_path(CSV_pandas):
             Path of CSV
         """
         self.path = filename
-        # self.path = "C:\\Users\\aherrada\\OneDrive - Universidad del Norte\\Uninorte\\DetectionDataBase\\septDataBaseCSV\\Caps\\NoFault02_B112.csv"
         self.extraer_csv()
 
 
