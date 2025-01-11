@@ -293,7 +293,7 @@ def cycle_info(
         The calculated number of cycles based on the total time and frequency.
     """
     time_info = extract_time_info(df, time_column)
-    print(time_info)
+
     fs = time_info["fs"]
     total_samples = time_info["total_samples"]
 
