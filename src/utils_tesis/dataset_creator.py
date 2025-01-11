@@ -306,33 +306,6 @@ def cycle_info(
     }
 
 
-def remove_cycles(
-    df: pd.DataFrame, cycles: int, remove_from_head: bool = True
-) -> pd.DataFrame:
-    """Removes unwanted cycles from signal
-    By default, removes N cycles from the start of the signal.
-
-    Parameters
-    ----------
-    df : pd.DataFrame
-        Electrical System event signals dataframe
-    cycles : int
-        Total cycles to remove
-    remove_from_head : bool, optional
-        wheter to remove them from the start or end of the signals, by default True
-
-    Returns
-    -------
-    pd.DataFrame
-        dataframe with trimmed cycles
-    """
-    samples_per_cycle = cycle_info(df)["samples_per_cycle"]
-    samples_to_remove = samples_per_cycle * cycles
-    if remove_from_head:
-        return df.iloc[samples_to_remove:]
-    return df.iloc[: len(df) - samples_to_remove]
-
-
 def calculate_windows(df: pd.DataFrame, window_size: int, step: int = 1) -> int:
     """Calculates amount of windows on a dataframe for a given window size and step
 
@@ -377,26 +350,6 @@ def remove_cycles(
     if remove_from_head:
         return df.iloc[samples_to_remove:]
     return df.iloc[: len(df) - samples_to_remove]
-
-
-def calculate_windows(df: pd.DataFrame, window_size: int, step: int = 1) -> int:
-    """Calculates amount of windows on a dataframe for a given window size and step
-
-    Parameters
-    ----------
-    df : pd.DataFrame
-        Electrical System event signals dataframe
-    window_size : int
-        Samples in window
-    step : int, optional
-        sampling steps, by default 1
-
-    Returns
-    -------
-    int
-        total windows
-    """
-    return ((df.shape[0] - window_size) // step) + 1
 
 
 def save_parquet(df: pd.DataFrame, path: str):
