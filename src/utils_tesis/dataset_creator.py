@@ -328,7 +328,7 @@ def calculate_windows(df: pd.DataFrame, window_size: int, step: int = 1) -> int:
 
 
 def remove_cycles(
-    df: pd.DataFrame, cycles: int, remove_from_head: bool = True
+    df: pd.DataFrame, cycles: int, remove_from_head: bool = True, frequency: int = 60
 ) -> pd.DataFrame:
     """Removes unwanted cycles from signal
 
@@ -346,7 +346,7 @@ def remove_cycles(
     pd.DataFrame
         dataframe with trimmed cycles
     """
-    samples_per_cycle = cycle_info(df)["samples_per_cycle"]
+    samples_per_cycle = cycle_info(df, frequency=frequency)["samples_per_cycle"]
     samples_to_remove = samples_per_cycle * cycles
     if remove_from_head:
         return df.iloc[samples_to_remove + 2 :]
@@ -365,12 +365,12 @@ def save_parquet(df: pd.DataFrame, path: str):
 
 def clean_file(
     path: str,
-    window_size: int = 64,
     downsampling: int = 1,
     keep_types: list[str] = None,
     keep_columns: list = None,
     rmv_cycles_start: int = None,
     rmv_cycles_end: int = None,
+    frequency: int = 60,
 ):
     df = extraer_csv(path)
     df = delete_columns(
@@ -381,7 +381,11 @@ def clean_file(
     df = df.iloc[::downsampling]
 
     if rmv_cycles_start:
-        df = remove_cycles(df, rmv_cycles_start).reset_index(drop=True)
+        df = remove_cycles(df, rmv_cycles_start, frequency=frequency).reset_index(
+            drop=True
+        )
     if rmv_cycles_end:
-        df = remove_cycles(df, rmv_cycles_end, False).reset_index(drop=True)
+        df = remove_cycles(df, rmv_cycles_end, False, frequency=frequency).reset_index(
+            drop=True
+        )
     save_parquet(df, path)
