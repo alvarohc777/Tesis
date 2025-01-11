@@ -348,7 +348,7 @@ def remove_cycles(
     samples_per_cycle = cycle_info(df)["samples_per_cycle"]
     samples_to_remove = samples_per_cycle * cycles
     if remove_from_head:
-        return df.iloc[samples_to_remove:]
+        return df.iloc[samples_to_remove + 2 :]
     return df.iloc[: len(df) - samples_to_remove]
 
 
