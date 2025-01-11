@@ -282,9 +282,6 @@ class CSV_pandas_path(CSV_pandas):
 def synthetic_signal(t, harmonics=[60], fundamental=60):
     """
     Function for the creation of a synthetic signal
-
-
-
     Returns
     -------
     numpy.array
