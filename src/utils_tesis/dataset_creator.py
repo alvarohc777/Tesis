@@ -299,11 +299,11 @@ def cycle_info(
 
     # Calculate the number of cycles
     cycles = (total_samples / fs) * frequency
-    samples_per_cycle = total_samples / cycles
+    samples_per_cycle = round(total_samples / cycles)
 
     return {
         "cycles": cycles,
-        "samples_per_cycle": int(samples_per_cycle),
+        "samples_per_cycle": samples_per_cycle,
     }
 
 
