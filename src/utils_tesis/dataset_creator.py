@@ -403,4 +403,5 @@ def save_parquet(df: pd.DataFrame, path: str):
     new_path = path.replace("/DB1/", "/DB3_trimmed/")
     new_path = new_path.replace(".csv", ".parquet")
     os.makedirs(os.path.dirname(new_path), exist_ok=True)
+    df = df.apply(pd.to_numeric, errors="coerce", downcast="float")
     df.to_parquet(new_path, engine="pyarrow")
