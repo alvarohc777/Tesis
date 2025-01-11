@@ -60,7 +60,7 @@ def rename_columns(df: pd.DataFrame) -> pd.DataFrame:
 
     df.columns = labels_list
     labels_list = labels_list[1:]
-    df.set_index("time")
+    # df.set_index("time", inplace=True)
     df = df.reset_index(drop=True)
     return df
 
@@ -142,8 +142,8 @@ def columns_replace(df: pd.DataFrame) -> pd.DataFrame:
 def delete_columns(
     df: pd.DataFrame,
     remove_types: list = None,
-    specific_columns: list = None,
     keep_types: list = None,
+    specific_columns: list = None,
     specific_columns_keep: list = None,
 ) -> pd.DataFrame:
     """
