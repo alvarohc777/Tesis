@@ -1,4 +1,5 @@
 import pandas as pd
+from pathlib import Path
 import csv
 import os
 
@@ -353,7 +354,9 @@ def remove_cycles(
 
 
 def save_parquet(df: pd.DataFrame, path: str):
-    new_path = path.replace("/DB1/", "/DB3_trimmed/")
+    database_dir = Path(path).parents[1]
+    database_dir = os.path.basename(database_dir)
+    new_path = path.replace(f"/{database_dir}/", f"/{database_dir}_clean/")
     new_path = new_path.replace(".csv", ".parquet")
     os.makedirs(os.path.dirname(new_path), exist_ok=True)
     df = df.apply(pd.to_numeric, errors="coerce", downcast="float")
