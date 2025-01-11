@@ -361,3 +361,27 @@ def save_parquet(df: pd.DataFrame, path: str):
     os.makedirs(os.path.dirname(new_path), exist_ok=True)
     df = df.apply(pd.to_numeric, errors="coerce", downcast="float")
     df.to_parquet(new_path, engine="pyarrow")
+
+
+def clean_file(
+    path: str,
+    window_size: int = 64,
+    downsampling: int = 1,
+    keep_types: list[str] = None,
+    keep_columns: list = None,
+    rmv_cycles_start: int = None,
+    rmv_cycles_end: int = None,
+):
+    df = extraer_csv(path)
+    df = delete_columns(
+        df,
+        keep_types=keep_types,
+        specific_columns_keep=keep_columns,
+    )
+    df = df.iloc[::downsampling]
+
+    if rmv_cycles_start:
+        df = remove_cycles(df, rmv_cycles_start).reset_index(drop=True)
+    if rmv_cycles_end:
+        df = remove_cycles(df, rmv_cycles_end, False).reset_index(drop=True)
+    save_parquet(df, path)
