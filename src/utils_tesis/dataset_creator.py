@@ -1,5 +1,6 @@
 import pandas as pd
 import csv
+import os
 
 
 def extraer_csv(path, remove_head_if_odd=True):
@@ -396,3 +397,10 @@ def calculate_windows(df: pd.DataFrame, window_size: int, step: int = 1) -> int:
         total windows
     """
     return ((df.shape[0] - window_size) // step) + 1
+
+
+def save_parquet(df: pd.DataFrame, path: str):
+    new_path = path.replace("/DB1/", "/DB3_trimmed/")
+    new_path = new_path.replace(".csv", ".parquet")
+    os.makedirs(os.path.dirname(new_path), exist_ok=True)
+    df.to_parquet(new_path, engine="pyarrow")
